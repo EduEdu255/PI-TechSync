@@ -1,16 +1,12 @@
-import { Route, Routes } from 'react-router-dom';
-import App from './App';
-import { Teste } from './Teste';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
-export function Router() {
-  return (
+import { Teste2 } from './pages/Teste2';
+const Routes = () => (
+  <Switch>
+    <Route exact path="/" component={Teste2} />
+    <Route path="/about" component={Teste2} />
+  </Switch>
+);
 
-      <Routes>
-        <Route path='/teste' element={<Teste />}/>
-        <Route path='/teste2' element={<App />} />
-      </Routes>
-
-  );
-}
-
-
+export default Routes;
