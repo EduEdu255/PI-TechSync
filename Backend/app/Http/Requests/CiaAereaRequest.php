@@ -25,7 +25,10 @@ class CiaAereaRequest extends FormRequest
             'cnpj' => 'required|size:14',
             'razao_social' => 'required',
             'codigo_iata' => 'required|size:2',
-            'url' => 'required'
+            'url' => 'required',
+            'login' => 'required',
+            'password' => 'required',
+            'password_repeat' => 'required'
         ];
     }
 }

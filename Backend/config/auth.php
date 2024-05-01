@@ -40,10 +40,15 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'api' =>[
+        'api' => [
             'driver' => 'jwt',
             'provider' => 'users'
+        ],
+        'aereas' => [
+            'driver' => 'jwt',
+            'provider' => 'cias'
         ]
+
     ],
 
     /*
@@ -68,6 +73,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        'cias' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\CiaAerea::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CiaAereaRequest;
-use App\Http\Resources\CiaAereaResource;
-use App\Models\CiaAerea;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Models\CiaAerea;
+use App\Http\Resources\CiaAereaResource;
+use App\Http\Requests\CiaAereaRequest;
 
 class CiaAereaController extends Controller
 {
@@ -30,7 +31,7 @@ class CiaAereaController extends Controller
         }
         $cia = CiaAerea::create($data);
         $cia->save();
-        return response()->json($cia);
+        return response()->json($cia, 201);
     }
 
     /**
@@ -61,5 +62,21 @@ class CiaAereaController extends Controller
         $cia = CiaAerea::findOrFail($id);
         $cia->delete();
         return response()->json(['success' => true, 'message' => "Companhia Aérea apagada com sucesso"]);
+    }
+
+    public function login() :JsonResponse{
+        $credentials = request(['login', 'password']);
+        if(!$token = auth('aereas')->attempt($credentials)){
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+        return $this->respondWithToken($token);
+    }
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth('aereas')->factory()->getTTL() * 60
+        ]);
     }
 }

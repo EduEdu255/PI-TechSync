@@ -32,7 +32,7 @@ class AeronaveController extends Controller
         }
         $aeronave = Aeronave::create($data);
         $aeronave->save();
-        return response()->json($aeronave);
+        return response()->json($aeronave, 201);
     }
 
     /**

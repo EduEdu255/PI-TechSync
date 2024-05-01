@@ -32,7 +32,7 @@ class VooController extends Controller
         }
         $voo = Voo::create($data);
         $voo->save();
-        return response()->json($voo);
+        return response()->json($voo, 201);
     }
 
     /**
