@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -79,5 +80,10 @@ class User extends Authenticatable implements JWTSubject
         }
         $user = JWTAuth::fromUser(Auth::user());
         return response()->json($user);
+    }
+
+    public function buscas(): HasMany
+    {
+        return $this->hasMany(Busca::class);
     }
 }
