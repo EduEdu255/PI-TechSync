@@ -24,11 +24,13 @@ class Voo extends Model
         'duracao'
     ];
 
+    protected $table = 'voo';
+
     public function aeronave(): BelongsTo{
         return $this->belongsTo(Aeronave::class);
     }
 
-    public function CiaAerea(): BelongsTo{
+    public function ciaAerea(): BelongsTo{
         return $this->belongsTo(CiaAerea::class);
     }
 }

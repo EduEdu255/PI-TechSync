@@ -17,6 +17,8 @@ class Aeronave extends Model
         'qte_assentos'
     ];
 
+    protected $table = 'aeronave';
+
     public function voos(): HasMany{
         return $this->hasMany(Voo::class);
     }

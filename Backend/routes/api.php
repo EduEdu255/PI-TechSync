@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CiaAereaController;
+use App\Http\Controllers\VooController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +35,19 @@ Route::group(
         Route::post('register', 'AuthController@register');
     }
 );
+
+Route::controller(CiaAereaController::class)->group(function (){
+    Route::post('/cia_aerea', 'store');
+    Route::get('/cia_aerea', 'index');
+    Route::get('/cia_aerea/{id}', 'show');
+    Route::patch('/cia_aerea/{id}', 'update');
+    Route::delete('/cia_aerea/{id}', 'destroy');
+});
+
+Route::controller(VooController::class)->group(function (){
+    Route::post('/voo', 'store');
+    Route::get('/voo', 'index');
+    Route::get('/voo/{id}', 'show');
+    Route::patch('/voo/{id}', 'update');
+    Route::delete('/voo/{id}', 'destroy');
+});

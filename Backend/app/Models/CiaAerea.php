@@ -22,6 +22,8 @@ class CiaAerea extends Model
         'passowrd'
     ];
 
+    protected $table = 'cia_aerea';
+
     protected $hidden = [
         'password',
         'login'
