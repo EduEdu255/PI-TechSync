@@ -46,7 +46,7 @@ Route::controller(CiaAereaController::class)->group(function (){
     Route::delete('/cia_aerea/{id}', 'destroy');
 })->middleware('isAdmin');
 
-Route::controller(VooController::class)->group(function (){
+Route::controller(VooController::class)->middleware('auth.aerea')->group(function (){
     Route::post('/voo', 'store');
     Route::get('/voo', 'index');
     Route::get('/voo/{id}', 'show');
@@ -54,7 +54,7 @@ Route::controller(VooController::class)->group(function (){
     Route::delete('/voo/{id}', 'destroy');
 });
 
-Route::controller(AeronaveController::class)->group(function (){
+Route::controller(AeronaveController::class)->middleware('auth.aerea')->group(function (){
     Route::post('/aeronave', 'store');
     Route::get('/aeronave', 'index');
     Route::get('/aeronave/{id}', 'show');

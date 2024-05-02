@@ -52,7 +52,7 @@ class CiaAerea extends Authenticatable implements JWTSubject
 
     public function getJWTIdentifier()
     {
-        return $this->login;
+        return $this->getKey();
     }
 
     public function getJWTCustomClaims()

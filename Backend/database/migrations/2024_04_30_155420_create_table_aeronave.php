@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('aeronave', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('sigla', 6);
+            $table->string('sigla', 20);
             $table->string('marca');
             $table->integer('qte_assentos');
             $table->timestamps();
