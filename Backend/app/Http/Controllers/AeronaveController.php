@@ -12,6 +12,12 @@ use App\Http\Requests\AeronaveRequest;
 
 class AeronaveController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:aereas');
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -52,7 +52,7 @@ Route::controller(VooController::class)->group(function (){
     Route::get('/voo/{id}', 'show');
     Route::patch('/voo/{id}', 'update');
     Route::delete('/voo/{id}', 'destroy');
-})->middleware('aereas');
+});
 
 Route::controller(AeronaveController::class)->group(function (){
     Route::post('/aeronave', 'store');
@@ -60,4 +60,4 @@ Route::controller(AeronaveController::class)->group(function (){
     Route::get('/aeronave/{id}', 'show');
     Route::patch('/aeronave/{id}', 'update');
     Route::delete('/aeronave/{id}', 'destroy');
-})->middleware('aereas');
+});

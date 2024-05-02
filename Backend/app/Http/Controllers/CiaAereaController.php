@@ -11,6 +11,8 @@ use App\Http\Requests\CiaAereaRequest;
 
 class CiaAereaController extends Controller
 {
+
+    
     /**
      * Display a listing of the resource.
      */
@@ -25,6 +27,9 @@ class CiaAereaController extends Controller
     public function store(CiaAereaRequest $request)
     {
         $data = $request->all();
+        if ($data['password'] != $data['password_repeat']) {
+            return response()->json(['success' => false, 'message' => 'Senhas não conferem'], 400);
+        }
         $existing = CiaAerea::where('codigo_iata', $data['codigo_iata'])->get();
         if ($existing->count() > 0) {
             return response()->json(['success' => false, 'message' => 'Companhia Aérea já está cadastrada'], 400);
