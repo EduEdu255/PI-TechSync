@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CiaAerea extends Authenticatable implements JWTSubject
 {
@@ -39,6 +40,10 @@ class CiaAerea extends Authenticatable implements JWTSubject
 
     public function voos():HasMany{
         return $this->hasMany(Voo::class);
+    }
+
+    public function assinatura(): HasOne{
+        return $this->hasOne(Assinatura::class);
     }
 
     public function login($array)

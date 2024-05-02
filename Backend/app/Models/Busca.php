@@ -19,6 +19,8 @@ class Busca extends Model
         'data_chegada'
     ];
 
+    protected $table = 'busca';
+
     public function user():BelongsTo{
         return $this->belongsTo(User::class);
     }

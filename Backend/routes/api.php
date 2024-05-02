@@ -5,8 +5,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\VooController;
 use App\Http\Controllers\CiaAereaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AssinaturaController;
 use App\Http\Controllers\AeronaveController;
-
+use App\Http\Controllers\FormaPagamentoController;
+use App\Http\Controllers\PagamentoController;
+use App\Http\Controllers\TipoAssinaturaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,4 +63,33 @@ Route::controller(AeronaveController::class)->middleware('auth.aerea')->group(fu
     Route::get('/aeronave/{id}', 'show');
     Route::patch('/aeronave/{id}', 'update');
     Route::delete('/aeronave/{id}', 'destroy');
+});
+
+Route::controller(AssinaturaController::class)->middleware('auth.aerea')->group(function (){
+    Route::post('/assinatura', 'store');
+    Route::get('/assinatura', 'index');
+    Route::get('/assinatura/{id}', 'show');
+    Route::patch('/assinatura/{id}', 'update');
+    Route::delete('/assinatura/{id}', 'destroy');
+});
+
+Route::controller(TipoAssinaturaController::class)->group(function(){
+    Route::get('/tipo_assinatura', 'index');
+    Route::post('/tipo_assinatura', 'store')->middleware('isAdmin');
+    Route::get('/tipo_assinatura/{id}', 'show');
+    Route::patch('/tipo_assinatura/{id}', 'update')->middleware('isAdmin');
+    Route::delete('/tipo_assinatura/{id}', 'destroy')->middleware('isAdmin');
+});
+
+Route::controller(FormaPagamentoController::class)->group(function(){
+    Route::get('/forma_pagamento', 'index');
+    Route::post('/forma_pagamento', 'store')->middleware('isAdmin');
+    Route::get('/forma_pagamento/{id}', 'show');
+    Route::patch('/forma_pagamento/{id}', 'update')->middleware('isAdmin');
+    Route::delete('/forma_pagamento/{id}', 'destroy')->middleware('isAdmin');
+});
+
+Route::controller(PagamentoController::class)->group(function(){
+    Route::get('/pagamento', 'index');
+    Route::post('/pagamento', 'store')->middleware('auth.aerea');
 });

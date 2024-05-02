@@ -17,6 +17,8 @@ class Pagamento extends Model
         'detalhe_forma_pagamento'
     ];
 
+    protected $table = 'pagamento';
+
     public function formaPagamento(): BelongsTo{
         return $this->belongsTo(FormaPagamento::class);
     }
