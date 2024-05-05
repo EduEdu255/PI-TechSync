@@ -15,8 +15,6 @@ class Voo extends Model
 
     protected $fillable = [
         'numero',
-        'aeronave',
-        'cia_aerea',
         'cod_origem',
         'cod_destino',
         'hora_saida',

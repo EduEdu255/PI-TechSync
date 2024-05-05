@@ -16,8 +16,8 @@ class VooResource extends JsonResource
     {
         return [
             'numero' => $this->numero,
-            'aeronave' => $this->aeronave(),
-            'ciaAerea' => $this->ciaAerea(),
+            'aeronave' => new AeronaveResource($this->aeronave),
+            'ciaAerea' => new CiaAereaResource($this->ciaAerea),
             'origem' => $this->cod_origem,
             'destino' => $this->cod_destino,
             'saida' => $this->hora_saida,

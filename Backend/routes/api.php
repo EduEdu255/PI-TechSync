@@ -7,6 +7,7 @@ use App\Http\Controllers\CiaAereaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AssinaturaController;
 use App\Http\Controllers\AeronaveController;
+use App\Http\Controllers\BuscaController;
 use App\Http\Controllers\FormaPagamentoController;
 use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\TipoAssinaturaController;
@@ -40,14 +41,14 @@ Route::group(
     }
 );
 
-Route::controller(CiaAereaController::class)->group(function (){
+Route::controller(CiaAereaController::class)->middleware('isAdmin')->group(function (){
     Route::post('/cia_aerea', 'store');
     Route::get('/cia_aerea', 'index');
-    Route::post('/cia_aerea/login', 'login');
     Route::get('/cia_aerea/{id}', 'show');
     Route::patch('/cia_aerea/{id}', 'update');
     Route::delete('/cia_aerea/{id}', 'destroy');
-})->middleware('isAdmin');
+});
+Route::post('/cia_aerea/login', [CiaAereaController::class,'login']);
 
 Route::controller(VooController::class)->middleware('auth.aerea')->group(function (){
     Route::post('/voo', 'store');
@@ -92,4 +93,9 @@ Route::controller(FormaPagamentoController::class)->group(function(){
 Route::controller(PagamentoController::class)->group(function(){
     Route::get('/pagamento', 'index');
     Route::post('/pagamento', 'store')->middleware('auth.aerea');
+});
+
+Route::controller(BuscaController::class)->group(function(){
+    Route::get('/busca', 'index');
+    Route::post('/busca', 'store');
 });

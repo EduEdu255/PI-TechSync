@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignUuid('users_id')->nullable()->constrained();
             $table->dateTime('pesquisado_em');
             $table->date('data_saida');
-            $table->date('data_chegada');
-            $table->boolean('reservou');
+            $table->date('data_chegada')->nullable();
+            $table->boolean('reservou')->default(false);
             $table->timestamps();
         });
     }

@@ -12,7 +12,7 @@ use App\Http\Requests\CiaAereaRequest;
 class CiaAereaController extends Controller
 {
 
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -69,9 +69,16 @@ class CiaAereaController extends Controller
         return response()->json(['success' => true, 'message' => "Companhia Aérea apagada com sucesso"]);
     }
 
-    public function login() :JsonResponse{
+    public function login(Request $request): JsonResponse
+    {
+        $request->validate(
+            [
+                'login' => 'required',
+                'password' => 'required'
+            ]
+        );
         $credentials = request(['login', 'password']);
-        if(!$token = auth('aereas')->attempt($credentials)){
+        if (!$token = auth('aereas')->attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
         return $this->respondWithToken($token);

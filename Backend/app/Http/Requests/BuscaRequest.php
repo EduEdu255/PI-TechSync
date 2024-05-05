@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VooRequest extends FormRequest
+class BuscaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,10 @@ class VooRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numero' => 'required|integer',
-            'aeronave' => 'required',
-            'cod_origem'=> 'required|size:3',
-            'cod_destino' => 'required|size:3',
-            'hora_saida' => 'required|date_format:H:i',
-            'hora_chegada' => 'required|date_format:H:i',
+            'origem' => 'required|size:3',
+            'destino'=> 'required|size:3',
+            'ida' => 'required|date_format:Y-m-d',
+            'volta' => 'date_format:Y-m-d'
         ];
     }
 }

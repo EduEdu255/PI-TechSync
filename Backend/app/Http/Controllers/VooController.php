@@ -4,25 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Models\CiaAerea;
 use App\Models\Voo;
-use App\Http\Resources\CiaAereaResource;
+use App\Models\CiaAerea;
+use App\Models\Aeronave;
 use App\Http\Resources\VooResource;
+use App\Http\Resources\CiaAereaResource;
 use App\Http\Requests\VooRequest;
 
 class VooController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth:aereas');
-    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return VooResource::collection(Voo::paginate());
+        $cia = auth('aereas')->user();
+
+        return VooResource::collection(Voo::where('cia_aerea_id', $cia->id)->paginate());
     }
 
     /**
@@ -31,11 +30,19 @@ class VooController extends Controller
     public function store(VooRequest $request)
     {
         $data = $request->all();
+        $cia = auth('aereas')->user();
         $existing = Voo::where('numero', $data['numero'])->get();
+        $aeronave = Aeronave::where('sigla', $data['aeronave'])->get();
         if ($existing->count() > 0) {
             return response()->json(['success' => false, 'message' => 'Voo já está cadastrado'], 400);
         }
-        $voo = Voo::create($data);
+        if($aeronave->count() == 0){
+            return response()->json(['success' => false, 'message' => 'Aeronave informada não encontrada'], 400);
+        }
+        $voo = new Voo();
+        $voo->ciaAerea()->associate($cia);
+        $voo->aeronave()->associate($aeronave->first());
+        $voo->fill($data);
         $voo->save();
         return response()->json($voo, 201);
     }

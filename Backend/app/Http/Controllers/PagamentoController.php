@@ -61,7 +61,7 @@ class PagamentoController extends Controller
         }
         $valorPago = $realizados->reduce(function(?int $carry = 0, Pagamento $pagamento){
             return $carry + $pagamento->valor;
-        });
+        }) ?? 0;
         $valorRestante = $assinatura->tipoAssinatura->valor - $valorPago;
         if($restante == 1 && $data['valor'] < $valorRestante){
             return response()->json(['success' => false, 'message' => "Esse é seu último pagamento. O valor de R$". number_format($data['valor'], 2, ",",".") . " não é suficiente para pagar o restante de R$" . number_format($valorRestante, 2, ",", ".")], 400);

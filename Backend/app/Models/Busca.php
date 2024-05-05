@@ -13,15 +13,19 @@ class Busca extends Model
     protected $fillable = [
         'origem',
         'destino',
-        'user',
         'pesquisado_em',
         'data_saida',
         'data_chegada'
     ];
 
+    protected $attributes = [
+        'reservou' => false,
+        'data_saida' => null,
+    ];
+
     protected $table = 'busca';
 
-    public function user():BelongsTo{
+    public function users():BelongsTo{
         return $this->belongsTo(User::class);
     }
 }
