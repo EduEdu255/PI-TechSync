@@ -13,7 +13,10 @@ class BuscaController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
+     *
+     * Consulta Buscas
+     *
+     * Traz informações das buscas já realizadas no sistema
      */
     public function index()
     {
@@ -26,7 +29,10 @@ class BuscaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Realiza Busca
+     *
+     *
+     * Realiza busca na API de voos e retorna as passagens encontradas com os parâmetros informados
      */
     public function store(BuscaRequest $request, AmadeusApiService $api)
     {
@@ -69,10 +75,15 @@ class BuscaController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Reservar
+     *
+     * Endpoint para informar que alguma passagem resultante da busca identificada foi reservada
      */
-    public function show(int $id)
+    public function reservar(int $id)
     {
-        //
+        $busca = Busca::find($id);
+        $busca->reservou = true;
+        $busca->save();
+        return new BuscaResource($busca);
     }
 }

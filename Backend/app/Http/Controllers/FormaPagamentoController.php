@@ -8,7 +8,7 @@ use App\Http\Requests\FormaPagamentoRequest;
 class FormaPagamentoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Lista Formas de Pagamento
      */
     public function index()
     {
@@ -16,7 +16,7 @@ class FormaPagamentoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Cria Forma de Pagamento
      */
     public function store(FormaPagamentoRequest $request)
     {
@@ -31,7 +31,7 @@ class FormaPagamentoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Mostra Forma de Pagamento
      */
     public function show(string $id)
     {
@@ -41,7 +41,7 @@ class FormaPagamentoController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * Atualiza Forma de Pagamento
      */
     public function update(FormaPagamentoRequest $request, string $id)
     {
@@ -52,7 +52,7 @@ class FormaPagamentoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove Forma de Pagamento
      */
     public function destroy(string $id)
     {

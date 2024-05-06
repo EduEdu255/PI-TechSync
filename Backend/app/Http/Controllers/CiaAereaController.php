@@ -8,21 +8,28 @@ use Illuminate\Http\JsonResponse;
 use App\Models\CiaAerea;
 use App\Http\Resources\CiaAereaResource;
 use App\Http\Requests\CiaAereaRequest;
+use Dedoc\Scramble\Scramble;
+use Dedoc\Scramble\Support\Generator\OpenApi;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
 
 class CiaAereaController extends Controller
 {
 
 
     /**
-     * Display a listing of the resource.
+     * Mostra Cias
+     *
+     * Traz lista das companhias aéreas cadastradas
      */
     public function index()
     {
-        return CiaAereaResource::collection(CiaAerea::paginate());
+        return CiaAereaResource::collection(CiaAerea::paginate(30));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Criar Companhia aérea
+     *
+     * Cria uma nova companhia aérea, caso não tenha alguma já cadastrada com o mesmo código iata
      */
     public function store(CiaAereaRequest $request)
     {
@@ -40,7 +47,9 @@ class CiaAereaController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Mostra Companhia
+     *
+     * Traz companhia aérea identificada pelo id (uuid) informado
      */
     public function show(string $id)
     {
@@ -49,7 +58,9 @@ class CiaAereaController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * Atualiza Companhia
+     *
+     * Atualiza dados da companhia aérea informada pelo id (uuid)
      */
     public function update(Request $request, string $id)
     {
@@ -60,7 +71,9 @@ class CiaAereaController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Apaga Companhia Aérea
+     *
+     * Remove a Companhia Aérea identificada (uuid) do banco de dados
      */
     public function destroy(string $id)
     {
@@ -68,6 +81,12 @@ class CiaAereaController extends Controller
         $cia->delete();
         return response()->json(['success' => true, 'message' => "Companhia Aérea apagada com sucesso"]);
     }
+
+    /**
+     * Login
+     *
+     * Endpoint para realizar o login da companhia aérea, conforme login e senha informados no cadastro
+     */
 
     public function login(Request $request): JsonResponse
     {

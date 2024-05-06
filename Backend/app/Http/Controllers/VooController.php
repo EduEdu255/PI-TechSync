@@ -15,17 +15,21 @@ class VooController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
+     * Lista Voos
+     *
+     * Traz todos os voos da companhia aérea logada
      */
     public function index()
     {
         $cia = auth('aereas')->user();
 
-        return VooResource::collection(Voo::where('cia_aerea_id', $cia->id)->paginate());
+        return VooResource::collection(Voo::where('cia_aerea_id', $cia->id)->paginate(30));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Cadastra Voo
+     *
+     * Realiza o cadastro de um novo voo, vinculando-o à companhia aérea logada
      */
     public function store(VooRequest $request)
     {
@@ -44,11 +48,13 @@ class VooController extends Controller
         $voo->aeronave()->associate($aeronave->first());
         $voo->fill($data);
         $voo->save();
-        return response()->json($voo, 201);
+        return response()->json(new VooResource($voo), 201);
     }
 
     /**
-     * Display the specified resource.
+     * Mostra Voo
+     *
+     * Traz detalhes do voo com o id informado
      */
     public function show(string $id)
     {
@@ -57,23 +63,35 @@ class VooController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * Atualiza Voo
+     *
+     * Atualiza o voo identificado
      */
     public function update(Request $request, string $id)
     {
-        $Voo = Voo::findOrFail($id);
-        $Voo->fill($request->all());
-        $Voo->save();
-        return $Voo;
+        $voo = Voo::findOrFail($id);
+        $cia = auth('aereas')->user();
+        if($voo->ciaAerea->id != $cia->id){
+            return response()->json(['success' => false, 'message' => 'Vôo não pertence à sua companhia aérea'],403);
+        }
+        $voo->fill($request->all());
+        $voo->save();
+        return new VooResource($voo);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove Voo
+     *
+     * Remove o Voo identificado do banco de dados
      */
     public function destroy(string $id)
     {
-        $Voo = Voo::findOrFail($id);
-        $Voo->delete();
+        $voo = Voo::findOrFail($id);
+        $cia = auth('aereas')->user();
+        if ($voo->ciaAerea->id != $cia->id) {
+            return response()->json(['success' => false, 'message' => 'Vôo não pertence à sua companhia aérea'], 403);
+        }
+        $voo->delete();
         return response()->json(['success' => true, 'message' => "Voo apagado com sucesso"]);
     }
 }

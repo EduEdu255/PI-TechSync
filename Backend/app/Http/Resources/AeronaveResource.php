@@ -15,6 +15,7 @@ class AeronaveResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'sigla' => $this->sigla,
             'marca' => $this->marca,
             'quantidadeAssentos' => $this->qte_assentos

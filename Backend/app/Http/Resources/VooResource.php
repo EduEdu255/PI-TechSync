@@ -15,6 +15,7 @@ class VooResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'numero' => $this->numero,
             'aeronave' => new AeronaveResource($this->aeronave),
             'ciaAerea' => new CiaAereaResource($this->ciaAerea),

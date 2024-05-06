@@ -14,15 +14,17 @@ class AeronaveController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
+     * Traz as lista de aeronaves cadastradas
      */
     public function index()
     {
-        return AeronaveResource::collection(Aeronave::paginate());
+        return AeronaveResource::collection(Aeronave::paginate(30));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Cadastra uma nova aeronave.
+     * 
+     * Endpoint para cadastrar uma nova aeronave. Devem ser informados os campos necessários
      */
     public function store(AeronaveRequest $request)
     {
@@ -37,7 +39,7 @@ class AeronaveController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Traz a Aeronave com o id (uuid) especificado
      */
     public function show(string $id)
     {
@@ -46,9 +48,9 @@ class AeronaveController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * Atualiza a aeronave com o id (uuid) especificado
      */
-    public function update(Request $request, string $id)
+    public function update(AeronaveRequest $request, string $id)
     {
         $aeronave = Aeronave::findOrFail($id);
         $aeronave->fill($request->all());
@@ -57,7 +59,7 @@ class AeronaveController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Apaga a aeronave com o id (uuid) especificado
      */
     public function destroy(string $id)
     {

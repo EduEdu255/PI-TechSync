@@ -22,7 +22,7 @@ class AssinaturaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tipo_assinatura' => 'required|size:36',
+            'plano' => 'required|size:36',
             'forma_pagamento' => 'required|size:36',
             'parcelas' => 'required|integer'
         ];

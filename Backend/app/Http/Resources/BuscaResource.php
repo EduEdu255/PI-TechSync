@@ -17,10 +17,12 @@ class BuscaResource extends JsonResource
     {
         $retorno =
          [
+            'id' => $this->id,
             "origem" => $this->origem,
             "destino" => $this->destino,
             "pesquisado_em" => $this->pesquisado_em,
             "ida" => $this->data_saida,
+            "reservou" => $this->reservou,
             "volta" => $this->whenHas('data_chegada', $this->data_chegada),
             "usuario" => $this->whenHas('users_id', new UserResource($this->users)),
             "passagens" => $this->whenHas('passagens', $this->passagens),

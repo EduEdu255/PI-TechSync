@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class TipoAssinatura extends Model
+class Plano extends Model
 {
     use HasFactory, HasUuids;
 
@@ -17,9 +17,10 @@ class TipoAssinatura extends Model
         'meses'
     ];
 
-    protected $table = 'tipo_assinatura';
+    protected $table = 'plano';
 
-    public function assinaturas(): HasMany{
+    public function assinaturas(): HasMany
+    {
         return $this->hasMany(Assinatura::class);
     }
 }
