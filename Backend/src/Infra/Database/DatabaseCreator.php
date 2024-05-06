@@ -21,6 +21,10 @@ class DatabaseCreator
                 DROP TABLE IF EXISTS aeronave;
                 DROP TABLE IF EXISTS cia_aerea;
                 DROP TABLE IF EXISTS usuario;
+                DROP TABLE IF EXISTS busca;
+                DROP TABLE IF EXISTS forma_pagamento;
+                DROP TABLE IF EXISTS pagamento;
+                DROP TABLE IF EXISTS assinatura;
         ';
         $this->connection->exec($sql);
     }
@@ -36,6 +40,10 @@ class DatabaseCreator
             $this->createTableVoo();
             $this->createTableTrecho();
             $this->createTableTrechoVoo();
+            $this->createTableBuscas();
+            $this->createTableAssinaturas();
+            $this->createTablePagamentos();
+            $this->createTableFormaPagamentos();
         } catch (\Exception $e) {
             echo "Erro ao criar tabelas do banco de dados: " . $e->getMessage() . $e->getTraceAsString();
         }
@@ -43,9 +51,8 @@ class DatabaseCreator
     }
     private function createTableUsuario()
     {
-        $sql = "DROP TABLE IF EXISTS usuario;
-            CREATE TABLE usuario (
-            id INTEGER PRIMARY KEY,
+        $sql = "CREATE TABLE usuario (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome VARCHAR(80),
             email VARCHAR(40),
             senha VARCHAR(10),
@@ -62,7 +69,7 @@ class DatabaseCreator
     private function createTablePassagem()
     {
         $sql = "CREATE TABLE passagem (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             id_usuario_comprador INTEGER,
             valor DECIMAL(7,2),
             id_passageiro INTEGER,
@@ -98,7 +105,7 @@ class DatabaseCreator
     private function createTableCiaAerea()
     {
         $sql = "CREATE TABLE cia_aerea (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             cnpj CHAR(14),
             razao_social VARCHAR(80),
             telefone VARCHAR(15),
@@ -110,7 +117,7 @@ class DatabaseCreator
     private function createTablePassageiro()
     {
         $sql = "CREATE TABLE passageiro (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome VARCHAR(80),
             cpf CHAR(11),
             email VARCHAR(60),
@@ -122,7 +129,7 @@ class DatabaseCreator
     private function createTableAeronave()
     {
         $sql = "CREATE TABLE aeronave (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             sigla CHAR(4),
             quantidade_assentos INTEGER,
             marca VARCHAR(20),
@@ -137,7 +144,7 @@ class DatabaseCreator
     private function createTableVoo()
     {
         $sql = "CREATE TABLE voo (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             id_aeronave INTEGER,
             id_companhia INTEGER,
             numero INTEGER,
@@ -168,7 +175,7 @@ class DatabaseCreator
     private function createTableTrecho()
     {
         $sql = "CREATE TABLE trecho (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             id_passagem INTEGER,
             assento VARCHAR(3)
         
@@ -192,7 +199,7 @@ class DatabaseCreator
         $sql = "CREATE TABLE trecho_voo (
             id_trecho INTEGER,
             id_voo INTEGER,
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             UNIQUE (id_voo, id_trecho)
         ";
 
@@ -214,6 +221,81 @@ class DatabaseCreator
                     FOREIGN KEY (id_voo)
                     REFERENCES voo (id)
                     ON DELETE RESTRICT;';
+        }
+        $this->connection->exec($sql);
+    }
+
+    private function createTableBuscas()
+    {
+        $sql = "CREATE TABLE busca (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            origem char(3),
+            destino char(3),
+            dataPesquisa DATE,
+            dataSaida DATE,
+            dataChegada DATE,
+            reservou BOOLEAN
+        );";
+        $this->connection->exec($sql);
+    }
+    private function createTableFormaPagamentos(){
+        $sql = "CREATE TABLE forma_pagamento (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome VARCHAR(50),
+            parcelas INTEGER
+        );";
+        $this->connection->exec($sql);
+    }
+
+    private function createTableAssinaturas(){
+        $sql = "CREATE TABLE assinatura (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            cia_id INTEGER,
+            valor DECIMAL(7,2),
+            validade DATETIME,
+            ativo BOOLEAN
+            ";
+            
+        if ($this->dbType == self::SQLITE) {
+            $sql .= ',
+            FOREIGN KEY (cia_id) REFERENCES cia_aerea(id)
+        );';
+        } else {
+            $sql .= ');
+            ALTER TABLE pagamento ADD CONSTRAINT FK_cia_aerea_2
+                FOREIGN KEY (cia_id)
+                REFERENCES cia (id);
+                ';
+        }
+        $this->connection->exec($sql);
+    }
+    private function createTablePagamentos(){
+        $sql = "CREATE TABLE pagamento (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            cia_id INTEGER,
+            forma_pagamento_id INTEGER,
+            valor DECIMAL(7,2),
+            assinatura_id INTEGER,
+            detalhe_forma_pagamento VARCHAR(255)
+            ";
+        
+            
+        if ($this->dbType == self::SQLITE) {
+            $sql .= ',
+            FOREIGN KEY (cia_id) REFERENCES cia_aerea(id),
+            FOREIGN KEY (assinatura_id) REFERENCES assinatura(id),
+            FOREIGN KEY (forma_pagamento_id) REFERENCES forma_pagamento(id)
+        );';
+        } else {
+            $sql .= ');
+            ALTER TABLE pagamento ADD CONSTRAINT FK_cia_aerea_2
+                FOREIGN KEY (cia_id)
+                REFERENCES cia (id);
+            ALTER TABLE pagamento ADD CONSTRAINT FK_assinatura
+                FOREIGN KEY (assinatura_id)
+                REFERENCES assinatura (id)
+                ON DELETE RESTRICT;
+                ';
         }
         $this->connection->exec($sql);
     }
