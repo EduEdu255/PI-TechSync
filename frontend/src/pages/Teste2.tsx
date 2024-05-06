@@ -1,6 +1,6 @@
 
 
-export function Teste2(){
+export default function Teste2(){
     return(
         <>
             <div>
