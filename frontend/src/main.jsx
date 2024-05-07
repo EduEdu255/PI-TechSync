@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Contact from './Routes/Contact.jsx';
 import Home from './Routes/Home.jsx';
 import Teste from './Routes/Teste.jsx';
+import TesteFetchComponent from './Routes/TestePlano.jsx';
 
 
 
@@ -23,7 +24,12 @@ const router = createBrowserRouter([
   {
     path: "/Teste",
     element: <Teste />
+  },
+  {
+    path: "/TesteFetch",
+    element: <TesteFetchComponent />
   }
+
 
   
 ])
