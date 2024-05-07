@@ -43,11 +43,11 @@ Route::group(
 );
 
 Route::controller(CiaAereaController::class)->middleware('auth.aerea')->group(function () {
-    Route::get('/cia_aerea', 'index');
     Route::get('/cia_aerea/{id}', 'show');
     Route::patch('/cia_aerea/{id}', 'update');
     Route::delete('/cia_aerea/{id}', 'destroy');
 });
+Route::get('/cia_aerea', [CiaAereaController::class, 'index'])->middleware('isAdmin');
 Route::post('/cia_aerea', [CiaAereaController::class,'store']);
 Route::post('/cia_aerea/login', [CiaAereaController::class, 'login']);
 

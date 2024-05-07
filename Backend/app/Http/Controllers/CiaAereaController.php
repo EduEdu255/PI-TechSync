@@ -43,7 +43,7 @@ class CiaAereaController extends Controller
         }
         $cia = CiaAerea::create($data);
         $cia->save();
-        return response()->json($cia, 201);
+        return response()->json(new CiaAereaResource($cia), 201);
     }
 
     /**
@@ -67,7 +67,7 @@ class CiaAereaController extends Controller
         $cia = CiaAerea::findOrFail($id);
         $cia->fill($request->all());
         $cia->save();
-        return $cia;
+        return new CiaAereaResource($cia);
     }
 
     /**

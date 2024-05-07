@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
@@ -36,7 +37,7 @@ class AuthController extends Controller
         }
         $user = User::create($data);
         $user->save();
-        return response()->json($user);
+        return response()->json(new UserResource($user));
     }
 
     /**
@@ -69,7 +70,7 @@ class AuthController extends Controller
     public function me(): JsonResponse
     {
         $user = auth('api')->user();
-        return response()->json(auth('api')->user());
+        return response()->json(new UserResource(auth('api')->user()));
     }
 
     /**

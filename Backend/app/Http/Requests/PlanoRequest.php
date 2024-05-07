@@ -23,8 +23,8 @@ class PlanoRequest extends FormRequest
     {
         return [
             'nome' => 'required',
-            'valor' => 'required',
-            'meses' => 'required|in:1,3,6,12'
+            'valor' => ['numeric', 'required'],
+            'meses' => 'required|integer|in:1,3,6,12'
         ];
     }
 }

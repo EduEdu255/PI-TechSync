@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tipo_assinatura', function (Blueprint $table) {
+        Schema::create('plano', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('nome');
             $table->decimal('valor', 8, 2);
@@ -20,7 +20,7 @@ return new class extends Migration
         });
 
         Schema::table('assinatura', function (Blueprint $table) {
-            $table->foreignUuid('tipo_assinatura_id')->references('id')->on('tipo_assinatura');
+            $table->foreignUuid('plano_id')->references('id')->on('plano');
         });
     }
 
@@ -30,9 +30,9 @@ return new class extends Migration
     public function down(): void
     {
 
-        Schema::dropIfExists('tipo_assinatura');
+        Schema::dropIfExists('plano');
         Schema::table('assinatura', function (Blueprint $table) {
-            $table->dropForeign('tipo_assinatura_id');
+            $table->dropForeign('plano_id');
         });
     }
 };

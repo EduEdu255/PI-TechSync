@@ -24,7 +24,8 @@ class PagamentoRequest extends FormRequest
         return [
             'assinatura' => 'required|size:36',
             'forma_pagamento' => 'required|size:36',
-            'valor' => 'required'
+            'valor' => 'required',
+            'detalhe_forma_pagamento' => 'string'
         ];
     }
 }

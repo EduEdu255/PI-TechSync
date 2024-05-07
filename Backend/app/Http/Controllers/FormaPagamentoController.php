@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FormaPagamento;
 use App\Http\Requests\FormaPagamentoRequest;
+use App\Http\Resources\FormaPagamentoResource;
 
 class FormaPagamentoController extends Controller
 {
@@ -12,7 +13,7 @@ class FormaPagamentoController extends Controller
      */
     public function index()
     {
-        return FormaPagamento::all();
+        return FormaPagamentoResource::collection(FormaPagamento::all());
     }
 
     /**
@@ -27,7 +28,7 @@ class FormaPagamentoController extends Controller
         }
         $formaPagamento = FormaPagamento::create($data);
         $formaPagamento->save();
-        return response()->json($formaPagamento, 201);
+        return response()->json(new FormaPagamentoResource($formaPagamento), 201);
     }
 
     /**
@@ -36,7 +37,7 @@ class FormaPagamentoController extends Controller
     public function show(string $id)
     {
         $formaPagamento = FormaPagamento::findOrFail($id);
-        return response()->json($formaPagamento);
+        return response()->json(new FormaPagamentoResource($formaPagamento));
     }
 
 
@@ -48,7 +49,7 @@ class FormaPagamentoController extends Controller
         $formaPagamento = FormaPagamento::findOrFail($id);
         $formaPagamento->fill($request->all());
         $formaPagamento->save();
-        return response()->json($formaPagamento);
+        return response()->json(new FormaPagamentoResource($formaPagamento));
     }
 
     /**

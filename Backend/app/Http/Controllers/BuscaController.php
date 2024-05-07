@@ -53,7 +53,7 @@ class BuscaController extends Controller
         $codDestino = $data['destino'];
         $user = auth('api')->user();
         $voos = $api->procuraVooPost($codOrigem, $codDestino, $saida, $retorno, $cias);
-        if(count($voos['data']) > 0){
+        if(array_key_exists('data', $voos) && count($voos['data']) > 0){
             $passagens = Passagem::fromResult($voos);
         } else{
             $passagens = [];

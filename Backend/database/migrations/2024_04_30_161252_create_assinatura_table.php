@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('assinatura', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('cia_aerea_id')->references('id')->on('cia_aerea');
-            $table->decimal('valor', 7, 2, true);
             $table->datetime('validade');
             $table->boolean('ativa');
+            $table->integer('parcelas');
+            $table->foreignUuid('forma_pagamento_id')->references('id')->on('forma_pagamento');
             $table->timestamps();
         });
     }
