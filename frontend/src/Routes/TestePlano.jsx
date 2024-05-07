@@ -27,9 +27,9 @@ function TesteFetchComponent() {
 function renderPlano(plano) {
   return (
     <div>
-      <h3>{plano.nome}</h3>
+      <h3 className="text-3xl font-bold underline">{plano.nome}</h3>
       <ul>
-        <li>ID: {plano.id}</li>
+        <li className="text-blue-600">ID: {plano.id}</li>
         <li>Valor: {plano.valor}</li>
         <li>Quantidade Meses: {plano.meses_validade}</li>
       </ul>
