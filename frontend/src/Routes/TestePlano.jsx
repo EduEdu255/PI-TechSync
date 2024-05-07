@@ -18,20 +18,19 @@ function TesteFetchComponent() {
   }, []);
 
   return (
-    <div>
-      {data ? <div>{data.data.map(renderPlano)}</div> : <p>loading...</p>}
+    <div className="p-10">
+      {data ? <div className="flex items-center gap-10">{data.data.map(renderPlano)}</div> : <p>loading...</p>}
     </div>
   );
 }
 
 function renderPlano(plano) {
   return (
-    <div>
-      <h3 className="text-3xl font-bold underline">{plano.nome}</h3>
-      <ul>
-        <li className="text-blue-600">ID: {plano.id}</li>
-        <li>Valor: {plano.valor}</li>
-        <li>Quantidade Meses: {plano.meses_validade}</li>
+    <div className="w-1/4 p-12 rounded-lg bg-indigo-300 shadow hover:bg-sky-700 transition-colors duration-1000 ease-in-out">
+      <h3 className="text-3xl font-bold text-center">{plano.nome}</h3>
+      <ul className="text-center">
+        <li>R$ <span className="text-3xl text-red-600">{plano.valor}</span></li>
+        <li>válido por <span className="text-2xl">{plano.meses_validade}</span> {plano.meses_validade > 1 ? 'meses' : 'mês'}</li>
       </ul>
     </div>
   );
