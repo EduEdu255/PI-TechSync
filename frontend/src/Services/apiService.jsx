@@ -77,9 +77,11 @@ export const loginUsuario = async (data) => {
     let resposta = response.data;
     let token = resposta.access_token;
     localStorage.setItem("token", token);
+    return(true);
   } catch (error) {
     console.log(error);
     throw error;
+    
   }
 };
 
