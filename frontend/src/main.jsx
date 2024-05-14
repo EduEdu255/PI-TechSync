@@ -8,6 +8,9 @@ import Contact from './Routes/Contact.jsx';
 import Home from './Routes/Home.jsx';
 import Teste from './Routes/Teste.jsx';
 import TesteFetchComponent from './Routes/TestePlano.jsx';
+import { LoginTeste } from './Routes/TESTE_LOGIN.jsx';
+import { TesteMe } from './Routes/TESTE_ME.jsx';
+
 
 
 
@@ -29,6 +32,14 @@ const router = createBrowserRouter([
   {
     path: "/TesteFetch",
     element: <TesteFetchComponent />
+  },
+  {
+    path: "/Login_Teste",
+    element: <LoginTeste />
+  },
+  {
+    path: "/me",
+    element: <TesteMe />
   }
 
 
