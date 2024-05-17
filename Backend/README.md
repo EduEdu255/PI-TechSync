@@ -10,15 +10,19 @@ Trata-se de API REST para realização de consultas de vôos para companhias aé
     composer install
     ```
 
-3. Depois de finalizada a instalação, executar o comando 
+3. Depois de finalizada a instalação, executar o comando abaixo e copiar a chave gerada para o campo jwt do arquivo .env 
    
     ```sh
     php artisan jwt:secret
     ```
+4. Gerar chave da aplicação com o comando
+    ```sh
+    php artisan key:generate
+    ```
 
-4. Configurar a conexão com o banco de dados no arquivo localizado em `config/database.php`
+5. Configurar a conexão com o banco de dados no arquivo localizado em `config/database.php`
 
-5. Criar o banco de dados informado e depois rodar o comando de criação das tabelas
+6. Criar o banco de dados informado e depois rodar o comando de criação das tabelas
  
     ```sh
     php artisan migrate
