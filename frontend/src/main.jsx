@@ -10,6 +10,8 @@ import Teste from './Routes/Teste.jsx';
 import TesteFetchComponent from './Routes/TestePlano.jsx';
 import { LoginTeste } from './Routes/TESTE_LOGIN.jsx';
 import { TesteMe } from './Routes/TESTE_ME.jsx';
+import TesteRota from './Routes/TesteRota.jsx';
+
 
 
 
@@ -40,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: "/me",
     element: <TesteMe />
+  },
+  {
+    path: "/testeRota",
+    element: <TesteRota />
   }
 
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchData, loginUsuario } from "../Services/apiService";
 
 
-export function TesteMe() 
+export function TesteMe() {
 
   //Sempre usar para atulizar dados recebidos do back-end na página
   const [data, setData] = useState(null);
