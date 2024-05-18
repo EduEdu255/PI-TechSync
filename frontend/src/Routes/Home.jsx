@@ -1,13 +1,15 @@
 
+import { useNavigate } from 'react-router-dom';
 import FormBusca from '../Componentes/FormBusca';
 
 
 
 function Home() {
-
+  const navigate = useNavigate();
   function handleBusca(data) {
     console.log("Dados obtidos do formulário: ");
     console.log(data);
+    navigate("/busca", { state: data });
   }
 
   return (
