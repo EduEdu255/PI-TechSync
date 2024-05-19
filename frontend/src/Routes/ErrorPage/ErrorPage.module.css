@@ -1,0 +1,23 @@
+.root{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    gap: 3em;
+}
+
+h1{
+    font-size: 4em;
+    font-weight: 700;
+}
+.text{
+    font-size: 2em;
+}
+.status{
+    font-size: 0.8rem;
+    color: #777777;
+}
+img{
+    max-height: 400px;
+}

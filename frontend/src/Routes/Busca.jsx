@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { fetchData, postData } from "../Services/apiService";
+import { postData } from "../Services/apiService";
 import aeroportos from "../Services/aeroportos";
 
 function Busca() {

@@ -1,5 +1,5 @@
 
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import FormBusca from '../Componentes/FormBusca';
 
 
@@ -32,6 +32,9 @@ function Home() {
           </button>
         </div>
       </nav>
+      <div id="detais">
+        <Outlet />
+      </div>
       <FormBusca onSubmit={handleBusca} />
       {/* Area de comprar, by, eric*/}
       <div className="h-64 bg-cover bg-center flex items-end">
