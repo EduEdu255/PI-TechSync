@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
+use Dedoc\Scramble\Support\Generator\OpenApi;
+use Dedoc\Scramble\Scramble;
 use App\Models\CiaAerea;
 use App\Http\Resources\CiaAereaResource;
+use App\Http\Requests\ImageUploadRequest;
 use App\Http\Requests\CiaAereaRequest;
-use Dedoc\Scramble\Scramble;
-use Dedoc\Scramble\Support\Generator\OpenApi;
-use Dedoc\Scramble\Support\Generator\SecurityScheme;
 
 class CiaAereaController extends Controller
 {
@@ -49,11 +50,36 @@ class CiaAereaController extends Controller
     /**
      * Mostra Companhia
      *
-     * Traz companhia aérea identificada pelo id (uuid) informado
+     * Traz companhia aérea logada
      */
-    public function show(string $id)
+    public function show()
     {
-        return new CiaAereaResource(CiaAerea::findOrFail($id));
+        $cia = auth('aereas')->user();
+        return response()->json(new CiaAereaResource($cia));
+    }
+
+    /**
+     *
+     * Logo
+     *
+     * Envia o arquivo de imagem para ser configurado como Logo da cia
+     */
+
+    public function saveImage(ImageUploadRequest $request): JsonResponse
+    {
+        $cia = auth('aereas')->user();
+        if (!$cia) {
+            return response()->json(['message' => 'Cia Aérea não está logada'], 403);
+        }
+        /**
+         * @var CiaAerea $cia
+         */
+        $fileName = $cia->id . '.' . $request->file('image')->getClientOriginalExtension();
+        $file = $request->file('image');
+        $path = $file->storeAs('cia_logo', $fileName);
+        $cia->logo = $path;
+        $cia->save();
+        return response()->json(new CiaAereaResource($cia));
     }
 
 

@@ -15,10 +15,12 @@ class CiaAereaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            '@type' => 'CiaAerea',
             'id' => $this->id,
             'razaoSocial' => $this->razao_social,
             'codigoIata' => $this->codigo_iata,
-            'url' => $this->url
+            'url' => $this->url,
+            'logo' => $this->logo ?? ''
         ];
     }
 }

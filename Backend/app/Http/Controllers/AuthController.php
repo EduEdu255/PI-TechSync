@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use App\Models\User;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ImageUploadRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Models\User;
 use App\Http\Resources\UserResource;
+use App\Http\Requests\UserRequest;
 
 class AuthController extends Controller
 {
@@ -36,6 +40,30 @@ class AuthController extends Controller
             return response()->json(['success' => false,'message' => 'Usuário já existe'], 400);
         }
         $user = User::create($data);
+        $user->save();
+        return response()->json(new UserResource($user));
+    }
+
+
+    /**
+     *
+     * Profile Picture
+     *
+     * Envia o arquivo de imagem para ser configurado como foto de perfil
+     */
+
+    public function saveImage(ImageUploadRequest $request): JsonResponse{
+        $user = auth('api')->user();
+        if(!$user){
+            return response()->json(['message' => 'Usuário não está logado'], 401);
+        }
+        /**
+         * @var User $user
+         */
+        $fileName = $user->id . '.' . $request->file('image')->getClientOriginalExtension();
+        $file = $request->file('image');
+        $path = $file->storeAs('user_profile', $fileName);
+        $user->profile_pic = $path;
         $user->save();
         return response()->json(new UserResource($user));
     }

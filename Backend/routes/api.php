@@ -23,29 +23,22 @@ use App\Http\Controllers\PlanoController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::post('/auth/login', [AuthController::class,'login']);
+
+Route::controller(AuthController::class)->prefix('auth')->middleware('api')->group(function(){
+    Route::get('me', 'me');
+    Route::post('logout', 'logout');
+    Route::post('refresh', 'refresh');
+    Route::post('register', 'register');
+    Route::post('profile_pic', 'saveImage');
 });
 
-Route::group(
-    [
-        'middleware' => 'api',
-        'prefix' => 'auth',
-        'namespace' => 'App\Http\Controllers'
-    ],
-    function ($router) {
-        Route::get('me', 'AuthController@me');
-        Route::post('login', 'AuthController@login');
-        Route::post('logout', 'AuthController@logout');
-        Route::post('refresh', 'AuthController@refresh');
-        Route::post('register', 'AuthController@register');
-    }
-);
-
-Route::controller(CiaAereaController::class)->middleware('auth.aerea')->group(function () {
-    Route::get('/cia_aerea/{id}', 'show');
-    Route::patch('/cia_aerea/{id}', 'update');
-    Route::delete('/cia_aerea/{id}', 'destroy');
+Route::controller(CiaAereaController::class)->middleware('auth.aerea')->prefix('cia_aerea')->group(function () {
+    Route::get('profile', 'show');
+    Route::patch('{id}', 'update');
+    Route::delete('{id}', 'destroy');
+    Route::post('logo', 'saveLogo');
 });
 Route::get('/cia_aerea', [CiaAereaController::class, 'index'])->middleware('isAdmin');
 Route::post('/cia_aerea', [CiaAereaController::class,'store']);

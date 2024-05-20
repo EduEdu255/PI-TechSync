@@ -37,7 +37,8 @@ class User extends Authenticatable implements JWTSubject
         'logradouro',
         'numero',
         'municipio',
-        'uf'
+        'uf',
+        'profile_pic'
     ];
 
     /**

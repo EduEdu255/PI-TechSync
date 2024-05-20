@@ -28,10 +28,15 @@ Trata-se de API REST para realização de consultas de vôos para companhias aé
     php artisan migrate
     ```
 
-7. Editar o arquivo `.env` para inserir informações sobre API de Voos Amadeus (`AMADEUS_API_KEY` e `AMADEUS_API_SECRET`).
+7. Vincular a pasta de armazenamento para a pasta pública
+    ```sh
+    php artisan storage:link
+    ```
+
+8. Editar o arquivo `.env` para inserir informações sobre API de Voos Amadeus (`AMADEUS_API_KEY` e `AMADEUS_API_SECRET`).
    As chaves da API podem ser obtidos, após o cadastro, no site [Amadeus for Developers](https://developers.amadeus.com/my-apps), após criar um novo APP no site (gratuito).
 
-8. Subir o servidor, com o comando 
+9.  Subir o servidor, com o comando 
     ```sh
     php artisan serve
     ```
