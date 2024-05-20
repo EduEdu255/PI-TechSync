@@ -6,28 +6,40 @@ import "./index.css";
 //Importar Rotas
 import Contact from "./Routes/Contact.jsx";
 import Home from "./Routes/Home.jsx";
-import Teste from "./Routes/Teste.jsx";
+import TelaLogin from "./Routes/TelaLogin.jsx";
 import TesteFetchComponent from "./Routes/TestePlano.jsx";
 import { LoginTeste } from "./Routes/TESTE_LOGIN.jsx";
 import { TesteMe } from "./Routes/TESTE_ME.jsx";
 import TesteRota from "./Routes/TesteRota.jsx";
 import Busca from "./Routes/Busca.jsx";
 import ErrorPage from "./Routes/ErrorPage/ErrorPage.jsx";
+import Root from "./components/Root.jsx";
+import { LoginContextProvider } from "./Services/LoginContext.jsx";
+import { Profile } from './Routes/Profile.jsx';
 
 //Linkar Rotas
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <Root />,
     errorElement: <ErrorPage />,
     children: [
+      {
+        path: "/",
+        element: <Home />,
+        index: true,
+      },
+      {
+        path: "profile",
+        element: <Profile/>
+      },
       {
         path: "contact",
         element: <Contact />,
       },
       {
-        path: "Teste",
-        element: <Teste />,
+        path: "login",
+        element: <TelaLogin />,
       },
       {
         path: "TesteFetch",
@@ -54,7 +66,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <LoginContextProvider value={{ isLoggedIn: false, setIsLoggedIn: () => {} }}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </LoginContextProvider>
 );

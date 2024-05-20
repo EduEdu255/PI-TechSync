@@ -1,11 +1,29 @@
+import { useContext } from 'react';
 import { useNavigate } from "react-router-dom";
+import { LoginContext } from '../Services/LoginContext';
+import { fetchData, loginUsuario } from '../Services/apiService';
+
 
 function TelaLogin() {
   const navigate = useNavigate();
-  
+  const {setIsLoggedIn, setLoggedUser} = useContext(LoginContext)
   function onSubmit(event) {
     event.preventDefault();
-    navigate("/TesteRota",{state:{message:"Mensagem Recebida"}})
+    const data = {email: event.target.email.value, password: event.target.password.value}
+    loginUsuario(data).then((_) => {
+      if (_ === true) {
+        fetchData("/auth/me").then((user) => {
+          setLoggedUser(user)
+          navigate("/profile")
+        }, (error) => {
+          console.log("Erro ao buscar quem logou")
+          console.log(error)
+        })
+      } else {
+        setIsLoggedIn(false)
+        setLoggedUser(null)
+      }
+     },(_) => {console.log(_)})
   }
 
   return (
