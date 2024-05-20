@@ -8,7 +8,7 @@ export default function ErrorPage() {
 
   return (
     <div id="error-page" className={ styles.root}>
-      <img src="./public/airplane-crash.svg" />
+      <img src="./airplane-crash.svg" />
       <h1>Ops!</h1>
       <p className={styles.text }>Desculpe, ocorreu um erro inesperado.</p>
       <p className={styles.status}>
