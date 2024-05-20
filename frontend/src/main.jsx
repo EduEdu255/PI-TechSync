@@ -65,6 +65,7 @@ const router = createBrowserRouter([
   },
 ]);
 
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <LoginContextProvider value={{ isLoggedIn: false, setIsLoggedIn: () => {} }}>
     <React.StrictMode>

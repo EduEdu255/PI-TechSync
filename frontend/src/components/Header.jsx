@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { LoginContext } from '../Services/LoginContext';
 import { Link } from 'react-router-dom';
-import LogoPousar from "../assets/SVG.svg"
+import LogoPousar from "../assets/logo.svg"
 import IconHeadset from "../assets/icon_headset.svg"
 import PerfilIcon from "../assets/perfil.svg"
 import IconMalac from "../assets/icon_Mala.svg"
@@ -48,7 +48,7 @@ export function Header() {
   return (
     <>
       <div className="bg-gray-300">
-        <nav className="bg-white p-4 rounded-t-lg flex justify-between px-5 items-center">
+        <nav className="bg-white rounded-t-lg flex justify-between px-5 items-center">
           <div className="text-black font-bold text-xl">
            <img src={ LogoPousar } />
           </div>
