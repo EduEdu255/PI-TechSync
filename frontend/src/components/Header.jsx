@@ -1,10 +1,10 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { LoginContext } from '../Services/LoginContext';
 import { Link } from 'react-router-dom';
 
 
 export function Header() {
-  const { isLoggedIn, loggedUser } = useContext(LoginContext)
+  const { isLoggedIn, loggedUser, setIsLoggedIn, setLoggedUser } = useContext(LoginContext)
   console.log("LoggedIn")
   console.log(isLoggedIn)
   console.log("loggedUser")
@@ -32,6 +32,14 @@ export function Header() {
       );
     }
   }
+
+  useEffect(() => {
+    const user = sessionStorage.getItem('loggedUser');
+    if(user){
+      setIsLoggedIn(true);
+      setLoggedUser(JSON.parse(user));
+    }
+  },[]);
   
   return (
     <>
