@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+
 const loginFormValidationSchema = zod.object({
     email: zod.string().min(1, "E-mail obrigatório"),
     password: zod.string().min(1, "Senha obrigatória"),
