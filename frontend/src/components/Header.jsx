@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { LoginContext } from '../Services/LoginContext';
 import { Link } from 'react-router-dom';
 import LogoPousar from "../assets/SVG.svg"
@@ -8,7 +8,7 @@ import IconMalac from "../assets/icon_Mala.svg"
 import IconAjuda from '../assets/ajuda_icon.svg'
 
 export function Header() {
-  const { isLoggedIn, loggedUser } = useContext(LoginContext)
+  const { isLoggedIn, loggedUser, setIsLoggedIn, setLoggedUser } = useContext(LoginContext)
   console.log("LoggedIn")
   console.log(isLoggedIn)
   console.log("loggedUser")
@@ -36,6 +36,14 @@ export function Header() {
       );
     }
   }
+
+  useEffect(() => {
+    const user = sessionStorage.getItem('loggedUser');
+    if(user){
+      setIsLoggedIn(true);
+      setLoggedUser(JSON.parse(user));
+    }
+  },[]);
   
   return (
     <>
