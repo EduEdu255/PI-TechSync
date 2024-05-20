@@ -21,13 +21,13 @@ class UserRequest extends BaseRequest
             'password' => 'required',
             'password_repeat' => 'required',
             'uf' => 'size:2',
-            'logradouro' => 'string',
-            'numero' => 'string',
-            'complemento'=> 'string',
-            'municipio'=> 'string',
-            'cpf' => 'size:11',
-            'nascimento' => 'date_format:Y-m-d',
-            'telefone' => 'string|min:13|max:14'
+            'logradouro' => 'nullable|string',
+            'numero' => 'nullable|string',
+            'complemento'=> 'nullable|string',
+            'municipio'=> 'nullable|string',
+            'cpf' => 'nullable|size:11',
+            'nascimento' => 'nullable|date_format:Y-m-d',
+            'telefone' => 'nullable|string|min:13|max:14'
         ];
     }
 }
