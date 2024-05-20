@@ -27,7 +27,7 @@ const FormBusca = ({ onSubmit }) => {
 
   const methods = useForm();
   return (
-    <div className=" w-5/6  m-auto">
+    <div className=" w-3/5  m-auto">
       <h3 className="text-3xl text-center mb-7">Busca de Passagens</h3>
       <FormProvider {...methods}>
         <form

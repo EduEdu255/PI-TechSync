@@ -6,7 +6,7 @@ import "./index.css";
 //Importar Rotas
 import Contact from "./Routes/Contact.jsx";
 import Home from "./Routes/Home.jsx";
-import TelaLogin from "./Routes/TelaLogin.jsx";
+import TelaLogin2 from "./Routes/TelaLogin2.jsx";
 import TesteFetchComponent from "./Routes/TestePlano.jsx";
 import { LoginTeste } from "./Routes/TESTE_LOGIN.jsx";
 import { TesteMe } from "./Routes/TESTE_ME.jsx";
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       },
       {
         path: "login",
-        element: <TelaLogin />,
+        element: <TelaLogin2 />,
       },
       {
         path: "TesteFetch",
