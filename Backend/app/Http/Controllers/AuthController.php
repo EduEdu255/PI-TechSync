@@ -62,7 +62,7 @@ class AuthController extends Controller
          */
         $fileName = $user->id . '.' . $request->file('image')->getClientOriginalExtension();
         $file = $request->file('image');
-        $path = $file->storeAs('user_profile', $fileName);
+        $path = $file->storeAs('public/user_profile', $fileName);
         $user->profile_pic = $path;
         $user->save();
         return response()->json(new UserResource($user));

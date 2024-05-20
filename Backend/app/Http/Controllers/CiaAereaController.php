@@ -76,7 +76,7 @@ class CiaAereaController extends Controller
          */
         $fileName = $cia->id . '.' . $request->file('image')->getClientOriginalExtension();
         $file = $request->file('image');
-        $path = $file->storeAs('cia_logo', $fileName);
+        $path = $file->storeAs('public/cia_logo', $fileName);
         $cia->logo = $path;
         $cia->save();
         return response()->json(new CiaAereaResource($cia));
