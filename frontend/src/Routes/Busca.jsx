@@ -72,6 +72,10 @@ function Busca() {
         <p>
           Destino: {destino.name} - {destino.iata}
         </p>
+        <p>
+          Data Ida: {dados.ida}
+        </p>
+        {dados.volta ? <p>Data Volta: {dados.volta}</p> : null}
         <p>Passagens: {passagens.map(mapPassagem)}</p>
       </>
     );
@@ -86,6 +90,7 @@ function Busca() {
         preco={passagem.preco}
         ida={passagem.ida}
         volta={passagem.volta ? passagem.volta : null}
+        link={passagem.linkBusca}
       />
     );
   }

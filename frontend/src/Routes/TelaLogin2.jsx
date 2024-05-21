@@ -17,7 +17,7 @@ function TelaLogin2() {
         fetchData("/auth/me").then((user) => {
           setLoggedUser(user)
           sessionStorage.setItem("loggedUser", JSON.stringify(user))
-          navigate("/profile")
+          navigate("/perfil")
         }, (error) => {
           console.log("Erro ao buscar quem logou")
           console.log(error)

@@ -1,11 +1,9 @@
-
 import { useNavigate } from 'react-router-dom';
 import FormBusca from '../components/FormBusca';
 
-
-
 function Home() {
   const navigate = useNavigate();
+
   function handleBusca(data) {
     console.log("Dados obtidos do formulário: ");
     console.log(data);
@@ -16,27 +14,29 @@ function Home() {
     <>
       <FormBusca onSubmit={handleBusca} />
 
-      {/* Propagandas */}
+      {/* propagandas */}
       <section className="bg-white p-4 rounded-lg mt-4">
-        <h2 className="text-xl font-bold mb-4">Propagandas</h2>
-        {/* ADICIONAR ANUNCIOS AQUI, CUIDA FELIPE*/}
+        <div className="bg-[#525252] text-center p-4 rounded-lg">
+          <h2 className="text-xl font-bold mb-4 text-white">Propagandas</h2>
+        </div>
+        {/* aqui se adiciona as propagandas */}
       </section>
 
-      {/* AREA DE COMPRAS*/}
+      {/* area de compra */}
       <section className="bg-white p-4 rounded-lg mt-4">
         <h2 className="text-xl font-bold mb-4">
           Compre tudo para sua viagem com Pousar
         </h2>
-        {/* LISTAR PRODUTOS PARA VENDER PARA OS USUARIOS*/}
+        {/* lista de produtos */}
       </section>
 
-      {/* Informações da Empresa */}
+      
       <section className="bg-white p-4 rounded-lg mt-4">
         <h2 className="text-xl font-bold mb-4">Informações da Empresa</h2>
-        {/* Aqui você pode adicionar informações sobre a empresa */}
+        {/* informações da compania */}
       </section>
 
-      {/* Inscreva-se para receber ofertas exclusivas */}
+      
       <section className="bg-white p-4 rounded-lg mt-4">
         <h2 className="text-xl font-bold mb-4">
           Inscreva-se para receber ofertas exclusivas
