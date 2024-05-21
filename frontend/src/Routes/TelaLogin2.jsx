@@ -51,9 +51,9 @@ function TelaLogin2() {
             <div className='bg-gray-300 h-[1px] w-[40%]'></div>
           </div>
           <div className="flex flex-col gap-3">
-            <label for="email" className='text-[#2B3674] font-medium'>E-mail*</label>
+            <label htmlFor="email" className='text-[#2B3674] font-medium'>E-mail*</label>
             <input type="email" name="email" id="email" className='border flex items-center justify-between h-14 px-5 rounded-2xl' placeholder="seuemail@gmail.com"></input>
-            <label for="senha"  className='text-[#2B3674] font-medium'>Senha*</label>
+            <label htmlFor="senha"  className='text-[#2B3674] font-medium'>Senha*</label>
             <div className="border flex items-center justify-between h-14 px-5 rounded-2xl">
               <input type={visible ? "text" : "password"} name="password" id="senha" placeholder="Min. 8 characters">
 
@@ -63,7 +63,7 @@ function TelaLogin2() {
           </div>
           <div className="flex my-4 justify-between">
             <div className="">
-              <input type="checkbox"></input> <label for="mante">Mantenha logado</label>
+              <input type="checkbox"></input> <label htmlFor="mante">Mantenha logado</label>
             </div>
             <div className="text-[#3758D0] font-semibold ">
               <a href="/Email_esq.html">Esqueceu sua senha?</a>
