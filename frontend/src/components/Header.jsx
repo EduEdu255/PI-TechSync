@@ -15,14 +15,14 @@ export function Header() {
   console.log(loggedUser)
   const menu = () => {
     if (!isLoggedIn) {
-     return ''
+      return ''
     }
     if (loggedUser['@type'] == 'User') {
-      
+
       return (
         <>
-        <li><Link to='/perfil' title='Perfil do Usuário'>Perfil do Usuário</Link></li>
-      </>)
+          <li><Link to='/perfil' title='Perfil do Usuário'>Perfil do Usuário</Link></li>
+        </>)
     }
     else if (loggedUser['@type'] == 'CiaAerea') {
       return (
@@ -39,18 +39,20 @@ export function Header() {
 
   useEffect(() => {
     const user = sessionStorage.getItem('loggedUser');
-    if(user){
+    if (user) {
       setIsLoggedIn(true);
       setLoggedUser(JSON.parse(user));
     }
-  },[]);
-  
+  }, []);
+
   return (
     <>
       <div className="bg-gray-300">
         <nav className="bg-white rounded-t-lg flex justify-between px-5 items-center">
           <div className="text-black font-bold text-xl">
-           <img src={ LogoPousar } />
+            <Link to='/' className="rounded-lg  px-4 py-2 flex text-gray-600 items-center gap-3">
+              <img src={LogoPousar} />
+            </Link>
           </div>
           <div className="flex gap-5 bg-slate-300 p-3 rounded-b-xl">
             <ul>
@@ -58,27 +60,27 @@ export function Header() {
             </ul>
             {isLoggedIn ? "Usuário Logado: " + loggedUser.nome : ""}
             <Link className="rounded-lg items-center flex gap-2 text-gray-600  px-4 py-2 text-[14px]">
-              <img className='h-[18px]' src={ IconHeadset } />
-              <p>Televendas <strong>0800 616 6161</strong> 
+              <img className='h-[18px]' src={IconHeadset} />
+              <p>Televendas <strong>0800 616 6161</strong>
               </p>
             </Link>
             <div className='w-[2px] bg-white rounded-full'></div>
-            <Link className="rounded-lg  px-4 py-2 flex text-gray-600 items-center gap-3">
-              <img src={ PerfilIcon } />
+            <Link to='/login' className="rounded-lg  px-4 py-2 flex text-gray-600 items-center gap-3">
+              <img src={PerfilIcon} />
               <p>
-              Inicie Sessão
+                Inicie Sessão
               </p>
             </Link>
             <Link className="rounded-lg text-gray-600 px-4 py-2 flex items-center gap-2">
-              <img src={ IconMalac } />
+              <img src={IconMalac} />
               <p>
-              Viagens
+                Viagens
               </p>
             </Link>
             <Link className="rounded-lg text-gray-600 flex items-center px-4 py-2 gap-2">
-              <img src={  IconAjuda } />
+              <img src={IconAjuda} />
               <p>
-              Ajuda
+                Ajuda
               </p>
             </Link>
           </div>
