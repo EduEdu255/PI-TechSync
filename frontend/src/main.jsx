@@ -14,7 +14,7 @@ import TesteRota from "./Routes/TesteRota.jsx";
 import Busca from "./Routes/Busca.jsx";
 import ErrorPage from "./Routes/ErrorPage/ErrorPage.jsx";
 import Root from "./components/Root.jsx";
-import { LoginContextProvider } from "./Services/LoginContext.jsx";
+import { LoginContext, LoginContextProvider } from "./Services/LoginContext.jsx";
 import { Profile } from './Routes/Profile.jsx';
 
 //Linkar Rotas
@@ -37,10 +37,7 @@ const router = createBrowserRouter([
         path: "contact",
         element: <Contact />,
       },
-      {
-        path: "login",
-        element: <TelaLogin2 />,
-      },
+     
       {
         path: "TesteFetch",
         element: <TesteFetchComponent />,
@@ -62,7 +59,15 @@ const router = createBrowserRouter([
         element: <Busca />,
       },
     ],
+
   },
+
+  {/*-----------Login-------------*/},
+  {
+    path: "/login",
+    element: <TelaLogin2 />,
+  }
+  
 ]);
 
 
