@@ -62,7 +62,9 @@ function TelaLogin2() {
           </div>
           <div className="flex flex-col gap-3">
             <label htmlFor="email" className='text-[#2B3674] font-medium'>E-mail*</label>
+            <label htmlFor="email" className='text-[#2B3674] font-medium'>E-mail*</label>
             <input type="email" name="email" id="email" className='border flex items-center justify-between h-14 px-5 rounded-2xl' placeholder="seuemail@gmail.com"></input>
+            <label htmlFor="senha"  className='text-[#2B3674] font-medium'>Senha*</label>
             <label htmlFor="senha"  className='text-[#2B3674] font-medium'>Senha*</label>
             <div className="border flex items-center justify-between h-14 px-5 rounded-2xl">
               <input type={visible ? "text" : "password"} name="password" id="senha" placeholder="Min. 8 characters">
