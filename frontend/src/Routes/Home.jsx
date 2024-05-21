@@ -16,8 +16,8 @@ function Home() {
 
       {/* propagandas */}
       <section className="bg-white p-4 rounded-lg mt-4">
-        <div className="bg-[#525252] text-center p-4 rounded-lg">
-          <h2 className="text-xl font-bold mb-4 text-white">Propagandas</h2>
+        <div className="bg-[#525252] text-center p-7 rounded-none">
+          <h2 className="text-[40px] font-light mb-4 text-white">Propagandas</h2>
         </div>
         {/* aqui se adiciona as propagandas */}
       </section>
