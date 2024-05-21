@@ -36,16 +36,16 @@ const FormBusca = ({ onSubmit }) => {
           autoComplete="off"
           className="container"
         >
-          <div className="grid gap-5 md:grid-cols-2">
+          <div className="flex gap-5 md:grid-cols-2">
             <SelectAeroporto
               name="origem"
               id="origem"
-              label="Selecione um Aeroporto de Origem"
+              label="Origem"
             />
             <SelectAeroporto
               name="destino"
               id="destino"
-              label="Selecione um Aeroporto de Destino"
+              label="Destino"
             />
             <Input
               label="Data de Ida"

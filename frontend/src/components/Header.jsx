@@ -17,13 +17,6 @@ export function Header() {
     if (!isLoggedIn) {
       return ''
     }
-    if (loggedUser['@type'] == 'User') {
-
-      return (
-        <>
-          <li><Link to='/perfil' title='Perfil do Usuário'>Perfil do Usuário</Link></li>
-        </>)
-    }
     else if (loggedUser['@type'] == 'CiaAerea') {
       return (
         <>
@@ -58,17 +51,16 @@ export function Header() {
             <ul>
               {menu()}
             </ul>
-            {isLoggedIn ? "Usuário Logado: " + loggedUser.nome : ""}
             <Link className="rounded-lg items-center flex gap-2 text-gray-600  px-4 py-2 text-[14px]">
               <img className='h-[18px]' src={IconHeadset} />
               <p>Televendas <strong>0800 616 6161</strong>
               </p>
             </Link>
             <div className='w-[2px] bg-white rounded-full'></div>
-            <Link to='/login' className="rounded-lg  px-4 py-2 flex text-gray-600 items-center gap-3">
+            <Link to={isLoggedIn && loggedUser['@type'] ? "/perfil" : "/login"} className="rounded-lg  px-4 py-2 flex text-gray-600 items-center gap-3">
               <img src={PerfilIcon} />
               <p>
-                Inicie Sessão
+                {isLoggedIn && loggedUser['@type'] == 'User' ? "Perfil" : "Inicie Sessão"}
               </p>
             </Link>
             <Link className="rounded-lg text-gray-600 px-4 py-2 flex items-center gap-2">

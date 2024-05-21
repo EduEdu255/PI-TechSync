@@ -153,7 +153,7 @@ function TelaLogin2() {
             </button>
             <p>
               Não possui conta?
-              <Link to="/registrar" className="text-[#3758D0] font-semibold ">
+              <Link to="/registrar" className="text-[#3758D0] font-semibold">
                 {" "}
                 Crie uma conta agora.
               </Link>
