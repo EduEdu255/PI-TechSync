@@ -17,7 +17,9 @@ class Passagem implements JsonSerializable
      * @param Trecho[]|null $trechosVolta
      */
 
+    private CiaAerea $cia;
     private string $link;
+
     public function __construct(
         private float $preco,
         private string $ciaAerea,
@@ -35,6 +37,14 @@ class Passagem implements JsonSerializable
         private bool $trocaAeroportoVolta = false,
     ) {
         $this->setLink();
+        $this->setCia();
+    }
+
+    private function setCia(){
+        $cia = $this->ciaAerea;
+        $iata = substr($cia, 0, 2);
+        $noBanco = CiaAerea::where('codigo_iata', $iata)->get()->first();
+        $this->cia = $noBanco;
     }
 
     private function setLink()
@@ -212,6 +222,7 @@ class Passagem implements JsonSerializable
                 "origem" => $this->codOrigem,
                 "destino" => $this->codDestino,
                 "ciaAerea" => $this->ciaAerea,
+                "cia" => $this->cia ?? null,
                 "preco" => number_format($this->preco, 2, ",", "."),
                 "linkBusca" => $this->link ?? '',
                 "ida" => [

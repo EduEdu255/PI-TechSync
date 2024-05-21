@@ -4,6 +4,7 @@ import { postData } from "../Services/apiService";
 import aeroportos from "../Services/aeroportos";
 import Passagem from "../components/Passagem";
 import FormBusca from "../components/FormBusca";
+import Loading from '../components/Loading';
 
 function Busca() {
   const [data, setData] = useState(null);
@@ -31,6 +32,7 @@ function Busca() {
     if (data.volta == "") {
       delete data.volta;
     }
+    setResult(null);
     postData("busca", data).then(
       (_) => {
         setResult(_);
@@ -50,7 +52,7 @@ function Busca() {
   return (
     <div>
       <FormBusca onSubmit={submitBusca} />
-      <div>{result ? parseResult(result) : "loading..."}</div>
+      <div>{result ? parseResult(result) : <Loading/>}</div>
     </div>
   );
 
@@ -65,25 +67,40 @@ function Busca() {
     const destino = findAeroporto(dados.destino);
     return (
       <>
-        <p>Quantidade: {quantidade}</p>
-        <p>
-          Origem: {origem.name} - {origem.iata}
-        </p>
-        <p>
-          Destino: {destino.name} - {destino.iata}
-        </p>
-        <p>
-          Data Ida: {dados.ida}
-        </p>
-        {dados.volta ? <p>Data Volta: {dados.volta}</p> : null}
-        <p>Passagens: {passagens.map(mapPassagem)}</p>
+        <div className=' w-3/4 m-auto'>
+          <p>Quantidade: {quantidade}</p>
+          <p>
+            Origem: {origem.name} - {origem.iata}
+          </p>
+          <p>
+            Destino: {destino.name} - {destino.iata}
+          </p>
+          <p>Ida: {getDate(dados.ida + " 00:00:00")}</p>
+          {dados.volta ? <p>Volta: {getDate(dados.volta + " 00:00:00")}</p> : null}
+          <p>Passagens: {passagens.map((x) => {
+            return mapPassagem(x, dados.id);
+
+          })}</p>
+        </div>
       </>
     );
   }
+   function getDate(date) {
+     const data = new Date(Date.parse(date));
+     if (!(data instanceof Date)) {
+       return "";
+     }
+     return data.toLocaleDateString("pt-BR", {
+       year: "numeric",
+       month: "2-digit",
+       day: "2-digit",
+     });
+   }
 
-  function mapPassagem(passagem) {
+  function mapPassagem(passagem, id) {
     return (
       <Passagem
+        id={id}
         origem={findAeroporto(passagem.origem)}
         destino={findAeroporto(passagem.destino)}
         cia={passagem.ciaAerea}
@@ -91,6 +108,7 @@ function Busca() {
         ida={passagem.ida}
         volta={passagem.volta ? passagem.volta : null}
         link={passagem.linkBusca}
+        logo = {passagem.cia.logo}
       />
     );
   }
