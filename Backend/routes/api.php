@@ -3,14 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\VooController;
+use App\Http\Controllers\PlanoController;
+use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\PagamentoController;
+use App\Http\Controllers\FormaPagamentoController;
 use App\Http\Controllers\CiaAereaController;
+use App\Http\Controllers\BuscaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AssinaturaController;
 use App\Http\Controllers\AeronaveController;
-use App\Http\Controllers\BuscaController;
-use App\Http\Controllers\FormaPagamentoController;
-use App\Http\Controllers\PagamentoController;
-use App\Http\Controllers\PlanoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,4 +94,9 @@ Route::controller(BuscaController::class)->group(function () {
     Route::get('/busca', 'index');
     Route::post('/busca', 'store');
     Route::patch('/busca/reservar/{id}', 'reservar');
+});
+
+Route::controller(PasswordController::class)->group(function(){
+    Route::post('/forgot_password', 'sendLink');
+    Route::post('/reset_password', 'reset');
 });
