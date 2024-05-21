@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchData, loginUsuario } from "../Services/apiService";
+import Loading from '../components/Loading';
 
 function TesteFetchComponent() {
   const [data, setData] = useState(null);
@@ -9,6 +10,7 @@ function TesteFetchComponent() {
       const result = await fetchData("plano");
       setData(result);
     } catch (error) {
+      setData({data:[]});
       console.log(error);
     }
   }
@@ -19,7 +21,7 @@ function TesteFetchComponent() {
 
   return (
     <div className="p-10">
-      {data ? <div className="flex flex-col sm:flex-row items-center justify-center flex-wrap gap-10">{data.data.map(renderPlano)}</div> : <p>loading...</p>}
+      {data ? <div className="flex flex-col sm:flex-row items-center justify-center flex-wrap gap-10">{data.data.map(renderPlano)}</div> : <Loading/>}
     </div>
   );
 }
