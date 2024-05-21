@@ -75,7 +75,7 @@ function Busca() {
         <p>
           Data Ida: {dados.ida}
         </p>
-        {dados.volta ? "<p>" + dados.volta + "</p>" : null}
+        {dados.volta ? <p>Data Volta: {dados.volta}</p> : null}
         <p>Passagens: {passagens.map(mapPassagem)}</p>
       </>
     );
