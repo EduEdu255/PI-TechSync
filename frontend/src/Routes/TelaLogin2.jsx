@@ -161,7 +161,7 @@ function TelaLogin2() {
           </div>
         </form>
 
-        <div className="w-[50%] h-[100%] flex justify-center items-center  bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat">
+        <div className="w-[50%] h-[100%] flex justify-center items-center rounded-bl-[150px]  bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat">
           {processando ? <Loading /> : null}
         </div>
       </motion.div>

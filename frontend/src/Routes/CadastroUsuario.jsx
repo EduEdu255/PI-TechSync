@@ -51,7 +51,7 @@ function CadastroUsuario() {
         className="flex justify-between gap-5 overflow-hidden h-screen"
       >
         <FormProvider {...methods}>
-          <div className="w-[50%] h-[100%] flex justify-center items-center  bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat">
+          <div className="w-[50%] h-[100%] flex justify-center items-center  bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat rounded-br-[150px]">
             {processando ? <Loading /> : null}
           </div>
           <form
