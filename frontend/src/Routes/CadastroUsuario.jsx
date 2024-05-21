@@ -10,11 +10,11 @@ import Loading from "../components/Loading";
 function CadastroUsuario() {
   const navigate = useNavigate();
 
-    const handleFormSubmit = (data) => {
-        if (!data.password || !data.password_repeat) {
-            setErros({message: "Senha e Repetir Senha são campos obrigatórios"})
-            return null;
-      }
+  const handleFormSubmit = (data) => {
+    if (!data.password || !data.password_repeat) {
+      setErros({ message: "Senha e Repetir Senha são campos obrigatórios" })
+      return null;
+    }
     if (data.password !== data.password_repeat) {
       setErros({ message: "As senhas devem ser iguais" });
       return null;
@@ -48,10 +48,10 @@ function CadastroUsuario() {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: -300, opacity: 1 }}
         transition={{ duration: 1 }}
-        className="flex justify-between gap-5 overflow-hidden h-screen"
+        className="flex justify-between gap-5 h-screen"
       >
         <FormProvider {...methods}>
-          <div className="w-[50%] h-[100%] flex justify-center items-center  bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat rounded-br-[150px]">
+          <div className="w-[50%] flex justify-center items-center  bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat rounded-br-[150px]">
             {processando ? <Loading /> : null}
           </div>
           <form
@@ -181,6 +181,36 @@ function CadastroUsuario() {
                 placeholder="Juazeiro do Norte"
                 name="municipio"
               />
+              <select name="uf" id="uf" className="border flex items-center justify-between h-14 px-5 rounded-2xl w-full">
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
+                <option value="EX">Estrangeiro</option>
+              </select>
             </div>
             <AnimatePresence mode="wait" initial={false}>
               {erros && (
