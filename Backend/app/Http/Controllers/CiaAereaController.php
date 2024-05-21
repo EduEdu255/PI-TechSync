@@ -65,7 +65,7 @@ class CiaAereaController extends Controller
      * Envia o arquivo de imagem para ser configurado como Logo da cia
      */
 
-    public function saveImage(ImageUploadRequest $request): JsonResponse
+    public function saveLogo(ImageUploadRequest $request): JsonResponse
     {
         $cia = auth('aereas')->user();
         if (!$cia) {
@@ -76,8 +76,11 @@ class CiaAereaController extends Controller
          */
         $fileName = $cia->id . '.' . $request->file('image')->getClientOriginalExtension();
         $file = $request->file('image');
+        if(is_array($file)){
+            return response()->json(['message' => 'Somente aceito o envio de 1 arquivo'], 422);
+        }
         $path = $file->storeAs('public/cia_logo', $fileName);
-        $cia->logo = $path;
+        $cia->logo = 'cia_logo/' . $fileName;
         $cia->save();
         return response()->json(new CiaAereaResource($cia));
     }

@@ -62,8 +62,11 @@ class AuthController extends Controller
          */
         $fileName = $user->id . '.' . $request->file('image')->getClientOriginalExtension();
         $file = $request->file('image');
-        $path = $file->storeAs('public/user_profile', $fileName);
-        $user->profile_pic = $path;
+        if (is_array($file)) {
+            return response()->json(['message' => 'Somente aceito o envio de 1 arquivo'], 422);
+        }
+        $file->storeAs('public/user_profile', $fileName);
+        $user->profile_pic = 'user_profile/' . $fileName;
         $user->save();
         return response()->json(new UserResource($user));
     }
