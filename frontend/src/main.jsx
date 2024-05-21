@@ -17,6 +17,7 @@ import Root from "./components/Root.jsx";
 import { LoginContext, LoginContextProvider } from "./Services/LoginContext.jsx";
 import { Profile } from './Routes/Profile.jsx';
 import CadastroUsuario from "./Routes/CadastroUsuario.jsx";
+import PasswordRecovery from "./Routes/recoverypassword.jsx";
 
 //Linkar Rotas
 const router = createBrowserRouter([
@@ -60,6 +61,11 @@ const router = createBrowserRouter([
         path: "busca",
         element: <Busca />,
       },
+      {
+        path: "troca_senha",
+        element: <PasswordRecovery />,
+
+      }
     ],
 
   },
