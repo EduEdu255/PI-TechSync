@@ -28,7 +28,7 @@ const FormBusca = ({ onSubmit }) => {
   const methods = useForm();
   return (
     <div className=" w-3/5  m-auto">
-      <h3 className="text-3xl text-center mb-7">Busca de Passagens</h3>
+      <h3 className="mb-7 font-bold">Busca de Passagens</h3>
       <FormProvider {...methods}>
         <form
           onSubmit={(e) => e.preventDefault()}
@@ -48,7 +48,7 @@ const FormBusca = ({ onSubmit }) => {
               label="Destino"
             />
             <Input
-              label="Data de Ida"
+              label="Ida"
               type="date"
               id="ida"
               placeholder="03/06/2024"
@@ -58,7 +58,7 @@ const FormBusca = ({ onSubmit }) => {
               }}
             />
             <Input
-              label="Data de Volta"
+              label="Volta"
               type="date"
               id="volta"
               placeholder="09/06/2024"

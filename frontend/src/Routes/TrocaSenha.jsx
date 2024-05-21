@@ -5,6 +5,10 @@ import { fetchData, loginUsuario } from "../Services/apiService";
 import { Loading } from "../components/Loading.jsx";
 import LoginImg from "/images/Background 5.4.svg";
 import { AnimatePresence, motion } from "framer-motion";
+import { Input } from "../components/Input.jsx";
+import { useForm, FormProvider } from "react-hook-form";
+
+
 
 // import styles from '../assets/css/TelaLogin2.module.css';
 
@@ -14,6 +18,13 @@ function TrocaSenha() {
   const { setIsLoggedIn, setLoggedUser } = useContext(LoginContext);
   const [processando, setProcessando] = useState(false);
   const [erros, setErros] = useState(null);
+  const handleFormSubmit = (data) => {
+    if (!data.password || !data.password_repeat) {
+      setErros({ message: "Senha e Repetir Senha são campos obrigatórios" })
+      return null;
+    }
+  }
+  
   function onSubmit(event) {
     event.preventDefault();
     const data = {
@@ -22,6 +33,7 @@ function TrocaSenha() {
     };
     setProcessando(true);
     setErros(null);
+
     //     loginUsuario(data).then(
     //       (_) => {
     //         if (_ === true) {
@@ -63,6 +75,7 @@ function TrocaSenha() {
   function toggleVisible() {
     setVisible(!visible);
   }
+  const methods = useForm();
   function msgErro() {
     if (!erros) {
       return null;
@@ -84,6 +97,7 @@ function TrocaSenha() {
         exit={{ x: 300, opacity: 1 }}
         transition={{ duration: 1 }}
       >
+         <FormProvider {...methods}>
         <form
           onSubmit={onSubmit}
           className="flex justify-center items-center w-[50%]"
@@ -96,6 +110,16 @@ function TrocaSenha() {
             </p>
             <div className="flex flex-col gap-3">
               <input type="hidden" name="token"></input>
+              <Input
+                label="email"
+                type="email"
+                id="email"
+                placeholder="Seu Email"
+                name="email"
+                validation={{
+                  required: { value: true, message: "Campo Obrigatório" },
+                }}
+              />
               <label htmlFor="senha" className="text-[#2B3674] font-medium">
                 Nova Senha*
               </label>
@@ -116,7 +140,7 @@ function TrocaSenha() {
                   className="opacity-60"
                   onClick={toggleVisible}
                   id="btn_senha"
-                ></img>
+                ></img></div>
                 <label
                   htmlFor="password_repeat"
                   className="text-[#2B3674] font-medium"
@@ -143,13 +167,12 @@ function TrocaSenha() {
                   ></img>
                 </div>
               </div>
-              <button className="flex w-[100%] bg-[#3758D0] h-14 gap-2 rounded-2xl my-7 items-center text-gray-50 font-semibold justify-center">
+              <button onClick={methods.handleSubmit(handleFormSubmit)} className="flex w-[100%] bg-[#3758D0] h-14 gap-2 rounded-2xl my-7 items-center text-gray-50 font-semibold justify-center">
                 Alterar Senha
               </button>
             </div>
-          </div>
         </form>
-
+        </FormProvider>
         <div className="w-[50%] h-[100%] flex justify-center items-center rounded-bl-[150px]  bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat">
           {processando ? <Loading /> : null}
         </div>
