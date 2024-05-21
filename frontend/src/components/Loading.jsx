@@ -1,7 +1,7 @@
 import  Loader from "/images/loading.gif";
 import styles from "../assets/css/Loading.module.css";
 
-function Loading() {
+export function Loading() {
     return (
         <>
             <div className={styles.container}>

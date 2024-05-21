@@ -2,7 +2,10 @@ import { useContext, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from '../Services/LoginContext';
 import { fetchData, loginUsuario } from '../Services/apiService';
-import LoginImg from "/images/Background 5.4.svg"
+import { Loading } from "../components/Loading.jsx";
+import LoginImg from "/images/Background 5.4.svg";
+
+
 // import styles from '../assets/css/TelaLogin2.module.css';
 
 
@@ -10,25 +13,33 @@ function TelaLogin2() {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const { setIsLoggedIn, setLoggedUser } = useContext(LoginContext)
+  const [processando, setProcessando] = useState(false);
   function onSubmit(event) {
     event.preventDefault();
     const data = { email: event.target.email.value, password: event.target.password.value }
+    setProcessando(true);
     loginUsuario(data).then((_) => {
       if (_ === true) {
         fetchData("/auth/me").then((user) => {
           setLoggedUser(user)
           sessionStorage.setItem("loggedUser", JSON.stringify(user))
+          setProcessando(false)
           navigate("/perfil")
         }, (error) => {
           console.log("Erro ao buscar quem logou")
           console.log(error)
+          setProcessando(false);
         })
       } else {
         setIsLoggedIn(false)
         setLoggedUser(null)
+        setProcessando(false)
         sessionStorage.removeItem('loggedUser');
       }
-    }, (_) => { console.log(_) })
+    }, (_) => {
+      console.log(_)
+      setProcessando(false)
+    })
   }
 
   function toggleVisible() {
@@ -39,7 +50,6 @@ function TelaLogin2() {
     <div className="flex justify-between overflow-hidden h-screen">
       <form  onSubmit={onSubmit} className='flex justify-center items-center w-[50%]'>
         <div className=" min-w-[27vw]">
-
           <h1 className="text-[#2B3674] text-4xl ">Entrar</h1>
           <p className="text-gray-400 my-7">Insira seu email e senha para continuar!</p>
           <button className="flex w-[100%] bg-[#F4F7FE] h-14 gap-2 rounded-2xl items-center text-[#2B3674] font-semibold justify-center" type="button">
@@ -51,9 +61,9 @@ function TelaLogin2() {
             <div className='bg-gray-300 h-[1px] w-[40%]'></div>
           </div>
           <div className="flex flex-col gap-3">
-            <label for="email" className='text-[#2B3674] font-medium'>E-mail*</label>
+            <label htmlFor="email" className='text-[#2B3674] font-medium'>E-mail*</label>
             <input type="email" name="email" id="email" className='border flex items-center justify-between h-14 px-5 rounded-2xl' placeholder="seuemail@gmail.com"></input>
-            <label for="senha"  className='text-[#2B3674] font-medium'>Senha*</label>
+            <label htmlFor="senha"  className='text-[#2B3674] font-medium'>Senha*</label>
             <div className="border flex items-center justify-between h-14 px-5 rounded-2xl">
               <input type={visible ? "text" : "password"} name="password" id="senha" placeholder="Min. 8 characters">
 
@@ -63,7 +73,7 @@ function TelaLogin2() {
           </div>
           <div className="flex my-4 justify-between">
             <div className="">
-              <input type="checkbox"></input> <label for="mante">Mantenha logado</label>
+              <input type="checkbox" id="mante"></input> <label htmlFor="mante">Mantenha logado</label>
             </div>
             <div className="text-[#3758D0] font-semibold ">
               <a href="/Email_esq.html">Esqueceu sua senha?</a>
@@ -74,8 +84,8 @@ function TelaLogin2() {
         </div>
       </form>
 
-      <div className="w-[50%] h-[100%] flex justify-center items-center  bg-[url(/images/LoginIMG.jpg)]">
-        
+      <div className="w-[50%] h-[100%] flex justify-center items-center  bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat">
+        {processando ? <Loading/> : null}
       </div>
     
     </div >
