@@ -16,6 +16,7 @@ import ErrorPage from "./Routes/ErrorPage/ErrorPage.jsx";
 import Root from "./components/Root.jsx";
 import { LoginContextProvider } from "./Services/LoginContext.jsx";
 import { Profile } from './Routes/Profile.jsx';
+import CadastroUsuario from "./Routes/CadastroUsuario.jsx";
 
 //Linkar Rotas
 const router = createBrowserRouter([
@@ -30,8 +31,12 @@ const router = createBrowserRouter([
         index: true,
       },
       {
-        path: "profile",
+        path: "perfil",
         element: <Profile/>
+      },
+      {
+        path: "registrar",
+        element: <CadastroUsuario/>
       },
       {
         path: "contact",

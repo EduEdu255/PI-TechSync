@@ -21,14 +21,14 @@ export function Header() {
       
       return (
         <>
-        <li><Link to='/profile' title='Perfil do Usuário'>Perfil do Usuário</Link></li>
+        <li><Link to='/perfil' title='Perfil do Usuário'>Perfil do Usuário</Link></li>
       </>)
     }
     else if (loggedUser['@type'] == 'CiaAerea') {
       return (
         <>
           <li>
-            <Link to="/cia_aerea/profile" title="Perfil Cia Aérea">
+            <Link to="/cia_aerea/perfil" title="Perfil Cia Aérea">
               Cia Aérea
             </Link>
           </li>
