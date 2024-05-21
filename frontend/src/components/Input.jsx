@@ -4,7 +4,7 @@ import { findInputError } from '../utils/findInputError';
 import { isFormInvalid } from '../utils/isFormValid';
 import InputError from './InputError';
 
-export const Input = ({ label, type, id, placeholder, validation, name, classname }) => {
+export const Input = ({ label, type, id, placeholder, validation, name }) => {
   const {
     register,
     formState: { errors },
@@ -15,9 +15,9 @@ export const Input = ({ label, type, id, placeholder, validation, name, classnam
 
 
   return (
-    <div className="flex flex-col w-full gap-2">
-      <div className="flex justify-between">
-        <label htmlFor={id} className="font-semibold capitalize">
+    <div>
+      <div>
+        <label htmlFor={id} className="text-[#2B3674] font-medium">
           {label}
         </label>
         <AnimatePresence mode="wait" initial={false}>
@@ -29,13 +29,15 @@ export const Input = ({ label, type, id, placeholder, validation, name, classnam
           )}
         </AnimatePresence>
       </div>
-      <input
-        id={id}
-        type={type}
-        className={classname ? classname : "w-full p-5 font-medium border rounded-md border-slate-300 placeholder:opacity-60"}
-        placeholder={placeholder}
-        {...register(name, validation)}
-      />
+      <div className="border flex items-center justify-between h-14 rounded-2xl w-full">
+        <input
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          {...register(name, validation)}
+          className="w-full h-full rounded-2xl px-5"
+        />
+      </div>
     </div>
   );
 };

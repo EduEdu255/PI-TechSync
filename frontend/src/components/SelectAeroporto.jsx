@@ -41,7 +41,7 @@ function SelectAeroporto({ id, name, label }) {
         <select
           name={name}
           id={id}
-          className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+          className="border flex items-center justify-between h-14 rounded-2xl w-full px-5"
           {...register(name, {
             required: { value: true, message: "Campo Obrigatório" },
           })}

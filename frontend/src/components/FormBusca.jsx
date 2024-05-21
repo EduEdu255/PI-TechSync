@@ -67,16 +67,13 @@ const FormBusca = ({ onSubmit }) => {
           </div>
           <AnimatePresence mode="wait" initial={false}>
             {erros && (
-              <InputError
-                message={erros.message}
-                key={erros.message}
-              />
+              <InputError message={erros.message} key={erros.message} />
             )}
           </AnimatePresence>
           <div className="mt-5">
             <button
               onClick={methods.handleSubmit(handleFormSubmit)}
-              className="flex items-center gap-1 p-5 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-800"
+              className="flex w-[100%] bg-[#3758D0] h-14 gap-2 rounded-2xl my-7 items-center text-gray-50 font-semibold justify-center"
             >
               Buscar
             </button>

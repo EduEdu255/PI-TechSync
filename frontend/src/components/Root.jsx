@@ -1,15 +1,16 @@
 import { Outlet } from "react-router-dom";
-import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
+import { AnimatePresence } from "framer-motion";
 
 function Root() {
   return (
     <>
       <Header />
-      <div id="detais">
-        <Outlet />
-      </div>
-      <Footer />
+      <AnimatePresence mode="wait">
+        <div id="detais">
+          <Outlet />
+        </div>
+      </AnimatePresence>
     </>
   );
 }
