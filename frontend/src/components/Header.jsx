@@ -40,8 +40,8 @@ export function Header() {
 
   return (
     <>
-      <div className="bg-gray-300 mb-2">
-        <nav className="bg-white rounded-t-lg flex justify-between px-5 items-center">
+      <div className=" mb-2">
+        <nav className=" rounded-t-lg flex justify-between px-5 items-center">
           <div className="text-black font-bold text-xl">
             <Link to='/' className="rounded-lg  px-4 py-2 flex text-gray-600 items-center gap-3">
               <img src={LogoPousar} />
