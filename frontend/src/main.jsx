@@ -84,6 +84,11 @@ const router = createBrowserRouter([
     path: "registrar",
     element: <CadastroUsuario/>
   },
+  {
+    path: "troca_senha",
+    element: <TrocaSenha />,
+
+  },
   
 ]);
 
