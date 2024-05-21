@@ -18,7 +18,7 @@ function CadastroUsuario() {
         else {
             setErros(null);
         }
-        postData("/auth/register", data).then((_) => {
+        postData("/auth/register", data).then(() => {
             navigate("/login");
         }, (err) => {console.log(err)})        
     };
@@ -140,7 +140,7 @@ function CadastroUsuario() {
                             onClick={methods.handleSubmit(handleFormSubmit)}
                             className="flex items-center gap-1 p-5 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-800"
                         >
-                            Buscar
+                            Cadastrar
                         </button>
                     </div>
                 </form>

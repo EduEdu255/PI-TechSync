@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from '../Services/LoginContext';
 import { fetchData, loginUsuario } from '../Services/apiService';
 import { Loading } from "../components/Loading.jsx";
@@ -117,10 +117,10 @@ function TelaLogin2() {
           </button>
           <p>
             Não possui conta?
-            <a href="/new_conta.html" className="text-[#3758D0] font-semibold ">
-              {" "}
+            <Link to="/registrar" className="text-[#3758D0] font-semibold ">
+            {" "}
               Crie uma conta agora.
-            </a>
+            </Link>
           </p>
         </div>
       </form>
