@@ -1,14 +1,16 @@
-import styles from "../assets/css/Passagem.module.css"
-function Passagem({ origem, destino, cia, preco, ida, volta }) {
+import { Link } from "react-router-dom";
+
+function Passagem({ origem, destino, cia, preco, ida, volta, link }) {
     return (
-        <div className=' bg-slate-400 shadow-sm flex flex-col flex-wrap gap-5 w-1/2 rounded-lg'>
+        <div className=' bg-slate-400 shadow-sm flex flex-wrap gap-5 w-1/2 rounded-lg mb-3 p-5 m-auto'>
             <span>Origem: {origem.name} - {origem.iata}</span>
             <span>Destino: {destino.name} - {destino.iata}</span>
             <span>Cia Aérea: {cia} </span>
-            <span className={styles.preco }>Preço: R$ { preco }</span>
+            <span className="text-red-800 text-2xl">Preço: R$ { preco }</span>
             <span>Data Ida: {getDate(ida.dataHoraSaida)}</span>
+            <Link to={link} target="_blank"><button className="rounded-full bg-sky-600 text-white px-5 py-1">Reservar</button></Link>
             {volta ? <span>Data Volta: {getDate(volta.dataHoraSaida)}</span> : null}
-            <span className={ida.trocaAeroporto ? "text-red-800" : "" }>{ ida.trocaAeroporto ? "Troca" : "" }</span>
+            <span className={ida.trocaAeroporto ? "text-red-800 text-xl2" : "" }>{ ida.trocaAeroporto ? "Troca" : "" }</span>
         </div>
     )
 
