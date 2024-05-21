@@ -26,7 +26,7 @@ function SelectAeroporto({ id, name, label }) {
     <div className="flex flex-col w-full gap-2">
       <div className="flex flex-col justify-between">
         <div className="flex justify-between">
-          <label htmlFor={id} className="font-semibold capitalize">
+          <label htmlFor={id} className="text-[#2B3674] font-medium">
             {label}
           </label>
           <AnimatePresence mode="wait" initial={false}>

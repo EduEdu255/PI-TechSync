@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Input } from "../components/Input";
 import { FormProvider, useForm } from "react-hook-form";
 import { postData } from "../Services/apiService";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import InputError from "../components/InputError";
 import Loading from "../components/Loading";
+
 
 function CadastroUsuario() {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ function CadastroUsuario() {
     setVisible(!visible);
   }
   return (
-    <>
+    <AnimatePresence>
       <motion.div
         initial={{ x: 300, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -181,7 +182,7 @@ function CadastroUsuario() {
                 placeholder="Juazeiro do Norte"
                 name="municipio"
               />
-              <select name="uf" id="uf" className="border flex items-center justify-between h-14 px-5 rounded-2xl w-full">
+              <select name="uf" id="uf" className="border flex items-center justify-between h-14 px-5 rounded-2xl w-full mb-2">
                 <option value="AC">Acre</option>
                 <option value="AL">Alagoas</option>
                 <option value="AP">Amapá</option>
@@ -217,6 +218,7 @@ function CadastroUsuario() {
                 <InputError message={erros.message} key={erros.message} />
               )}
             </AnimatePresence>
+            <p>Já possui conta??  <Link to="/login" className="text-[#3758D0] font-semibold">Fazer Login</Link></p>
             <div className="mt-5">
               <button
                 onClick={methods.handleSubmit(handleFormSubmit)}
@@ -228,7 +230,7 @@ function CadastroUsuario() {
           </form>
         </FormProvider>
       </motion.div>
-    </>
+    </AnimatePresence>
   );
 }
 

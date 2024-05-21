@@ -34,10 +34,7 @@ const router = createBrowserRouter([
         path: "perfil",
         element: <Profile/>
       },
-      {
-        path: "registrar",
-        element: <CadastroUsuario/>
-      },
+
       {
         path: "contact",
         element: <Contact />,
@@ -71,7 +68,11 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <TelaLogin2 />,
-  }
+  },
+  {
+    path: "registrar",
+    element: <CadastroUsuario/>
+  },
   
 ]);
 
