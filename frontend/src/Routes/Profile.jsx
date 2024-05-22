@@ -12,7 +12,7 @@ export function Profile() {
     return (
       <>
         <img
-          className="rounded-full h-[250px] aspect-square object-cover"
+          className="rounded-full h-[250px] aspect-square object-cover hover:bg-[url('/images/camera.svg')] bg-cover bg-no-repeat opacity-25"
           src={
             loggedUser.profile_pic.includes("http")
               ? loggedUser.profile_pic
