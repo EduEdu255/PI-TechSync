@@ -18,7 +18,7 @@ export const InputPassword = ({ label, id, placeholder, validation, name }) => {
   const isInvalid = isFormInvalid(inputError);
 
   return (
-    <div>
+    <div className="w-full">
       <div>
         <label htmlFor={id} className="text-[#2B3674] font-medium">
           {label}

@@ -3,17 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../Services/LoginContext";
 import { fetchData, loginUsuario } from "../Services/apiService";
 import { Loading } from "../components/Loading.jsx";
-import LoginImg from "/images/Background 5.4.svg";
 import { AnimatePresence, motion } from "framer-motion";
 import { Input } from "../components/Input.jsx";
 import { useForm, FormProvider } from "react-hook-form";
-import { InputPassword } from '../components/InputPassword.jsx';
-
-
+import { InputPassword } from "../components/InputPassword.jsx";
 
 // import styles from '../assets/css/TelaLogin2.module.css';
 
-function TrocaSenha() {
+function TrocaSenhaCia() {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const { setIsLoggedIn, setLoggedUser } = useContext(LoginContext);
@@ -21,14 +18,15 @@ function TrocaSenha() {
   const [erros, setErros] = useState(null);
   const handleFormSubmit = (data) => {
     if (!data.password || !data.password_repeat) {
-      setErros({ message: "Senha e Repetir Senha são campos obrigatórios" })
+      setErros({ message: "Senha e Repetir Senha são campos obrigatórios" });
       return null;
     }
-  }
-  
+  };
+
   function onSubmit(event) {
     event.preventDefault();
     const data = {
+      login: event.target.login.value,
       password: event.target.password.value,
       password_repeat: event.target.password_repeat.value,
     };
@@ -112,11 +110,11 @@ function TrocaSenha() {
               <div className="flex flex-col gap-3">
                 <input type="hidden" name="token"></input>
                 <Input
-                  label="Email*"
-                  type="email"
-                  id="email"
-                  placeholder="Seu Email"
-                  name="email"
+                  label="Login*"
+                  type="text"
+                  id="login"
+                  placeholder="Seu Login"
+                  name="login"
                   validation={{
                     required: { value: true, message: "Campo Obrigatório" },
                   }}
@@ -164,7 +162,7 @@ function TrocaSenha() {
           </form>
         </FormProvider>
         {processando ? <Loading /> : null}
-        <div className="w-[50%] h-[100%] flex justify-center items-center rounded-bl-[150px] rounded-tl-lg bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat">
+        <div className="w-[50%] h-[100%] flex justify-center items-center rounded-bl-[150px] rounded-tl-lg bg-[url(/images/cia-troca-senha.jpg)] bg-cover bg-no-repeat">
           <img src="/images/logo-Pousar.png"></img>
         </div>
       </motion.div>
@@ -172,4 +170,4 @@ function TrocaSenha() {
   );
 }
 
-export default TrocaSenha;
+export default TrocaSenhaCia;

@@ -21,6 +21,10 @@ import { Profile } from "./Routes/Profile.jsx";
 import CadastroUsuario from "./Routes/CadastroUsuario.jsx";
 import PasswordRecovery from "./Routes/recoverypassword.jsx";
 import TrocaSenha from "./Routes/TrocaSenha.jsx";
+import CadastroCia from './Routes/CadastroCia.jsx';
+import LoginCia from './Routes/LoginCia.jsx';
+import TrocaSenhaCia from './Routes/TrocaSenhaCia.jsx';
+import EsqueciSenhaCia from './Routes/EsqueciSenhaCia.jsx';
 
 //Linkar Rotas
 const router = createBrowserRouter([
@@ -72,6 +76,26 @@ const router = createBrowserRouter([
         path: "perfil/troca-senha",
         element: <TrocaSenha />,
       },
+      {
+        path: "cia", children: [
+          {
+            path: "registrar",
+            element: <CadastroCia />
+          },
+          {
+            path: "login",
+            element: <LoginCia/>
+          },
+          {
+            path: "troca-senha",
+            element: <TrocaSenhaCia/>
+          },
+          {
+            path: "esqueci",
+            element: <EsqueciSenhaCia/>
+          }
+        ]
+      }
     ],
   },
 

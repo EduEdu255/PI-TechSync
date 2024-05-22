@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import InputError from "../components/InputError";
 import Loading from "../components/Loading";
 
-function CadastroUsuario() {
+function CadastroCia() {
   const navigate = useNavigate();
 
   const handleFormSubmit = (data) => {
@@ -23,10 +23,10 @@ function CadastroUsuario() {
       setErros(null);
     }
     setProcessando(true);
-    postData("/auth/register", data).then(
+    postData("/cia_aerea", data).then(
       () => {
         setProcessando(false);
-        navigate("/login");
+        navigate("/cia/login");
       },
       (err) => {
         setProcessando(false);
@@ -50,9 +50,7 @@ function CadastroUsuario() {
       >
         <FormProvider {...methods}>
           {processando ? <Loading /> : null}
-          <div className="w-[50%] flex justify-center items-center  bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat rounded-br-[150px]">
-            <img src="/images/logo-Pousar.png"></img>
-          </div>
+
           <form
             onSubmit={(e) => e.preventDefault()}
             noValidate
@@ -61,23 +59,47 @@ function CadastroUsuario() {
           >
             <div className="flex flex-col gap-5">
               <Input
-                label="Nome Completo*"
+                label="Razão Social*"
                 type="text"
-                id="nome"
-                placeholder="Nome Completo"
-                name="nome"
+                id="razao_social"
+                placeholder="Razão Social"
+                name="razao_social"
                 validation={{
                   required: { value: true, message: "Campo Obrigatório" },
                 }}
               />
               <Input
-                label="Email*"
-                type="email"
-                id="email"
-                placeholder="example@email.com"
-                name="email"
+                label="CNPJ*"
+                type="text"
+                id="cnpj"
+                placeholder="12345678000132"
+                name="cnpj"
                 validation={{
                   required: { value: true, message: "Campo Obrigatório" },
+                }}
+              />
+              <Input
+                label="Login*"
+                type="text"
+                id="login"
+                placeholder="Crie um login"
+                name="login"
+                validation={{
+                  required: { value: true, message: "Campo Obrigatório" },
+                }}
+              />
+              <Input
+                label="Código IATA*"
+                type="text"
+                id="codigo_iata"
+                placeholder="Seu código IATA"
+                name="codigo_iata"
+                validation={{
+                  required: { value: true, message: "Campo Obrigatório" },
+                  maxLenght: {
+                    value: 2,
+                    message: "Não pode ser maior que 2 caracteres",
+                  },
                 }}
               />
               <div className="flex gap-5 w-full justify-between items-center">
@@ -101,7 +123,10 @@ function CadastroUsuario() {
                   placeholder="Repita a Senha"
                   name="password_repeat"
                   validation={{
-                    required: { value: true, message: "Campo Obrigatório" },
+                    required: {
+                      value: true,
+                      message: "Campo Obrigatório",
+                    },
                     minLength: {
                       value: 8,
                       message: "Mínimo de 8 caracteres",
@@ -115,11 +140,11 @@ function CadastroUsuario() {
                 />
               </div>
               <Input
-                label="CPF"
-                type="text"
-                id="cpf"
-                placeholder="123.456.789-21"
-                name="cpf"
+                label="Email"
+                type="email"
+                id="email"
+                placeholder="contato@ciaarea.com"
+                name="email"
               />
               <Input
                 label="Telefone"
@@ -127,74 +152,14 @@ function CadastroUsuario() {
                 id="telefone"
                 placeholder="+55 88 987654321"
                 name="telefone"
-                className="border flex items-center justify-between h-14 px-5 rounded-2xl"
               />
               <Input
-                label="Logradouro"
-                type="text"
-                id="logradouro"
-                placeholder="Rua ..."
-                name="logradouro"
+                label="URL para reservas"
+                type="url"
+                id="url"
+                placeholder="https://www.ciaarea.com.br"
+                name="url"
               />
-              <div className="flex justify-between items-center gap-2 w-full">
-                <Input
-                  label="Número"
-                  type="text"
-                  id="numero"
-                  placeholder="123"
-                  name="numero"
-                  className="border flex items-center justify-between h-14 px-5 rounded-2xl w-full"
-                />
-                <Input
-                  label="Complemento"
-                  type="text"
-                  id="complemento"
-                  placeholder="Ap. 201"
-                  name="complemento"
-                  className="border flex items-center justify-between h-14 px-5 rounded-2xl w-full"
-                />
-              </div>
-              <Input
-                label="Município"
-                type="text"
-                id="municipio"
-                placeholder="Juazeiro do Norte"
-                name="municipio"
-              />
-              <select
-                name="uf"
-                id="uf"
-                className="border flex items-center justify-between h-14 px-5 rounded-2xl w-full mb-2"
-              >
-                <option value="AC">Acre</option>
-                <option value="AL">Alagoas</option>
-                <option value="AP">Amapá</option>
-                <option value="AM">Amazonas</option>
-                <option value="BA">Bahia</option>
-                <option value="CE">Ceará</option>
-                <option value="DF">Distrito Federal</option>
-                <option value="ES">Espírito Santo</option>
-                <option value="GO">Goiás</option>
-                <option value="MA">Maranhão</option>
-                <option value="MT">Mato Grosso</option>
-                <option value="MS">Mato Grosso do Sul</option>
-                <option value="MG">Minas Gerais</option>
-                <option value="PA">Pará</option>
-                <option value="PB">Paraíba</option>
-                <option value="PR">Paraná</option>
-                <option value="PE">Pernambuco</option>
-                <option value="PI">Piauí</option>
-                <option value="RJ">Rio de Janeiro</option>
-                <option value="RN">Rio Grande do Norte</option>
-                <option value="RS">Rio Grande do Sul</option>
-                <option value="RO">Rondônia</option>
-                <option value="RR">Roraima</option>
-                <option value="SC">Santa Catarina</option>
-                <option value="SP">São Paulo</option>
-                <option value="SE">Sergipe</option>
-                <option value="TO">Tocantins</option>
-                <option value="EX">Estrangeiro</option>
-              </select>
             </div>
             <AnimatePresence mode="wait" initial={false}>
               {erros && (
@@ -203,7 +168,7 @@ function CadastroUsuario() {
             </AnimatePresence>
             <p>
               Já possui conta??{" "}
-              <Link to="/login" className="text-[#3758D0] font-semibold">
+              <Link to="/cia/login" className="text-[#3758D0] font-semibold">
                 Fazer Login
               </Link>
             </p>
@@ -216,10 +181,13 @@ function CadastroUsuario() {
               </button>
             </div>
           </form>
+          <div className="w-[50%] flex justify-center items-center  bg-[url(/images/cia-registrar.jpg)] bg-cover bg-no-repeat rounded-bl-[150px] rounded-tl-[15px]">
+            <img src="/images/logo-Pousar.png"></img>
+          </div>
         </FormProvider>
       </motion.div>
     </AnimatePresence>
   );
 }
 
-export default CadastroUsuario;
+export default CadastroCia;

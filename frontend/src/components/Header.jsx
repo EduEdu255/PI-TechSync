@@ -12,18 +12,26 @@ export function Header() {
   const { isLoggedIn, loggedUser, setIsLoggedIn, setLoggedUser } =
     useContext(LoginContext);
   const profileImage = () => {
-    return loggedUser.profile_pic.includes("http")
-      ? loggedUser.profile_pic
-      : api_image_base_url + loggedUser.profile_pic;
-  };
+    if (!isLoggedIn || !loggedUser) {
+      return "";
+    } else if (loggedUser["@type"] == "User") {
+      return api_image_base_url + loggedUser.profile_pic;
+    } else if (loggedUser["@type"] == "GoogleUser") {
+      return loggedUser.profile_pic;
+    } else if (loggedUser["@type"] == "CiaAerea") {
+      return api_image_base_url + loggedUser.logo;
+    }
+    return "";
+  }
+  
   const menu = () => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn || !loggedUser) {
       return "";
     } else if (loggedUser["@type"] == "CiaAerea") {
       return (
         <>
           <li>
-            <Link to="/cia_aerea/perfil" title="Perfil Cia Aérea">
+            <Link to="/cia/perfil" title="Perfil Cia Aérea">
               Cia Aérea
             </Link>
           </li>
@@ -66,17 +74,12 @@ export function Header() {
               className="rounded-lg  px-4 py-2 flex text-gray-600 items-center gap-3"
             >
               <img
-                src={
-                  loggedUser && loggedUser.profile_pic
-                    ? profileImage() ?? ""
-                    : PerfilIcon
-                }
+                src={profileImage() ?? PerfilIcon}
                 className="h-[20px] rounded-full"
               />
               <p>
                 {isLoggedIn &&
-                (loggedUser["@type"] == "User" ||
-                  loggedUser["@type"] == "GoogleUser")
+                loggedUser
                   ? "Perfil"
                   : "Inicie Sessão"}
               </p>

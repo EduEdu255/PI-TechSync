@@ -3,17 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../Services/LoginContext";
 import { fetchData, loginUsuario } from "../Services/apiService";
 import { Loading } from "../components/Loading.jsx";
-import LoginImg from "/images/Background 5.4.svg";
 import { AnimatePresence, motion } from "framer-motion";
 import { Input } from "../components/Input.jsx";
 import { useForm, FormProvider } from "react-hook-form";
-import { InputPassword } from '../components/InputPassword.jsx';
-
-
+import { InputPassword } from "../components/InputPassword.jsx";
 
 // import styles from '../assets/css/TelaLogin2.module.css';
 
-function TrocaSenha() {
+function EsqueciSenhaCia() {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const { setIsLoggedIn, setLoggedUser } = useContext(LoginContext);
@@ -21,16 +18,15 @@ function TrocaSenha() {
   const [erros, setErros] = useState(null);
   const handleFormSubmit = (data) => {
     if (!data.password || !data.password_repeat) {
-      setErros({ message: "Senha e Repetir Senha são campos obrigatórios" })
+      setErros({ message: "Senha e Repetir Senha são campos obrigatórios" });
       return null;
     }
-  }
-  
+  };
+
   function onSubmit(event) {
     event.preventDefault();
     const data = {
-      password: event.target.password.value,
-      password_repeat: event.target.password_repeat.value,
+      email: event.target.email.value,
     };
     setProcessando(true);
     setErros(null);
@@ -105,52 +101,21 @@ function TrocaSenha() {
           >
             <div className=" min-w-[27vw]">
               {msgErro()}
-              <h1 className="text-[#2B3674] text-4xl ">Trocar Senha</h1>
+              <h1 className="text-[#2B3674] text-4xl ">Esqueceu a Senha?</h1>
               <p className="text-gray-400 my-7">
-                Digite sua nova senha e confirme novamente
+                Para redefinir sua senha, digite seu endereço de email ou nome
+                do usuário abaixo.
               </p>
               <div className="flex flex-col gap-3">
                 <input type="hidden" name="token"></input>
                 <Input
-                  label="Email*"
-                  type="email"
-                  id="email"
-                  placeholder="Seu Email"
-                  name="email"
+                  label="Login ou Email*"
+                  type="text"
+                  id="login"
+                  placeholder="Login ou Email"
+                  name="login"
                   validation={{
                     required: { value: true, message: "Campo Obrigatório" },
-                  }}
-                />
-                <InputPassword
-                  id="password"
-                  label="Nova Senha*"
-                  placeholder="Mínimo de 8 caracteres"
-                  name="password"
-                  validation={{
-                    required: { value: true, message: "Campo Obrigatório" },
-                    minLength: {
-                      value: 8,
-                      message: "Mínimo de 8 caracteres",
-                    },
-                  }}
-                />
-
-                <InputPassword
-                  label="Repita a senha*"
-                  id="password_repeat"
-                  placeholder="Repita a Senha"
-                  name="password_repeat"
-                  validation={{
-                    required: { value: true, message: "Campo Obrigatório" },
-                    minLength: {
-                      value: 8,
-                      message: "Mínimo de 8 caracteres",
-                    },
-                    validate: {
-                      repeat: (v) =>
-                        v == methods.getValues("password") ||
-                        "Senhas devem ser iguais",
-                    },
                   }}
                 />
               </div>
@@ -158,13 +123,13 @@ function TrocaSenha() {
                 onClick={methods.handleSubmit(handleFormSubmit)}
                 className="flex w-[100%] bg-[#3758D0] h-14 gap-2 rounded-2xl my-7 items-center text-gray-50 font-semibold justify-center"
               >
-                Alterar Senha
+                Resetar minha senha
               </button>
             </div>
           </form>
         </FormProvider>
         {processando ? <Loading /> : null}
-        <div className="w-[50%] h-[100%] flex justify-center items-center rounded-bl-[150px] rounded-tl-lg bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat">
+        <div className="w-[50%] h-[100%] flex justify-center items-center rounded-bl-[150px] rounded-tl-lg bg-[url(/images/cia-forget.jpg)] bg-cover bg-no-repeat">
           <img src="/images/logo-Pousar.png"></img>
         </div>
       </motion.div>
@@ -172,4 +137,4 @@ function TrocaSenha() {
   );
 }
 
-export default TrocaSenha;
+export default EsqueciSenhaCia;
