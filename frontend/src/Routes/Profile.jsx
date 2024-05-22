@@ -12,16 +12,23 @@ export function Profile() {
     return (
       <>
         <div>
-          <img src={api_image_base_url + loggedUser.profile_pic}></img>
+          <img
+            src={
+              loggedUser.profile_pic.includes("http")
+                ? loggedUser.profile_pic
+                : api_image_base_url + loggedUser.profile_pic
+            }
+          ></img>
         </div>
       </>
     );
-    };
-    useEffect(() => {   
-        if (!isLoggedIn) {
-            navigate("/");
-        }
-    },[isLoggedIn, navigate]) 
+  };
+  
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate]);
   if (!isLoggedIn) {
     return null;
   } else {
@@ -31,7 +38,13 @@ export function Profile() {
           <div>Nome: {loggedUser.nome}</div>
           <div>Email: {loggedUser.email}</div>
           <div>CPF: {loggedUser.cpf}</div>
-          <div>Endereço: {loggedUser.logradouro.length > 0 ? loggedUser.logradouro : ''}{loggedUser.numero.length > 0 ? " " + loggedUser.numero : ''}{loggedUser.complemento.length > 0 ? ", " + loggedUser.complemento : ''}{loggedUser.municipio.length > 0 ? ". " + loggedUser.municipio : ''}{loggedUser.uf.length > 0 ? "/" + loggedUser.uf: ''}</div>
+          <div>
+            Endereço: {loggedUser.logradouro ? loggedUser.logradouro : ""}
+            {loggedUser.numero ? " " + loggedUser.numero : ""}
+            {loggedUser.complemento ? ", " + loggedUser.complemento : ""}
+            {loggedUser.municipio ? ". " + loggedUser.municipio : ""}
+            {loggedUser.uf ? "/" + loggedUser.uf : ""}
+          </div>
           {loggedUser.profile_pic ? image() : null}
         </div>
       </>

@@ -1,10 +1,12 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../Services/LoginContext";
 import { fetchData, loginUsuario } from "../Services/apiService";
 import { Loading } from "../components/Loading.jsx";
 import LoginImg from "/images/Background 5.4.svg";
 import { AnimatePresence, motion } from "framer-motion";
+import { googleLogout, useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 // import styles from '../assets/css/TelaLogin2.module.css';
 
@@ -14,6 +16,52 @@ function TelaLogin2() {
   const { setIsLoggedIn, setLoggedUser } = useContext(LoginContext);
   const [processando, setProcessando] = useState(false);
   const [erros, setErros] = useState(null);
+  const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState([]);
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => setUser(codeResponse),
+    onError: (error) => console.log("Login Failed:", error),
+  });
+
+  //Login do google
+  useEffect(() => {
+    if (user) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.access_token}`,
+              Accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          setProfile(res.data);
+          const newUser = {
+            "@type": "GoogleUser",
+            nome: res.data.name,
+            email: res.data.email,
+            profile_pic: res.data.picture,
+          };
+          setLoggedUser(newUser)
+          setIsLoggedIn(true);
+          sessionStorage.setItem("loggedUser", JSON.stringify(newUser));
+          navigate("/perfil");
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [user, navigate, setIsLoggedIn, setLoggedUser]);
+
+  //Logout do Google
+  const logOut = () => {
+    googleLogout();
+    setProfile(null);
+    setLoggedUser(null);
+    sessionStorage.removeItem("loggedUser");
+  };
+
   function onSubmit(event) {
     event.preventDefault();
     const data = {
@@ -35,7 +83,10 @@ function TelaLogin2() {
             },
             (error) => {
               console.log("Erro ao buscar quem logou");
-              setErros({ message: "Não foi possível identificar os dados de cadastro do usuário. Contate um administrador" });
+              setErros({
+                message:
+                  "Não foi possível identificar os dados de cadastro do usuário. Contate um administrador",
+              });
               console.log(error);
               setProcessando(false);
             }
@@ -44,14 +95,14 @@ function TelaLogin2() {
           setIsLoggedIn(false);
           setLoggedUser(null);
           setProcessando(false);
-          setErros({message: "Login falhou. Cheque suas credenciais."})
+          setErros({ message: "Login falhou. Cheque suas credenciais." });
           sessionStorage.removeItem("loggedUser");
         }
       },
       (_) => {
         console.log(_);
         setProcessando(false);
-        setErros({message: "Login falhou. Cheque suas credenciais."})
+        setErros({ message: "Tentativa de Login falhou. Tente novamente mais tarde." });
       }
     );
   }
@@ -90,9 +141,10 @@ function TelaLogin2() {
             <p className="text-gray-400 my-7">
               Insira seu email e senha para continuar!
             </p>
+
             <button
               className="flex w-[100%] bg-[#F4F7FE] h-14 gap-2 rounded-2xl items-center text-[#2B3674] font-semibold justify-center"
-              type="button"
+              type="button" onClick={login}
             >
               <img
                 src="/images/Google__G__Logo 1.png"

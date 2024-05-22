@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { environment } from '../environment.js';
 
 //Importar Rotas
 import Contact from "./Routes/Contact.jsx";
@@ -14,8 +16,8 @@ import TesteRota from "./Routes/TesteRota.jsx";
 import Busca from "./Routes/Busca.jsx";
 import ErrorPage from "./Routes/ErrorPage/ErrorPage.jsx";
 import Root from "./components/Root.jsx";
-import { LoginContext, LoginContextProvider } from "./Services/LoginContext.jsx";
-import { Profile } from './Routes/Profile.jsx';
+import { LoginContextProvider } from "./Services/LoginContext.jsx";
+import { Profile } from "./Routes/Profile.jsx";
 import CadastroUsuario from "./Routes/CadastroUsuario.jsx";
 import PasswordRecovery from "./Routes/recoverypassword.jsx";
 import TrocaSenha from "./Routes/TrocaSenha.jsx";
@@ -34,14 +36,14 @@ const router = createBrowserRouter([
       },
       {
         path: "perfil",
-        element: <Profile/>
+        element: <Profile />,
       },
 
       {
         path: "contact",
         element: <Contact />,
       },
-     
+
       {
         path: "TesteFetch",
         element: <TesteFetchComponent />,
@@ -65,38 +67,39 @@ const router = createBrowserRouter([
       {
         path: "troca_senha",
         element: <PasswordRecovery />,
-
       },
       {
         path: "perfil/troca-senha",
-        element: <TrocaSenha/>
-      }
+        element: <TrocaSenha />,
+      },
     ],
-
   },
 
-  {/*-----------Login-------------*/},
+  {
+    /*-----------Login-------------*/
+  },
   {
     path: "/login",
     element: <TelaLogin2 />,
   },
   {
     path: "registrar",
-    element: <CadastroUsuario/>
+    element: <CadastroUsuario />,
   },
   {
     path: "troca_senha",
     element: <TrocaSenha />,
-
   },
-  
 ]);
 
-
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <LoginContextProvider value={{ isLoggedIn: false, setIsLoggedIn: () => {} }}>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-  </LoginContextProvider>
+  <GoogleOAuthProvider clientId={environment.googleId}>
+    <LoginContextProvider
+      value={{ isLoggedIn: false, setIsLoggedIn: () => {} }}
+    >
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    </LoginContextProvider>
+  </GoogleOAuthProvider>
 );
