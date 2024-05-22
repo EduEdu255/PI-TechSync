@@ -25,7 +25,7 @@ const FormBusca = ({ onSubmit }) => {
 
   const methods = useForm();
   return (
-    <div className=" w-3/5 m-auto">
+    <div className=" w-3/5 ml-auto mr-auto top-16 relative shadow-lg p-10 rounded-3xl bg-white">
       <h3 className="mb-7 font-bold">Busca de Passagens</h3>
       <FormProvider {...methods}>
         <form
@@ -33,7 +33,7 @@ const FormBusca = ({ onSubmit }) => {
           noValidate
           autoComplete="off"
         >
-          <div className="flex gap-5">
+          <div className="flex items-start gap-5">
             <SelectAeroporto name="origem" id="origem" label="Origem" />
             <SelectAeroporto name="destino" id="destino" label="Destino" />
             <Input
@@ -61,9 +61,9 @@ const FormBusca = ({ onSubmit }) => {
 
             <button
               onClick={methods.handleSubmit(handleFormSubmit)}
-              className="flex w-[100%] bg-[#3758D0] h-14 gap-2 rounded-2xl my-6 items-center text-gray-50 font-semibold justify-center"
+              className="flex w-[100%] bg-[#3758D0] h-14 gap-2 rounded-full my-6 items-center text-gray-200 font-semibold justify-center"
             >
-              Buscar
+              Procurar
             </button>
           </div>
         </form>

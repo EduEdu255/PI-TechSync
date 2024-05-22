@@ -9,6 +9,7 @@ import Loading from '../components/Loading';
 function Busca() {
   const [data, setData] = useState(null);
   const [result, setResult] = useState(null);
+  const [processando, setProcessando] = useState(false);
   const location = useLocation();
 
   const getDataFromLocation = useCallback(() => {
@@ -33,12 +34,15 @@ function Busca() {
       delete data.volta;
     }
     setResult(null);
+    setProcessando(true)
     postData("busca", data).then(
       (_) => {
+        setProcessando(false)
         setResult(_);
       },
       (_) => {
         console.log(_);
+        setProcessando(false)
         setResult([]);
       }
     );
@@ -51,8 +55,10 @@ function Busca() {
 
   return (
     <div>
+      <div className='mb-24'>
       <FormBusca onSubmit={submitBusca} />
-      <div>{result ? parseResult(result) : <Loading/>}</div>
+      </div>
+      <div>{!processando ? result ? parseResult(result) : null : <Loading/>}</div>
     </div>
   );
 
