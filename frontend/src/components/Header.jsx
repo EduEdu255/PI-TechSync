@@ -11,10 +11,6 @@ import { api_image_base_url } from "../Services/apiService";
 export function Header() {
   const { isLoggedIn, loggedUser, setIsLoggedIn, setLoggedUser } =
     useContext(LoginContext);
-  console.log("LoggedIn");
-  console.log(isLoggedIn);
-  console.log("loggedUser");
-  console.log(loggedUser);
   const profileImage = () => {
     return loggedUser.profile_pic.includes("http")
       ? loggedUser.profile_pic

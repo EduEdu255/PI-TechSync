@@ -4,28 +4,31 @@ import { useNavigate } from "react-router-dom";
 import { api_image_base_url } from "../Services/apiService";
 
 export function Profile() {
-  const { isLoggedIn, loggedUser } = useContext(LoginContext);
+  const { isLoggedIn, loggedUser, setIsLoggedIn, setLoggedUser } =
+    useContext(LoginContext);
   const navigate = useNavigate();
 
-  console.log(loggedUser);
   let image = () => {
     return (
       <>
-        <div>
-          <img
-            src={
-              loggedUser.profile_pic.includes("http")
-                ? loggedUser.profile_pic
-                : api_image_base_url + loggedUser.profile_pic
-            }
-          ></img>
-        </div>
+        <img
+          className="rounded-full h-[250px] aspect-square object-cover"
+          src={
+            loggedUser.profile_pic.includes("http")
+              ? loggedUser.profile_pic
+              : api_image_base_url + loggedUser.profile_pic
+          }
+        ></img>
       </>
     );
   };
-  
+
   useEffect(() => {
-    if (!isLoggedIn) {
+    const user = sessionStorage.getItem("loggedUser");
+    if (user) {
+      setIsLoggedIn(true);
+      setLoggedUser(JSON.parse(user));
+    } else {
       navigate("/");
     }
   }, [isLoggedIn, navigate]);
@@ -34,18 +37,35 @@ export function Profile() {
   } else {
     return (
       <>
-        <div className="bg-gray-400 w-1/2 m-auto rounded-md p-4">
-          <div>Nome: {loggedUser.nome}</div>
-          <div>Email: {loggedUser.email}</div>
-          <div>CPF: {loggedUser.cpf}</div>
-          <div>
-            Endereço: {loggedUser.logradouro ? loggedUser.logradouro : ""}
-            {loggedUser.numero ? " " + loggedUser.numero : ""}
-            {loggedUser.complemento ? ", " + loggedUser.complemento : ""}
-            {loggedUser.municipio ? ". " + loggedUser.municipio : ""}
-            {loggedUser.uf ? "/" + loggedUser.uf : ""}
+        <div className="bg-gray-400 w-4/5 m-auto rounded-3xl bg-[url(/images/profile-plane.jpg)] bg-cover bg-bottom shadow-lg">
+          <div className="h-[25vh]"></div>
+          <div className="bg-white w-full flex p-10 rounded-b-3xl">
+            <div className="rounded-full relative -top-[125px]">
+              {loggedUser.profile_pic ? image() : null}
+            </div>
+            <div className="w-2/3 flex justify-between items-start font-[Rubik] text-[24px] p-10">
+                <div className="flex flex-col gap-10">
+                  <div className="flex flex-col">
+                    <span className="font-normal">Nome:</span>
+                    <span className="font-light">{loggedUser.nome}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-normal">Senha:</span>
+                    <span className="font-light">********</span>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-10">
+                  <div className="flex flex-col">
+                    <span className="font-normal">Email:</span>
+                    <span className="font-light">{loggedUser.email}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-normal">Telefone:</span>
+                    <span className="font-light">{loggedUser.telefone}</span>
+                  </div>
+                </div>
+            </div>
           </div>
-          {loggedUser.profile_pic ? image() : null}
         </div>
       </>
     );
