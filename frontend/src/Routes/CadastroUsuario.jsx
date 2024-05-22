@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Input } from "../components/Input";
+import { InputPassword } from "../components/InputPassword";
 import { FormProvider, useForm } from "react-hook-form";
 import { postData } from "../Services/apiService";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,13 +8,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import InputError from "../components/InputError";
 import Loading from "../components/Loading";
 
-
 function CadastroUsuario() {
   const navigate = useNavigate();
 
   const handleFormSubmit = (data) => {
     if (!data.password || !data.password_repeat) {
-      setErros({ message: "Senha e Repetir Senha são campos obrigatórios" })
+      setErros({ message: "Senha e Repetir Senha são campos obrigatórios" });
       return null;
     }
     if (data.password !== data.password_repeat) {
@@ -34,14 +34,11 @@ function CadastroUsuario() {
       }
     );
   };
-  const [visible, setVisible] = useState(false);
   const [erros, setErros] = useState(null);
   const [processando, setProcessando] = useState(false);
 
   const methods = useForm();
-  function toggleVisible() {
-    setVisible(!visible);
-  }
+
   return (
     <AnimatePresence>
       <motion.div
@@ -80,60 +77,41 @@ function CadastroUsuario() {
                 name="email"
                 validation={{
                   required: { value: true, message: "Campo Obrigatório" },
-                }}
+                  }}
               />
               <div className="flex gap-5 w-full justify-between items-center">
-                <label
-                  htmlFor="password"
-                  className="text-[#2B3674] font-medium"
-                >
-                  Senha*
-                </label>
-                <div className="border flex items-center justify-between h-14 rounded-2xl">
-                  <input
-                    type={visible ? "text" : "password"}
-                    id="password"
-                    placeholder="Mínimo de 8 caracteres"
-                    name="password"
-                    className="w-full h-full rounded-2xl"
-                  />
+                <InputPassword
+                  id="password"
+                  label="Senha*"
+                  placeholder="Mínimo de 8 caracteres"
+                  name="password"
+                  validation={{
+                    required: { value: true, message: "Campo Obrigatório" },
+                    minLength: {
+                      value: 8,
+                      message: "Mínimo de 8 caracteres",
+                    },
+                  }}
+                />
 
-                  <img
-                    src={
-                      visible
-                        ? "/images/visibility-off.svg"
-                        : "/images/visibility.svg"
-                    }
-                    className="opacity-60"
-                    onClick={toggleVisible}
-                    id="btn_senha"
-                  ></img>
-                </div>
-                <label
-                  htmlFor="password_repeat"
-                  className="text-[#2B3674] font-medium"
-                >
-                  Repita a Senha*
-                </label>
-                <div className="border flex items-center justify-between h-14 rounded-2xl">
-                  <input
-                    type={visible ? "text" : "password"}
-                    id="password_repeat"
-                    placeholder="Repita a Senha"
-                    name="password_repeat"
-                    className="w-full h-full rounded-2xl"
-                  />
-                  <img
-                    src={
-                      visible
-                        ? "/images/visibility-off.svg"
-                        : "/images/visibility.svg"
-                    }
-                    className="opacity-60"
-                    onClick={toggleVisible}
-                    id="btn_senha"
-                  ></img>
-                </div>
+                <InputPassword
+                  label="Repita a senha*"
+                  id="password_repeat"
+                  placeholder="Repita a Senha"
+                  name="password_repeat"
+                  validation={{
+                    required: { value: true, message: "Campo Obsdfsdfrigatório" },
+                    minLength: {
+                      value: 8,
+                      message: "Mínimo de 8 caracteres",
+                    },
+                    validate: {
+                      repeat: (v) =>
+                        v == methods.getValues("password") ||
+                        "Senhas devem ser iguais",
+                    },
+                  }}
+                />
               </div>
               <Input
                 label="CPF"
@@ -182,7 +160,11 @@ function CadastroUsuario() {
                 placeholder="Juazeiro do Norte"
                 name="municipio"
               />
-              <select name="uf" id="uf" className="border flex items-center justify-between h-14 px-5 rounded-2xl w-full mb-2">
+              <select
+                name="uf"
+                id="uf"
+                className="border flex items-center justify-between h-14 px-5 rounded-2xl w-full mb-2"
+              >
                 <option value="AC">Acre</option>
                 <option value="AL">Alagoas</option>
                 <option value="AP">Amapá</option>
@@ -218,7 +200,12 @@ function CadastroUsuario() {
                 <InputError message={erros.message} key={erros.message} />
               )}
             </AnimatePresence>
-            <p>Já possui conta??  <Link to="/login" className="text-[#3758D0] font-semibold">Fazer Login</Link></p>
+            <p>
+              Já possui conta??{" "}
+              <Link to="/login" className="text-[#3758D0] font-semibold">
+                Fazer Login
+              </Link>
+            </p>
             <div className="mt-5">
               <button
                 onClick={methods.handleSubmit(handleFormSubmit)}
