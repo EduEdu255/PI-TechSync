@@ -40,7 +40,8 @@ class Passagem implements JsonSerializable
         $this->setCia();
     }
 
-    private function setCia(){
+    private function setCia()
+    {
         $cia = $this->ciaAerea;
         $iata = substr($cia, 0, 2);
         $noBanco = CiaAerea::where('codigo_iata', $iata)->get()->first();
@@ -122,12 +123,12 @@ class Passagem implements JsonSerializable
                             $queryParams[] = $str;
                         }
                     }
-                } else{
+                } else {
                     foreach ($value as $key2 => $value2) {
                         $queryParams[] = $key2 . "=" . $value2;
                     }
                 }
-            } else{
+            } else {
                 $queryParams[] = $key . "=" . $value;
             }
         }
@@ -171,6 +172,25 @@ class Passagem implements JsonSerializable
             $lastDestino = $trecho->getCodDestino();
         }
         return false;
+    }
+
+    private function durationAsInterval(int $duration): string
+    {
+        $horas = $duration % 60;
+        $minutos = $duration - ($horas * 60);
+        $interval = "PT";
+        if ($horas) {
+            $interval .= "{$horas}H";
+        }
+        if ($minutos > 0) {
+            $interval .= "{$minutos}M";
+        }
+        return $interval;
+    }
+
+    public static function fromBusca(array $idas, array $voltas = []): array
+    {
+        return array_merge($idas, $voltas);
     }
 
     /**
