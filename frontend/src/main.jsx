@@ -25,6 +25,7 @@ import CadastroCia from './Routes/CadastroCia.jsx';
 import LoginCia from './Routes/LoginCia.jsx';
 import TrocaSenhaCia from './Routes/TrocaSenhaCia.jsx';
 import EsqueciSenhaCia from './Routes/EsqueciSenhaCia.jsx';
+import { UserRoutes, CiaRoutes, AdminRoutes } from './Routes/RouteGuard.jsx'
 
 //Linkar Rotas
 const router = createBrowserRouter([
@@ -39,10 +40,14 @@ const router = createBrowserRouter([
         index: true,
       },
       {
-        path: "perfil",
-        element: <Profile />,
+        element: <UserRoutes />,
+        children: [
+          {
+            path: "perfil",
+            element: <Profile />,
+          },
+        ]
       },
-
       {
         path: "contact",
         element: <Contact />,
@@ -76,6 +81,7 @@ const router = createBrowserRouter([
         path: "perfil/troca-senha",
         element: <TrocaSenha />,
       },
+      
       {
         path: "cia", children: [
           {
