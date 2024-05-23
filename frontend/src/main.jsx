@@ -76,28 +76,32 @@ const router = createBrowserRouter([
         path: "perfil/troca-senha",
         element: <TrocaSenha />,
       },
-      {
-        path: "cia", children: [
-          {
-            path: "registrar",
-            element: <CadastroCia />
-          },
-          {
-            path: "login",
-            element: <LoginCia/>
-          },
-          {
-            path: "troca-senha",
-            element: <TrocaSenhaCia/>
-          },
-          {
-            path: "esqueci",
-            element: <EsqueciSenhaCia/>
-          }
-        ]
-      }
     ],
   },
+
+  {/*---------CIA----------*/},
+  
+  {
+    path: "cia", children: [
+      {
+        path: "registrar",
+        element: <CadastroCia />
+      },
+      {
+        path: "login",
+        element: <LoginCia/>
+      },
+      {
+        path: "troca-senha",
+        element: <TrocaSenhaCia/>
+      },
+      {
+        path: "esqueci",
+        element: <EsqueciSenhaCia/>
+      }
+    ]
+  },
+
 
   {
     /*-----------Login-------------*/
@@ -115,6 +119,8 @@ const router = createBrowserRouter([
     element: <TrocaSenha />,
   },
 ]);
+
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId={environment.googleId}>

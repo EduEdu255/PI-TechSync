@@ -46,18 +46,24 @@ function CadastroCia() {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: -300, opacity: 1 }}
         transition={{ duration: 1 }}
-        className="flex justify-between gap-5 h-screen"
+        className="flex justify-between  gap-5 h-screen"
       >
         <FormProvider {...methods}>
           {processando ? <Loading /> : null}
+
 
           <form
             onSubmit={(e) => e.preventDefault()}
             noValidate
             autoComplete="off"
-            className=" w-3/6 px-5"
+            className="flex  justify-center items-center flex-col w-[50%]  px-5"
           >
-            <div className="flex flex-col gap-5">
+            <div className=" py-7">
+              <h1 className="text-[#2B3674] text-4xl ">Registre sua conta empresarial</h1>
+            </div>
+            <div className="flex  flex-col gap-3 ">
+              <div className="flex  w-full justify-between">
+
               <Input
                 label="Razão Social*"
                 type="text"
@@ -78,6 +84,7 @@ function CadastroCia() {
                   required: { value: true, message: "Campo Obrigatório" },
                 }}
               />
+              </div>
               <Input
                 label="Login*"
                 type="text"
@@ -146,40 +153,45 @@ function CadastroCia() {
                 placeholder="contato@ciaarea.com"
                 name="email"
               />
-              <Input
-                label="Telefone"
-                type="text"
-                id="telefone"
-                placeholder="+55 88 987654321"
-                name="telefone"
-              />
-              <Input
-                label="URL para reservas"
-                type="url"
-                id="url"
-                placeholder="https://www.ciaarea.com.br"
-                name="url"
-              />
+              <div className="flex justify-between items-center">
+
+                <Input
+                  label="Telefone"
+                  type="text"
+                  id="telefone"
+                  placeholder="+55 88 987654321"
+                  name="telefone"
+                />
+                <Input
+                  label="URL para reservas"
+                  type="url"
+                  id="url"
+                  placeholder="https://www.ciaarea.com.br"
+                  name="url"
+                />
+              </div>
+            
+              <p className="my-5">
+                Já possui conta??{" "}
+                <Link to="/cia/login" className="text-[#3758D0] mt-5 font-semibold">
+                  Fazer Login
+                </Link>
+              </p>
+            
+              <button
+                onClick={methods.handleSubmit(handleFormSubmit)}
+                className="flex w-full bg-[#3758D0] h-14 gap-2 rounded-2xl  items-center text-gray-50 font-semibold justify-center"
+              >
+                Cadastrar
+              </button>
             </div>
             <AnimatePresence mode="wait" initial={false}>
               {erros && (
                 <InputError message={erros.message} key={erros.message} />
               )}
             </AnimatePresence>
-            <p>
-              Já possui conta??{" "}
-              <Link to="/cia/login" className="text-[#3758D0] font-semibold">
-                Fazer Login
-              </Link>
-            </p>
-            <div className="mt-5">
-              <button
-                onClick={methods.handleSubmit(handleFormSubmit)}
-                className="flex w-[100%] bg-[#3758D0] h-14 gap-2 rounded-2xl my-7 items-center text-gray-50 font-semibold justify-center"
-              >
-                Cadastrar
-              </button>
-            </div>
+            
+          
           </form>
           <div className="w-[50%] flex justify-center items-center  bg-[url(/images/cia-registrar.jpg)] bg-cover bg-no-repeat rounded-bl-[150px] rounded-tl-[15px]">
             <img src="/images/logo-Pousar.png"></img>
