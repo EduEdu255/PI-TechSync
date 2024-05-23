@@ -112,11 +112,13 @@ class BuscaController extends Controller
 
     private function getPossiveisVoos(string $codOrigem, string $codDestino, array $visitados = [], $maxConexoes = 2, ?string $horaMinima = null): array{
         if(!$horaMinima){
+            //Pesquisa voos independemente de hora de chegada de um anterior
             $voos = Voo::query()
                     ->where('cod_origem', $codOrigem)
                     ->whereNotIn('cod_destino', $visitados)
                     ->get();
         } else{
+            //Pesquisa voos que saem após a chegada do voo anterior (está em conexão)
             $voos = Voo::query()
                 ->where('cod_origem', $codOrigem)
                 ->where('hora_saida', '>', $horaMinima)
@@ -125,21 +127,30 @@ class BuscaController extends Controller
         }
 
 
-        $conexoes = [];
+        $possibilidades = [];
+
+        //Itera sobre os voos encontrados
         foreach($voos as $voo){
+            //Se o destino do voo é o buscado, então adiciona à array de conexões, uma array com o voo encontrado como item (chegou ao destino)
             if($voo->cod_destino == $codDestino){
-                $conexoes[] = [$voo];
+                $possibilidades[] = [$voo];
+                //Se não chegou ao destino, verifica se já chegou ao número máximo de conexões (2 por padrão)
             } else if(count($visitados) < $maxConexoes){
+                //Adiciona o destino aos aeroportos já visitados
                 $visitados[] = $voo->cod_destino;
+                //Busca recursiva de voos, a partir do destino do presente voo, para o destino pretendido, ou seja, pesquisa agora os voos a partir desta conexão
                 $conexoesDaqui = $this->getPossiveisVoos($voo->cod_destino, $codDestino, $visitados, $maxConexoes - 1, $voo->hora_chegada);
+                //Se encontrou conexões a partir daqui, para cada conexão encontrada, adiciona à array de conexões onde já tinha o voo anterior (para chegar nesse destino) as conexões possíveis
                 if(count($conexoesDaqui) > 0){
                     foreach($conexoesDaqui as $conexao){
-                        $conexoes[] = array_merge([$voo], $conexao);
+                        $possibilidades[] = array_merge([$voo], $conexao);
                     }
                 }
+                //Remove dos visitados para permitir pesquisa em outros voos
                 unset($visitados[array_search($voo->cod_destino, $visitados)]);
             }
         }
-        return $conexoes;
+        //Retorna os voos possíveis
+        return $possibilidades;
     }
 }
