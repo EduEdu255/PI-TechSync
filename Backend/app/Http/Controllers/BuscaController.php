@@ -93,8 +93,12 @@ class BuscaController extends Controller
         }
         $codOrigem = $data['origem'];
         $codDestino = $data['destino'];
-        $voos = $this->getPossiveisVoos($codOrigem, $codDestino);
-        return response()->json($voos);
+        $possibilidades = $this->getPossiveisVoos($codOrigem, $codDestino);
+        $retorno = [];
+        foreach($possibilidades as $possibilidade){
+            $retorno[] = VooResource::collection($possibilidade);
+        }
+        return response()->json($retorno);
     }
 
     /**
