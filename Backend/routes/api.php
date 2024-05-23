@@ -93,6 +93,7 @@ Route::controller(PagamentoController::class)->middleware('auth.aerea')->group(f
 Route::controller(BuscaController::class)->group(function () {
     Route::get('/busca', 'index');
     Route::post('/busca', 'store');
+    Route::post('/busca_local', 'buscar');
     Route::patch('/busca/reservar/{id}', 'reservar');
 });
 
