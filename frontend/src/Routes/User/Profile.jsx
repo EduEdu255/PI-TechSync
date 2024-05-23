@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
-import { LoginContext } from "../Services/LoginContext";
+import { LoginContext } from "../../Services/LoginContext";
 import { Link, useNavigate } from "react-router-dom";
-import { api_image_base_url } from "../Services/apiService";
+import { api_image_base_url } from "../../Services/apiService";
 
 export function Profile() {
   const { isLoggedIn, loggedUser, setIsLoggedIn, setLoggedUser } =
@@ -9,16 +9,23 @@ export function Profile() {
   const navigate = useNavigate();
 
   let image = () => {
+    const url = loggedUser.profile_pic.includes("http")
+      ? loggedUser.profile_pic
+      : api_image_base_url + loggedUser.profile_pic;
+    let urlHover = '';
+    if (loggedUser['@type'] == "User") {
+      urlHover = "/images/camera.svg";
+    }
+
     return (
       <>
-        <img
-          className="rounded-full h-[250px] aspect-square object-cover hover:bg-[url('/images/camera.svg')] bg-cover bg-no-repeat opacity-25"
-          src={
-            loggedUser.profile_pic.includes("http")
-              ? loggedUser.profile_pic
-              : api_image_base_url + loggedUser.profile_pic
-          }
-        ></img>
+        <div
+          style={{
+            "--image-url": `url(${url})`,
+            "--image-url-hover": `url(${urlHover}), url(${url})`,
+          }}
+          className={`rounded-full h-[250px] aspect-square object-cover bg-[image:var(--image-url)] bg-cover bg-no-repeat hover:bg-[image:var(--image-url-hover)]`}
+        ></div>
       </>
     );
   };
@@ -78,11 +85,12 @@ export function Profile() {
                   <span className="font-normal">Email:</span>
                   <span className="font-light">{loggedUser.email}</span>
                 </div>
-                {loggedUser["@type"] == "User" &&
+                {loggedUser["@type"] == "User" && (
                   <div className="flex flex-col">
                     <span className="font-normal">Telefone:</span>
                     <span className="font-light">{loggedUser.telefone}</span>
-                  </div>}
+                  </div>
+                )}
               </div>
             </div>
           </div>

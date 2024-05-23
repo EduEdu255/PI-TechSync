@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LoginContext } from "../Services/LoginContext";
-import { fetchData, loginUsuario } from "../Services/apiService";
-import { Loading } from "../components/Loading.jsx";
+import { LoginContext } from "../../Services/LoginContext.jsx";
+import { fetchData, loginUsuario } from "../../Services/apiService.jsx";
+import { Loading } from "../../components/Loading.jsx";
 import { AnimatePresence, motion } from "framer-motion";
-import { Input } from "../components/Input.jsx";
+import { Input } from "../../components/Input.jsx";
 import { useForm, FormProvider } from "react-hook-form";
-import { InputPassword } from "../components/InputPassword.jsx";
+import { InputPassword } from "../../components/InputPassword.jsx";
 
 // import styles from '../assets/css/TelaLogin2.module.css';
 

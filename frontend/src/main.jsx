@@ -6,26 +6,31 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { environment } from '../environment.js';
 
 //Importar Rotas
+
+//Rotas Root
 import Contact from "./Routes/Contact.jsx";
 import Home from "./Routes/Home.jsx";
-import TelaLogin2 from "./Routes/TelaLogin2.jsx";
-import TesteFetchComponent from "./Routes/TestePlano.jsx";
-import { LoginTeste } from "./Routes/TESTE_LOGIN.jsx";
-import { TesteMe } from "./Routes/TESTE_ME.jsx";
-import TesteRota from "./Routes/TesteRota.jsx";
 import Busca from "./Routes/Busca.jsx";
 import ErrorPage from "./Routes/ErrorPage/ErrorPage.jsx";
 import Root from "./components/Root.jsx";
-import { LoginContextProvider } from "./Services/LoginContext.jsx";
-import { Profile } from "./Routes/Profile.jsx";
-import CadastroUsuario from "./Routes/CadastroUsuario.jsx";
-import PasswordRecovery from "./Routes/recoverypassword.jsx";
-import TrocaSenha from "./Routes/TrocaSenha.jsx";
-import CadastroCia from './Routes/CadastroCia.jsx';
-import LoginCia from './Routes/LoginCia.jsx';
-import TrocaSenhaCia from './Routes/TrocaSenhaCia.jsx';
-import EsqueciSenhaCia from './Routes/EsqueciSenhaCia.jsx';
 import { UserRoutes, CiaRoutes, AdminRoutes } from './Routes/RouteGuard.jsx'
+import { LoginContextProvider } from "./Services/LoginContext.jsx";
+
+//User
+import CadastroUsuario from "./Routes/User/CadastroUsuario.jsx";
+import TelaLogin from "./Routes/User/TelaLogin.jsx";
+import TrocaSenha from "./Routes/User/TrocaSenha.jsx";
+import { Profile } from "./Routes/User/Profile.jsx";
+
+//Cia Aérea
+import CadastroCia from './Routes/Cia/CadastroCia.jsx';
+import LoginCia from './Routes/Cia/LoginCia.jsx';
+import EsqueciSenhaCia from './Routes/Cia/EsqueciSenhaCia.jsx';
+import TrocaSenhaCia from './Routes/Cia/TrocaSenhaCia.jsx';
+
+//Componentes sem uso?
+import TesteFetchComponent from "./Routes/TestePlano.jsx";
+import PasswordRecovery from "./Routes/recoverypassword.jsx";
 
 //Linkar Rotas
 const router = createBrowserRouter([
@@ -56,18 +61,6 @@ const router = createBrowserRouter([
       {
         path: "TesteFetch",
         element: <TesteFetchComponent />,
-      },
-      {
-        path: "Login_Teste",
-        element: <LoginTeste />,
-      },
-      {
-        path: "me",
-        element: <TesteMe />,
-      },
-      {
-        path: "testeRota",
-        element: <TesteRota />,
       },
       {
         path: "busca",
@@ -113,7 +106,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <TelaLogin2 />,
+    element: <TelaLogin />,
   },
   {
     path: "registrar",

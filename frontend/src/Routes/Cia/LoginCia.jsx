@@ -1,79 +1,31 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LoginContext } from "../Services/LoginContext";
-import { fetchData, loginUsuario } from "../Services/apiService";
-import { Loading } from "../components/Loading.jsx";
-import LoginImg from "/images/Background 5.4.svg";
+import { LoginContext } from "../../Services/LoginContext.jsx";
+import { fetchData, loginCiaAerea} from "../../Services/apiService.jsx";
+import { Loading } from "../../components/Loading.jsx";
 import { AnimatePresence, motion } from "framer-motion";
-import { googleLogout, useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
 
-// import styles from '../assets/css/TelaLogin2.module.css';
-
-function TelaLogin2() {
+function LoginCia() {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const { setIsLoggedIn, setLoggedUser } = useContext(LoginContext);
   const [processando, setProcessando] = useState(false);
   const [erros, setErros] = useState(null);
-  const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState([]);
 
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => setUser(codeResponse),
-    onError: (error) => console.log("Login Failed:", error),
-  });
-
-  //Login do google
-  useEffect(() => {
-    if (user) {
-      axios
-        .get(
-          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.access_token}`,
-              Accept: "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          setProfile(res.data);
-          const newUser = {
-            "@type": "GoogleUser",
-            nome: res.data.name,
-            email: res.data.email,
-            profile_pic: res.data.picture,
-          };
-          setLoggedUser(newUser)
-          setIsLoggedIn(true);
-          sessionStorage.setItem("loggedUser", JSON.stringify(newUser));
-          navigate("/perfil");
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [user, navigate, setIsLoggedIn, setLoggedUser]);
-
-  //Logout do Google
-  const logOut = () => {
-    googleLogout();
-    setProfile(null);
-    setLoggedUser(null);
-    sessionStorage.removeItem("loggedUser");
-  };
 
   function onSubmit(event) {
-    event.preventDefault();
+      event.preventDefault();
+      console.log(event.target.value);
     const data = {
-      email: event.target.email.value,
+      login: event.target.login.value,
       password: event.target.password.value,
     };
     setProcessando(true);
     setErros(null);
-    loginUsuario(data).then(
+    loginCiaAerea(data).then(
       (_) => {
         if (_ === true) {
-          fetchData("/auth/me").then(
+          fetchData("/cia_aerea/profile").then(
             (user) => {
               setLoggedUser(user);
               sessionStorage.setItem("loggedUser", JSON.stringify(user));
@@ -82,10 +34,10 @@ function TelaLogin2() {
               navigate("/perfil");
             },
             (error) => {
-              console.log("Erro ao buscar quem logou");
+              console.log("Erro ao buscar dados da cia aérea logou");
               setErros({
                 message:
-                  "Não foi possível identificar os dados de cadastro do usuário. Contate um administrador",
+                  "Não foi possível identificar os dados de cadastro da companhia aérea. Contate um administrador",
               });
               console.log(error);
               setProcessando(false);
@@ -102,7 +54,9 @@ function TelaLogin2() {
       (_) => {
         console.log(_);
         setProcessando(false);
-        setErros({ message: "Tentativa de Login falhou. Tente novamente mais tarde." });
+        setErros({
+          message: "Tentativa de Login falhou. Tente novamente mais tarde.",
+        });
       }
     );
   }
@@ -139,35 +93,18 @@ function TelaLogin2() {
             {msgErro()}
             <h1 className="text-[#2B3674] text-4xl ">Entrar</h1>
             <p className="text-gray-400 my-7">
-              Insira seu email e senha para continuar!
+              Insira seu login e senha para continuar!
             </p>
-
-            <button
-              className="flex w-[100%] bg-[#F4F7FE] h-14 gap-2 rounded-2xl items-center text-[#2B3674] font-semibold justify-center"
-              type="button"
-              onClick={login}
-            >
-              <img
-                src="/images/Google__G__Logo 1.png"
-                alt="imagem_google"
-              ></img>
-              Entrar com Google
-            </button>
-            <div className="flex items-center my-7 justify-center">
-              <div className="bg-gray-300 h-[1px] w-[40%]"></div>
-              <p className="mx-5 text-gray-300">ou</p>
-              <div className="bg-gray-300 h-[1px] w-[40%]"></div>
-            </div>
             <div className="flex flex-col gap-3">
-              <label htmlFor="email" className="text-[#2B3674] font-medium">
-                E-mail*
+              <label htmlFor="login" className="text-[#2B3674] font-medium">
+                Login*
               </label>
               <input
-                type="email"
-                name="email"
-                id="email"
+                type="text"
+                name="login"
+                id="login"
                 className="border flex items-center justify-between h-14 px-5 rounded-2xl"
-                placeholder="seuemail@gmail.com"
+                placeholder="Login"
               ></input>
               <label htmlFor="senha" className="text-[#2B3674] font-medium">
                 Senha*
@@ -198,7 +135,7 @@ function TelaLogin2() {
                 <label htmlFor="mante">Mantenha logado</label>
               </div>
               <div className="text-[#3758D0] font-semibold ">
-                <a href="#">Esqueceu sua senha?</a>
+                <Link to="/cia/esqueci">Esqueceu sua senha?</Link>
               </div>
             </div>
             <button className="flex w-[100%] bg-[#3758D0] h-14 gap-2 rounded-2xl my-7 items-center text-gray-50 font-semibold justify-center">
@@ -206,7 +143,7 @@ function TelaLogin2() {
             </button>
             <p>
               Não possui conta?
-              <Link to="/registrar" className="text-[#3758D0] font-semibold">
+              <Link to="/cia/registrar" className="text-[#3758D0] font-semibold">
                 {" "}
                 Crie uma conta agora.
               </Link>
@@ -214,13 +151,13 @@ function TelaLogin2() {
           </div>
         </form>
 
-        {processando ? <Loading /> : null}
-        <div className="w-[50%] h-[100%] flex justify-center items-center rounded-bl-[150px]  bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat">
-          <img src="/images/logo-Pousar.png"></img>
+          {processando ? <Loading /> : null}
+              <div className="w-[50%] h-[100%] flex justify-center items-center rounded-bl-[150px] rounded-tl-lg  bg-[url(/images/cia-login.jpg)] bg-cover bg-no-repeat">
+                  <img src="/images/logo-Pousar.png"></img>
         </div>
       </motion.div>
     </AnimatePresence>
   );
 }
 
-export default TelaLogin2;
+export default LoginCia;

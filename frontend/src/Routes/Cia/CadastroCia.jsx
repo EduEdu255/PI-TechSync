@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Input } from "../components/Input";
-import { InputPassword } from "../components/InputPassword";
+import { Input } from "../../components/Input";
+import { InputPassword } from "../../components/InputPassword";
 import { FormProvider, useForm } from "react-hook-form";
-import { postData } from "../Services/apiService";
+import { postData } from "../../Services/apiService";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import InputError from "../components/InputError";
-import Loading from "../components/Loading";
+import InputError from "../../components/InputError";
+import Loading from "../../components/Loading";
 
 function CadastroCia() {
   const navigate = useNavigate();
