@@ -145,7 +145,7 @@ function TelaLogin2() {
                 <label htmlFor="mante">Mantenha logado</label>
               </div>
               <div className="text-[#3758D0] font-semibold ">
-                <a href="#">Esqueceu sua senha?</a>
+                <a href="http://localhost:5173/troca_senha">Esqueceu sua senha?</a>
               </div>
             </div>
             <button className="flex w-[100%] bg-[#3758D0] h-14 gap-2 rounded-2xl my-7 items-center text-gray-50 font-semibold justify-center">
