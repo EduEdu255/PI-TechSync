@@ -28,7 +28,7 @@ class BuscaResource extends JsonResource
             "passagens" => $this->whenHas('passagens', $this->passagens),
         ];
         if(isset($this->passagens)){
-            $retorno['quantidade'] = count($this->passagens);
+            $retorno['quantidade'] = count($this->passagens['ida']) + count($this->passagens['volta']);
         }
         return $retorno;
     }

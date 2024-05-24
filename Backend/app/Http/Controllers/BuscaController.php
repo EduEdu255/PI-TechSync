@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Collection;
 use App\Services\AmadeusApiService;
+use App\Models\Voo;
+use App\Models\Helpers\PassagemLocal;
 use App\Models\Helpers\Passagem;
+use App\Models\CiaAerea;
 use App\Models\Busca;
+use App\Models\Assinatura;
+use App\Http\Resources\VooResource;
 use App\Http\Resources\BuscaResource;
 use App\Http\Requests\BuscaRequest;
-use App\Http\Resources\VooResource;
-use App\Models\Assinatura;
-use App\Models\CiaAerea;
-use App\Models\Voo;
-use Illuminate\Support\Collection;
 
 class BuscaController extends Controller
 {
@@ -97,16 +98,15 @@ class BuscaController extends Controller
         $possibilidades = $this->getPossiveisVoos($codOrigem, $codDestino, $cias);
         $idas = [];
         foreach ($possibilidades as $possibilidade) {
-            $idas[] = VooResource::collection($possibilidade);
+            $idas[] = $possibilidade;
         }
         $voltas=[];
         if (!!$retorno) {
             $possibilidades = $this->getPossiveisVoos($codDestino, $codOrigem, $cias);
             foreach ($possibilidades as $possibilidade) {
-                $voltas[] = VooResource::collection($possibilidade);
+                $voltas[] = $possibilidade;
             }
         }
-        $passagens = Passagem::fromBusca($idas, $voltas);
         $busca = new Busca();
         $busca->fill($data);
         $busca->data_saida = $saida->format('Y-m-d');
@@ -118,6 +118,7 @@ class BuscaController extends Controller
         if (!!$user) {
             $busca->users()->associate($user);
         }
+        $passagens = PassagemLocal::fromBusca($busca, $idas, $voltas);
         $busca->save();
         $busca->passagens = $passagens;
         return new BuscaResource($busca);

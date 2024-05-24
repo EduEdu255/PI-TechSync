@@ -35,7 +35,7 @@ function Busca() {
     }
     setResult(null);
     setProcessando(true)
-    postData("busca", data).then(
+    postData("busca_local", data).then(
       (_) => {
         setProcessando(false)
         setResult(_);
@@ -83,10 +83,15 @@ function Busca() {
           </p>
           <p>Ida: {getDate(dados.ida + " 00:00:00")}</p>
           {dados.volta ? <p>Volta: {getDate(dados.volta + " 00:00:00")}</p> : null}
-          <p>Passagens: {passagens.map((x) => {
+          <p >Passagens de Ida: {passagens.ida.map((x) => {
             return mapPassagem(x, dados.id);
 
           })}</p>
+          {dados.volta &&
+            <p>Passagens de Volta: {passagens.volta.map((x) => {
+              return mapPassagem(x, dados.id);
+
+            })}</p>}
         </div>
       </>
     );
@@ -109,12 +114,13 @@ function Busca() {
         id={id}
         origem={findAeroporto(passagem.origem)}
         destino={findAeroporto(passagem.destino)}
-        cia={passagem.ciaAerea}
+        cia={passagem.ciaAerea.razao_social}
         preco={passagem.preco}
-        ida={passagem.ida}
-        volta={passagem.volta ? passagem.volta : null}
+        dataHoraSaida={passagem.dataHoraSaida}
+        dataHoraChegada={passagem.dataHoraChegada}
         link={passagem.linkBusca}
-        logo = {passagem.cia.logo}
+        trechos={passagem.trechos}
+        logo = {passagem.ciaAerea.logo}
       />
     );
   }

@@ -2,10 +2,12 @@
 
 namespace App\Models\Helpers;
 
-use App\Models\CiaAerea;
 use JsonSerializable;
-use DateTime;
 use Illuminate\Support\Facades\DB;
+use DateTime;
+use App\Models\Voo;
+use App\Models\CiaAerea;
+use App\Models\Busca;
 
 class Passagem implements JsonSerializable
 {
@@ -174,7 +176,7 @@ class Passagem implements JsonSerializable
         return false;
     }
 
-    private function durationAsInterval(int $duration): string
+    private static function durationAsInterval(int $duration): string
     {
         $horas = $duration % 60;
         $minutos = $duration - ($horas * 60);
@@ -188,8 +190,14 @@ class Passagem implements JsonSerializable
         return $interval;
     }
 
-    public static function fromBusca(array $idas, array $voltas = []): array
+    public static function fromBusca(Busca $busca, array $idas, array $voltas = []): array
     {
+        $passagens = [];
+        $dataSaida = new DateTime($busca->data_saida);
+        $dataChegada = new DateTime($busca->data_chegada);
+        foreach ($idas as $ida) {
+            $trechosida = array_map('self::mapVooLocalToTrecho', $ida);
+        }
         return array_merge($idas, $voltas);
     }
 
@@ -277,5 +285,20 @@ class Passagem implements JsonSerializable
         $duracao = $segment['duration'];
 
         return new Trecho($saida, $chegada, $duracao, $origem, $destino, $number, $cia, $aeronave);
+    }
+
+    private static function mapVooLocalToTrecho(Voo $voo)
+    {
+        $timeSaida = explode(":", $voo->hora_saida);
+        $timeChegada = explode(":", $voo->hora_chegada);
+        $dataSaida = (new \DateTime())->setTime($timeSaida[0], $timeSaida[1]);
+        $dataChegada = (new \DateTime())->setTime($timeChegada[0], $timeChegada[1]);
+        $origem = $voo->cod_origem;
+        $destino = $voo->cod_destino;
+        $numero = $voo->numero;
+        $cia = $voo->ciaAerea->codigo_iata . " - " . $voo->ciaAerea->razao_social;
+        $aeronave = $voo->aeronave->sigla . " - " . $voo->aeronave->marca;
+        $duracao = self::durationAsInterval($voo->duracao);
+        return new Trecho($dataSaida, $dataChegada, $duracao, $origem, $destino, $numero, $cia, $aeronave);
     }
 }
