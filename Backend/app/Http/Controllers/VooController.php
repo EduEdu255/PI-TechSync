@@ -96,6 +96,7 @@ class VooController extends Controller
             return response()->json(['success' => false, 'message' => 'Vôo não pertence à sua companhia aérea'],403);
         }
         $voo->fill($request->all());
+        $voo->duracao = $this->calculateDuracao($voo->hora_saida, $voo->hora_chegada);
         $voo->save();
         return new VooResource($voo);
     }
