@@ -63,10 +63,15 @@ Route::controller(AeronaveController::class)->middleware('auth.aerea')->group(fu
 
 Route::controller(AssinaturaController::class)->middleware('auth.aerea')->group(function () {
     Route::post('/assinatura', 'store');
-    Route::get('/assinatura', 'index');
     Route::get('/assinatura/{id}', 'show');
     Route::patch('/assinatura/{id}', 'update');
     Route::delete('/assinatura/{id}', 'destroy');
+});
+
+Route::controller(AssinaturaController::class)->middleware('isAdmin')->group(function(){
+    Route::get('/assinatura', 'index');
+    Route::get('/assinatura/{id}/ativar', 'ativarAssinatura');
+    Route::get('/assinatura/{id}/desativar', 'desativarAssinatura');
 });
 
 Route::controller(PlanoController::class)->group(function () {

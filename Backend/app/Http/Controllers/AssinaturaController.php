@@ -112,4 +112,18 @@ class AssinaturaController extends Controller
         $assinatura->save();
         return response()->json(['success' => true, 'message' => 'Assinatura apagada com sucesso'], 200);
     }
+
+    public function ativarAssinatura(string $id){
+        $assinatura = Assinatura::findOrFail($id);
+        $assinatura->ativa = true;
+        $assinatura->save();
+        return response()->json(new AssinaturaResource($assinatura));
+    }
+    public function desativarAssinatura(string $id)
+    {
+        $assinatura = Assinatura::findOrFail($id);
+        $assinatura->ativa = false;
+        $assinatura->save();
+        return response()->json(new AssinaturaResource($assinatura));
+    }
 }
