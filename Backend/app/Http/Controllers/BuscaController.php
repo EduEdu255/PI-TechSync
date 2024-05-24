@@ -94,14 +94,14 @@ class BuscaController extends Controller
         }
         $codOrigem = $data['origem'];
         $codDestino = $data['destino'];
-        $possibilidades = $this->getPossiveisVoos($codOrigem, $codDestino, ['G3']);
+        $possibilidades = $this->getPossiveisVoos($codOrigem, $codDestino, $cias);
         $idas = [];
         foreach ($possibilidades as $possibilidade) {
             $idas[] = VooResource::collection($possibilidade);
         }
         $voltas=[];
         if (!!$retorno) {
-            $possibilidades = $this->getPossiveisVoos($codDestino, $codOrigem, ['G3']);
+            $possibilidades = $this->getPossiveisVoos($codDestino, $codOrigem, $cias);
             foreach ($possibilidades as $possibilidade) {
                 $voltas[] = VooResource::collection($possibilidade);
             }
