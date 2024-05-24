@@ -23,7 +23,7 @@ class VooController extends Controller
     {
         $cia = auth('aereas')->user();
 
-        return VooResource::collection(Voo::where('cia_aerea_id', $cia->id)->paginate(30));
+        return VooResource::collection(Voo::where('cia_aerea_id', $cia->id));
     }
 
     /**

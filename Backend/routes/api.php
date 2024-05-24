@@ -98,6 +98,8 @@ Route::controller(BuscaController::class)->group(function () {
 });
 
 Route::controller(PasswordController::class)->group(function(){
-    Route::post('/forgot_password', 'sendLink');
-    Route::post('/reset_password', 'reset');
+    Route::post('/user/forgot_password', 'sendLink');
+    Route::post('/user/reset_password', 'reset');
+    Route::post('/cia_aerea/forgot_password', 'sendLinkCia');
+    Route::post('/cia_aerea/reset_password', 'resetCia');
 });
