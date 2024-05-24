@@ -4,7 +4,7 @@ import { findInputError } from '../utils/findInputError';
 import { isFormInvalid } from '../utils/isFormValid';
 import InputError from './InputError';
 
-export const Input = ({ label, type, id, placeholder, validation, name }) => {
+export const Input = ({ label, type, id, placeholder, validation, name, step }) => {
   const {
     register,
     formState: { errors },
@@ -34,6 +34,7 @@ export const Input = ({ label, type, id, placeholder, validation, name }) => {
           id={id}
           type={type}
           placeholder={placeholder}
+          step={step}
           {...register(name, validation)}
           className="w-full h-full rounded-2xl px-5"
         />

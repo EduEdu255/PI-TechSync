@@ -34,8 +34,26 @@ const FormBusca = ({ onSubmit }) => {
           autoComplete="off"
         >
           <div className="flex items-start gap-5">
-            <SelectAeroporto name="origem" id="origem" label="Origem" />
-            <SelectAeroporto name="destino" id="destino" label="Destino" />
+            <SelectAeroporto
+              name="origem"
+              id="origem"
+              label="Origem"
+              addedValidation={{
+                validate: (v) =>
+                  v !== methods.getValues("destino") ||
+                  "Origem deve ser diferente do Destino",
+              }}
+            />
+            <SelectAeroporto
+              name="destino"
+              id="destino"
+              label="Destino"
+              addedValidation={{
+                validate: (v) =>
+                  v !== methods.getValues("origem") ||
+                  "Destino deve ser diferente da Origem",
+              }}
+            />
             <Input
               label="Ida"
               type="date"

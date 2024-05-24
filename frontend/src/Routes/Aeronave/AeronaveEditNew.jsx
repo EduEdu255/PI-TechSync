@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
 import { Input } from "../../components/Input";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
-import { editData, fetchData, fetchItemData, postData } from "../../Services/apiService";
+import {
+  editData,
+  fetchData,
+  fetchItemData,
+  postData,
+} from "../../Services/apiService";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import InputError from "../../components/InputError";
 import Loading from "../../components/Loading";
-
 
 function CadastroAeronave() {
   const navigate = useNavigate();
@@ -16,12 +20,14 @@ function CadastroAeronave() {
 
   const handleFormSubmit = (data) => {
     setProcessando(true);
-    let request = postData("/aeronave", data)
-    if(aeronave){
-       request = editData("/aeronave", data, aeronave.id)
+    let request = undefined;
+    if (aeronave) {
+      request = editData("/aeronave", data, aeronave.id);
+    } else {
+      request = postData("/aeronave", data);
     }
-    setProcessando(true)
-   request.then(
+    setProcessando(true);
+    request.then(
       () => {
         setProcessando(false);
         navigate("/aeronave");
@@ -35,29 +41,33 @@ function CadastroAeronave() {
   const [erros, setErros] = useState(null);
   const [processando, setProcessando] = useState(false);
 
-  const getAeronave = useCallback((id) => {
-    if (id) {
-      setProcessando(true)
-      fetchItemData("aeronave", id).then((_) => {
-        setAeronave(_)
-        methods.setValue('sigla', _.sigla)
-        methods.setValue('id', _.id)
-        methods.setValue('marca', _.marca)
-        methods.setValue('qte_assentos', _.quantidadeAssentos)
-        setProcessando(false)
-      }, (err) => {
-        console.log(err)
-        setProcessando(false)
-      })
-    }
-  }, id);
+  const getAeronave = useCallback(
+    (id) => {
+      if (id) {
+        setProcessando(true);
+        fetchItemData("aeronave", id).then(
+          (_) => {
+            setAeronave(_);
+            methods.setValue("sigla", _.sigla);
+            methods.setValue("marca", _.marca);
+            methods.setValue("qte_assentos", _.quantidadeAssentos);
+            setProcessando(false);
+          },
+          (err) => {
+            console.log(err);
+            setProcessando(false);
+          }
+        );
+      }
+    },
+    [methods]
+  );
 
   useEffect(() => {
-    if (id && methods && methods.setValue
-      ) {
-      getAeronave(id)
+    if (id && methods && methods.setValue) {
+      getAeronave(id);
     }
-  }, [getAeronave, id]);
+  }, [getAeronave, id, methods]);
 
   return (
     <AnimatePresence>
@@ -79,10 +89,11 @@ function CadastroAeronave() {
               className="flex  justify-center items-center flex-col m-auto px-5"
             >
               <div className=" py-7">
-                <h1 className="text-[#2B3674] text-4xl ">{aeronave ? "Atualizar" : "Cadastrar"} Aeronave</h1>
+                <h1 className="text-[#2B3674] text-4xl ">
+                  {aeronave ? "Atualizar" : "Cadastrar"} Aeronave
+                </h1>
               </div>
               <div className="flex  flex-col gap-3 ">
-                <Input type="hidden" name='id'></Input>
                 <Input
                   label="Sigla*"
                   type="text"
@@ -92,7 +103,7 @@ function CadastroAeronave() {
                   value={aeronave?.sigla}
                   validation={{
                     required: { value: true, message: "Campo Obrigatório" },
-                    maxLenght: { value: 3, message: "Limite de 3 caracteres" }
+                    maxLenght: { value: 3, message: "Limite de 3 caracteres" },
                   }}
                 />
                 <Input
@@ -119,9 +130,7 @@ function CadastroAeronave() {
                   onClick={methods.handleSubmit(handleFormSubmit)}
                   className="flex w-full bg-[#3758D0] h-14 gap-2 rounded-2xl  items-center text-gray-50 font-semibold justify-center"
                 >
-                  {
-                    aeronave ? "Atualizar" : "Cadastrar"
-                  }
+                  {aeronave ? "Atualizar" : "Cadastrar"}
                 </button>
               </div>
               <AnimatePresence mode="wait" initial={false}>

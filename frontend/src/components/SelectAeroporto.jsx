@@ -6,7 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import InputError from './InputError';
 
 
-function SelectAeroporto({ id, name, label }) {
+function SelectAeroporto({ id, name, label, addedValidation }) {
   const {
     register,
     formState: { errors },
@@ -22,6 +22,14 @@ function SelectAeroporto({ id, name, label }) {
       </option>
     );
   }
+
+  let validation = {
+    required: { value: true, message: "Campo Obrigatório" },
+  };
+  if (addedValidation) {
+    validation = {...validation, ...addedValidation}
+  }
+
   return (
     <div className="flex flex-col w-full gap-2">
       <div className="flex flex-col justify-between">
@@ -42,9 +50,7 @@ function SelectAeroporto({ id, name, label }) {
           name={name}
           id={id}
           className="border flex items-center justify-between h-14 rounded-2xl w-full px-5"
-          {...register(name, {
-            required: { value: true, message: "Campo Obrigatório" },
-          })}
+          {...register(name, validation)}
           defaultValue=""
         >
           <option></option>

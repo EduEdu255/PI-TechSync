@@ -36,6 +36,8 @@ import AeronaveList from "./Routes/Aeronave/AeronaveList.jsx";
 //Componentes sem uso?
 import TesteFetchComponent from "./Routes/TestePlano.jsx";
 import PasswordRecovery from "./Routes/recoverypassword.jsx";
+import CadastroVoo from './Routes/Voo/VooEditNew.jsx';
+import VooList from './Routes/Voo/VooList.jsx';
 
 //Linkar Rotas
 const router = createBrowserRouter([
@@ -92,7 +94,19 @@ const router = createBrowserRouter([
           {
             path: "aeronave",
             element: <AeronaveList/>
-          }
+          },
+          {
+            path: "voo/new",
+            element: <CadastroVoo/>
+          },
+          {
+            path: "voo/:id",
+            element: <CadastroVoo/>
+          },
+          {
+            path: "voo",
+            element: <VooList/>
+          },
         ]
       },
     ],
