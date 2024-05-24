@@ -28,6 +28,11 @@ import LoginCia from './Routes/Cia/LoginCia.jsx';
 import EsqueciSenhaCia from './Routes/Cia/EsqueciSenhaCia.jsx';
 import TrocaSenhaCia from './Routes/Cia/TrocaSenhaCia.jsx';
 
+//Aeronave
+import CadastroAeronave from "./Routes/Aeronave/AeronaveEditNew.jsx";
+import AeronaveList from "./Routes/Aeronave/AeronaveList.jsx";
+
+
 //Componentes sem uso?
 import TesteFetchComponent from "./Routes/TestePlano.jsx";
 import PasswordRecovery from "./Routes/recoverypassword.jsx";
@@ -74,6 +79,22 @@ const router = createBrowserRouter([
         path: "perfil/troca-senha",
         element: <TrocaSenha />,
       },
+      {
+        element: <CiaRoutes/>, children:[
+          {
+            path: "aeronave/new",
+            element: <CadastroAeronave/>
+          },
+          {
+            path: "aeronave/:id",
+            element: <CadastroAeronave/>
+          },
+          {
+            path: "aeronave",
+            element: <AeronaveList/>
+          }
+        ]
+      },
     ],
   },
 
@@ -101,6 +122,7 @@ const router = createBrowserRouter([
   },
 
 
+
   {
     /*-----------Login-------------*/
   },
@@ -116,6 +138,7 @@ const router = createBrowserRouter([
     path: "troca_senha",
     element: <TrocaSenha />,
   },
+
 ]);
 
 

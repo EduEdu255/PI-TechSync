@@ -7,13 +7,14 @@ import PerfilIcon from "../assets/perfil.svg";
 import IconMalac from "../assets/icon_Mala.svg";
 import IconAjuda from "../assets/ajuda_icon.svg";
 import { api_image_base_url } from "../Services/apiService";
+import Airplane from "../../public/images/airplane.svg";
 
 export function Header() {
   const { isLoggedIn, loggedUser, setIsLoggedIn, setLoggedUser } =
     useContext(LoginContext);
   const profileImage = () => {
     if (!isLoggedIn || !loggedUser) {
-      return "";
+      return null;
     } else if (loggedUser["@type"] == "User") {
       return api_image_base_url + loggedUser.profile_pic;
     } else if (loggedUser["@type"] == "GoogleUser") {
@@ -21,7 +22,7 @@ export function Header() {
     } else if (loggedUser["@type"] == "CiaAerea") {
       return api_image_base_url + loggedUser.logo;
     }
-    return "";
+    return null;
   }
   
   const menu = () => {
@@ -31,8 +32,11 @@ export function Header() {
       return (
         <>
           <li>
-            <Link to="/cia/perfil" title="Perfil Cia Aérea">
-              Cia Aérea
+          <Link className="rounded-lg items-center flex gap-2 text-gray-600  px-4 py-2 text-[14px]">
+              <img className="h-[24px]" src={Airplane} />
+              <p>
+                Cia Aérea
+              </p>
             </Link>
           </li>
         </>

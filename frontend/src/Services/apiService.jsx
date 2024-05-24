@@ -35,7 +35,7 @@ export const fetchData = async (endpoint) => {
 export const fetchItemData = async (endpoint, id) => {
   try {
     const response = await apiClient.get(`${endpoint}/${id}`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.log(error);
     throw error;
