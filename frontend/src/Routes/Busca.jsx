@@ -9,6 +9,7 @@ import Loading from '../components/Loading';
 function Busca() {
   const [data, setData] = useState(null);
   const [result, setResult] = useState(null);
+  const [processando, setProcessando] = useState(false);
   const location = useLocation();
 
   const getDataFromLocation = useCallback(() => {
@@ -33,12 +34,15 @@ function Busca() {
       delete data.volta;
     }
     setResult(null);
-    postData("busca", data).then(
+    setProcessando(true)
+    postData("busca_local", data).then(
       (_) => {
+        setProcessando(false)
         setResult(_);
       },
       (_) => {
         console.log(_);
+        setProcessando(false)
         setResult([]);
       }
     );
@@ -51,8 +55,10 @@ function Busca() {
 
   return (
     <div>
+      <div className='mb-24'>
       <FormBusca onSubmit={submitBusca} />
-      <div>{result ? parseResult(result) : <Loading/>}</div>
+      </div>
+      <div>{!processando ? result ? parseResult(result) : null : <Loading/>}</div>
     </div>
   );
 
@@ -77,10 +83,15 @@ function Busca() {
           </p>
           <p>Ida: {getDate(dados.ida + " 00:00:00")}</p>
           {dados.volta ? <p>Volta: {getDate(dados.volta + " 00:00:00")}</p> : null}
-          <p>Passagens: {passagens.map((x) => {
+          <p >Passagens de Ida: {passagens.ida.map((x) => {
             return mapPassagem(x, dados.id);
 
           })}</p>
+          {dados.volta &&
+            <p>Passagens de Volta: {passagens.volta.map((x) => {
+              return mapPassagem(x, dados.id);
+
+            })}</p>}
         </div>
       </>
     );
@@ -103,12 +114,13 @@ function Busca() {
         id={id}
         origem={findAeroporto(passagem.origem)}
         destino={findAeroporto(passagem.destino)}
-        cia={passagem.ciaAerea}
+        cia={passagem.ciaAerea.razao_social}
         preco={passagem.preco}
-        ida={passagem.ida}
-        volta={passagem.volta ? passagem.volta : null}
+        dataHoraSaida={passagem.dataHoraSaida}
+        dataHoraChegada={passagem.dataHoraChegada}
         link={passagem.linkBusca}
-        logo = {passagem.cia.logo}
+        trechos={passagem.trechos}
+        logo = {passagem.ciaAerea.logo}
       />
     );
   }

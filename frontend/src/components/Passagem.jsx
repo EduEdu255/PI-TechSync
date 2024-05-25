@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { editData, api_image_base_url } from "../Services/apiService";
 
-function Passagem({ id, origem, destino, cia, preco, ida, volta, link, logo }) {
+function Passagem({ id, origem, destino, cia, preco, dataHoraSaida, dataHoraChegada, link, logo }) {
   return (
-    <div className=" bg-slate-400 shadow-sm flex flex-wrap gap-5 w-3/4 rounded-lg mb-3 p-12 m-auto">
+    <div className=" bg-slate-400 shadow-sm flex flex-wrap gap-5 w-3/4 rounded-lg mb-3 p-12 m-auto" key={id + origem + destino + cia + ida + volta}>
       <span>
         Origem: {origem.name} - {origem.iata}
       </span>
@@ -12,8 +12,8 @@ function Passagem({ id, origem, destino, cia, preco, ida, volta, link, logo }) {
       </span>
           <span>Cia Aérea: {cia} <img src={api_image_base_url + logo} className=" w-14" /></span>
       <span className="text-red-800 text-2xl">Preço: R$ {preco}</span>
-      <span>Ida: {getDate(ida.dataHoraSaida)}</span>
-      {volta ? <span>Volta: {getDate(volta.dataHoraSaida)}</span> : null}
+      <span>Saída: {getDate(dataHoraSaida)}</span>
+      <span>Chegada: {getDate(dataHoraChegada)}</span>
       <Link to={link} target="_blank">
         <button
                   onClick={() => { return reservar(link) }}

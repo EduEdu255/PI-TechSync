@@ -18,12 +18,12 @@ class AeronaveController extends Controller
      */
     public function index()
     {
-        return AeronaveResource::collection(Aeronave::paginate(30));
+        return AeronaveResource::collection(Aeronave::all());
     }
 
     /**
      * Cadastra uma nova aeronave.
-     * 
+     *
      * Endpoint para cadastrar uma nova aeronave. Devem ser informados os campos necessários
      */
     public function store(AeronaveRequest $request)

@@ -35,7 +35,7 @@ export const fetchData = async (endpoint) => {
 export const fetchItemData = async (endpoint, id) => {
   try {
     const response = await apiClient.get(`${endpoint}/${id}`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.log(error);
     throw error;
@@ -101,6 +101,7 @@ export const loginCiaAerea = async (data) => {
     let resposta = response.data;
     let token = resposta.access_token;
     localStorage.setItem("token", token);
+    return true;
   } catch (error) {
     console.log(error);
     throw error;

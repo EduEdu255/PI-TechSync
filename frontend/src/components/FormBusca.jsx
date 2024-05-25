@@ -1,23 +1,21 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "./Input";
 import SelectAeroporto from "./SelectAeroporto";
-import { useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import InputError from './InputError';
-
-
-
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import InputError from "./InputError";
 
 const FormBusca = ({ onSubmit }) => {
   const handleFormSubmit = (data) => {
     if (data.origem == data.destino) {
-      setErros({ message: "Aeroporto de Origem e Destino devem ser diferentes" })
+      setErros({
+        message: "Aeroporto de Origem e Destino devem ser diferentes",
+      });
       return null;
     } else if (data.volta && Date.parse(data.ida) >= Date.parse(data.volta)) {
-      setErros({message: "Volta não pode ser antes da Ida"})
+      setErros({ message: "Volta não pode ser antes da Ida" });
       return null;
-    }
-    else {
+    } else {
       setErros(null);
     }
     onSubmit(data);
@@ -27,28 +25,37 @@ const FormBusca = ({ onSubmit }) => {
 
   const methods = useForm();
   return (
-    <div className=" w-3/5  m-auto">
-      <h3 className="text-3xl text-center mb-7">Busca de Passagens</h3>
+    <div className=" w-3/5 ml-auto mr-auto top-16 relative shadow-lg p-10 rounded-3xl bg-white">
+      <h3 className="mb-7 font-bold">Busca de Passagens</h3>
       <FormProvider {...methods}>
         <form
           onSubmit={(e) => e.preventDefault()}
           noValidate
           autoComplete="off"
-          className="container"
         >
-          <div className="flex gap-5 md:grid-cols-2">
+          <div className="flex items-start gap-5">
             <SelectAeroporto
               name="origem"
               id="origem"
               label="Origem"
+              addedValidation={{
+                validate: (v) =>
+                  v !== methods.getValues("destino") ||
+                  "Origem deve ser diferente do Destino",
+              }}
             />
             <SelectAeroporto
               name="destino"
               id="destino"
               label="Destino"
+              addedValidation={{
+                validate: (v) =>
+                  v !== methods.getValues("origem") ||
+                  "Destino deve ser diferente da Origem",
+              }}
             />
             <Input
-              label="Data de Ida"
+              label="Ida"
               type="date"
               id="ida"
               placeholder="03/06/2024"
@@ -58,24 +65,23 @@ const FormBusca = ({ onSubmit }) => {
               }}
             />
             <Input
-              label="Data de Volta"
+              label="Volta"
               type="date"
               id="volta"
               placeholder="09/06/2024"
               name="volta"
             />
-          </div>
-          <AnimatePresence mode="wait" initial={false}>
-            {erros && (
-              <InputError message={erros.message} key={erros.message} />
-            )}
-          </AnimatePresence>
-          <div className="mt-5">
+            <AnimatePresence mode="wait" initial={false}>
+              {erros && (
+                <InputError message={erros.message} key={erros.message} />
+              )}
+            </AnimatePresence>
+
             <button
               onClick={methods.handleSubmit(handleFormSubmit)}
-              className="flex w-[100%] bg-[#3758D0] h-14 gap-2 rounded-2xl my-7 items-center text-gray-50 font-semibold justify-center"
+              className="flex w-[100%] bg-[#3758D0] h-14 gap-2 rounded-full my-6 items-center text-gray-200 font-semibold justify-center"
             >
-              Buscar
+              Procurar
             </button>
           </div>
         </form>

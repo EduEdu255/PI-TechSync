@@ -23,7 +23,8 @@ class VooResource extends JsonResource
             'destino' => $this->cod_destino,
             'saida' => $this->hora_saida,
             'chegada' => $this->hora_chegada,
-            'duracao' => $this->duracao
+            'duracao' => $this->duracao,
+            'valor' => $this->valor,
         ];
     }
 }

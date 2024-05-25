@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CiaAerea extends Authenticatable implements JWTSubject
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, CanResetPassword;
 
     protected $fillable = [
         'razao_social',

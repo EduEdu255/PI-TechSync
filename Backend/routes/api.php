@@ -63,10 +63,15 @@ Route::controller(AeronaveController::class)->middleware('auth.aerea')->group(fu
 
 Route::controller(AssinaturaController::class)->middleware('auth.aerea')->group(function () {
     Route::post('/assinatura', 'store');
-    Route::get('/assinatura', 'index');
     Route::get('/assinatura/{id}', 'show');
     Route::patch('/assinatura/{id}', 'update');
     Route::delete('/assinatura/{id}', 'destroy');
+});
+
+Route::controller(AssinaturaController::class)->middleware('isAdmin')->group(function(){
+    Route::get('/assinatura', 'index');
+    Route::get('/assinatura/{id}/ativar', 'ativarAssinatura');
+    Route::get('/assinatura/{id}/desativar', 'desativarAssinatura');
 });
 
 Route::controller(PlanoController::class)->group(function () {
@@ -93,10 +98,13 @@ Route::controller(PagamentoController::class)->middleware('auth.aerea')->group(f
 Route::controller(BuscaController::class)->group(function () {
     Route::get('/busca', 'index');
     Route::post('/busca', 'store');
+    Route::post('/busca_local', 'buscar');
     Route::patch('/busca/reservar/{id}', 'reservar');
 });
 
 Route::controller(PasswordController::class)->group(function(){
-    Route::post('/forgot_password', 'sendLink');
-    Route::post('/reset_password', 'reset');
+    Route::post('/user/forgot_password', 'sendLink');
+    Route::post('/user/reset_password', 'reset');
+    Route::post('/cia_aerea/forgot_password', 'sendLinkCia');
+    Route::post('/cia_aerea/reset_password', 'resetCia');
 });
