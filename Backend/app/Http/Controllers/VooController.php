@@ -39,7 +39,7 @@ class VooController extends Controller
         $existing = Voo::where('numero', $data['numero'])->get();
         $aeronave = Aeronave::where('sigla', $data['aeronave'])->get();
         if ($existing->count() > 0) {
-            return response()->json(['success' => false, 'message' => 'Voo já está cadastrado'], 400);
+            return response()->json(['success' => false, 'message' => 'Voo com esse número já está cadastrado'], 400);
         }
         if($aeronave->count() == 0){
             return response()->json(['success' => false, 'message' => 'Aeronave informada não encontrada'], 400);
