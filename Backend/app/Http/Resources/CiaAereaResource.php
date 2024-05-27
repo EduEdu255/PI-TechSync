@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Requests\AssinaturaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,10 +16,13 @@ class CiaAereaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            '@type' => 'CiaAerea',
             'id' => $this->id,
             'razaoSocial' => $this->razao_social,
             'codigoIata' => $this->codigo_iata,
-            'url' => $this->url
+            'url' => $this->url,
+            'logo' => $this->logo ?? '',
+            'assinatura' => $this->assinatura,
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -19,7 +20,7 @@ class User extends Authenticatable implements JWTSubject
 {
 
 
-    use Notifiable, HasUuids;
+    use Notifiable, HasUuids, CanResetPassword;
 
 
     /**
@@ -37,7 +38,8 @@ class User extends Authenticatable implements JWTSubject
         'logradouro',
         'numero',
         'municipio',
-        'uf'
+        'uf',
+        'profile_pic'
     ];
 
     /**

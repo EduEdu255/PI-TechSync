@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/inicio.css">
+</head>
+<body> 
+    <div class="login">
+        <div class="inputs">
+            <h1 class="Login">Entrar</h1>
+            <p class="subtext">Insira seu email e senha para continuar!</p>
+            <button class="google_login"><img src="/img/Google__G__Logo 1.png" alt="imagem_google">Entrar com Google</button>
+            <div class="inputs_principal">
+                <label for="email">E-mail*</label>
+                <input type="email" name="email" id="email" placeholder="mail@simmmple.com">
+                <label for="senha">Senha*</label>
+                <div class="password">
+                    <input type="password" name="senha" id="senha" placeholder="Min. 8 characters"> 
+                    <i class="bi bi-eye-fill" onclick="mostrarSenha()" id="btn_senha"></i>
+                </div>
+            </div>
+            <div class="mant_log">
+                <div class="chekbox">
+                    <input type="checkbox"> <label for="mante">Mantenha logado</label>
+                </div>
+                <div class="link">
+                    <a href="/Email_esq.html">Esqueceu sua senha?</a>
+                </div>
+            </div>
+            <button class="login_but">Sign In</button>
+            <p>Não possui conta?<a href="/new_conta.html" class="criar_conta">Crie uma conta agora.</a></p>
+        </div>
+        <div class="img_logo">
+            <figcaption>
+                <img src="/img/Image.png" alt="">
+            </figcaption>
+        </div>
+    </div>
+
+    <script src="js/js.js"> </script>
+</body>
+</html>

@@ -55,6 +55,14 @@ class AmadeusApiService
 
     public function procuraVooPost(string $origem, string $destino, \DateTimeInterface $saida, \DateTimeInterface $retorno = null, array $cias = ['LA', 'G3', 'AD'])
     {
+        $key = "{$origem}_{$destino}_{$saida->format('Y-m-d')}";
+        if($retorno){
+            $key .= "_" . $retorno->format("Y-m-d");
+        }
+        $cached = Cache::get($key);
+        if($cached){
+            return $cached;
+        }
         $url = "$this->base_url/v2/shopping/flight-offers";
         $body = [
             "currencyCode" => 'BRL',
@@ -103,7 +111,9 @@ class AmadeusApiService
 
         $busca = Http::acceptJson()->withToken($this->token)->post($url, $body);
         if ($busca->successful()) {
-            return $busca->json();
+            $search = $busca->json();
+            Cache::set($key, $search);
+            return $search;
         }
         return [];
     }

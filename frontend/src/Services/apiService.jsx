@@ -2,6 +2,8 @@ import axios from "axios";
 
 const API_BASE_URL = "http://localhost:8000/api/";
 
+export const api_image_base_url = "http://localhost:8000/storage/"
+
 const apiClient = axios.create({
   baseURL: API_BASE_URL, // Replace with your API URL
 });
@@ -18,6 +20,7 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+//Busca os dados do endpoint determinado
 export const fetchData = async (endpoint) => {
   try {
     const response = await apiClient.get(endpoint);
@@ -28,16 +31,18 @@ export const fetchData = async (endpoint) => {
   }
 };
 
+//Busca item expecifico pelo ID
 export const fetchItemData = async (endpoint, id) => {
   try {
     const response = await apiClient.get(`${endpoint}/${id}`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
 
+//Cria novas coisas para o Banco (data em formato json)
 export const postData = async (endpoint, data) => {
   try {
     const response = await apiClient.post(endpoint,data);
@@ -48,6 +53,7 @@ export const postData = async (endpoint, data) => {
   }
 };
 
+//Atualiza uma entidade (informar id e passar data em formato json)
 export const editData = async (endpoint, data, id) => {
   try {
     const response = await apiClient.patch(
@@ -61,6 +67,7 @@ export const editData = async (endpoint, data, id) => {
   }
 };
 
+//Apaga um item pelo id
 export const deleteItem = async (endpoint, id) => {
   try {
     const response = await apiClient.delete(`${endpoint}/${id}`);
@@ -77,9 +84,11 @@ export const loginUsuario = async (data) => {
     let resposta = response.data;
     let token = resposta.access_token;
     localStorage.setItem("token", token);
+    return(true);
   } catch (error) {
     console.log(error);
     throw error;
+    
   }
 };
 
@@ -92,6 +101,7 @@ export const loginCiaAerea = async (data) => {
     let resposta = response.data;
     let token = resposta.access_token;
     localStorage.setItem("token", token);
+    return true;
   } catch (error) {
     console.log(error);
     throw error;

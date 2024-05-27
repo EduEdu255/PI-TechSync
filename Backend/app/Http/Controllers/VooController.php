@@ -10,6 +10,7 @@ use App\Models\Aeronave;
 use App\Http\Resources\VooResource;
 use App\Http\Resources\CiaAereaResource;
 use App\Http\Requests\VooRequest;
+use ValueError;
 
 class VooController extends Controller
 {
@@ -23,7 +24,7 @@ class VooController extends Controller
     {
         $cia = auth('aereas')->user();
 
-        return VooResource::collection(Voo::where('cia_aerea_id', $cia->id)->paginate(30));
+        return VooResource::collection(Voo::where('cia_aerea_id', $cia->id)->get());
     }
 
     /**
@@ -38,7 +39,7 @@ class VooController extends Controller
         $existing = Voo::where('numero', $data['numero'])->get();
         $aeronave = Aeronave::where('sigla', $data['aeronave'])->get();
         if ($existing->count() > 0) {
-            return response()->json(['success' => false, 'message' => 'Voo já está cadastrado'], 400);
+            return response()->json(['success' => false, 'message' => 'Voo com esse número já está cadastrado'], 400);
         }
         if($aeronave->count() == 0){
             return response()->json(['success' => false, 'message' => 'Aeronave informada não encontrada'], 400);
@@ -47,8 +48,28 @@ class VooController extends Controller
         $voo->ciaAerea()->associate($cia);
         $voo->aeronave()->associate($aeronave->first());
         $voo->fill($data);
+        $voo->duracao = $this->calculateDuracao($voo->hora_saida, $voo->hora_chegada);
         $voo->save();
         return response()->json(new VooResource($voo), 201);
+    }
+
+    private function calculateDuracao(string $saida, string $chegada){
+        $timeSaida = explode(":", $saida);
+        $timeChegada = explode(":", $chegada);
+        $dataSaida = (new \DateTime())->setTime($timeSaida[0], $timeSaida[1]);
+        $dataChegada = (new \DateTime())->setTime($timeChegada[0], $timeChegada[1]);
+        //Se a chegada é antes da saída, então chega no dia seguinte
+        if($dataSaida > $dataChegada){
+            $dataChegada->add(new \DateInterval("P1D"));
+        }
+
+        $intevalo = $dataSaida->diff($dataChegada);
+        if($intevalo){
+            //Retorna o intervalo de tempo em total de minutos
+            return (new \DateTime())->setTimestamp(0)->add($intevalo)->getTimestamp() / 60;
+        }
+        throw new ValueError("Não foi possível obter um intervalo entre hora de saída e hora de chegada");
+
     }
 
     /**
@@ -75,6 +96,7 @@ class VooController extends Controller
             return response()->json(['success' => false, 'message' => 'Vôo não pertence à sua companhia aérea'],403);
         }
         $voo->fill($request->all());
+        $voo->duracao = $this->calculateDuracao($voo->hora_saida, $voo->hora_chegada);
         $voo->save();
         return new VooResource($voo);
     }
