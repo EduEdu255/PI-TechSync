@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'isAdmin' => \App\Http\Middleware\isAdmin::class,
         'auth.user' => \App\Http\Middleware\AuthenticatedUserMiddleWare::class,
         'auth.aerea' => \App\Http\Middleware\AuthenticatedCiaAereaMiddleWare::class,
+        'auth.assinante' => \App\Http\Middleware\AuthenticatedCiaAereaAssinanteMiddleWare::class,
     ];
 }
