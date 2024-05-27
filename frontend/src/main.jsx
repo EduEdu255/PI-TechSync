@@ -27,6 +27,8 @@ import CadastroCia from './Routes/Cia/CadastroCia.jsx';
 import LoginCia from './Routes/Cia/LoginCia.jsx';
 import EsqueciSenhaCia from './Routes/Cia/EsqueciSenhaCia.jsx';
 import TrocaSenhaCia from './Routes/Cia/TrocaSenhaCia.jsx';
+import MenuCia from "./Routes/Cia/MenuCia.jsx"
+
 
 
 //Aeronave
