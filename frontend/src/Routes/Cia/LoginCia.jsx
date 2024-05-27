@@ -31,7 +31,11 @@ function LoginCia() {
               sessionStorage.setItem("loggedUser", JSON.stringify(user));
               setProcessando(false);
               setErros(null);
-              navigate("/perfil");
+              if (user.assinatura && user.assinatura.ativa) {
+                navigate("/cia/aeronave");
+              } else {
+                navigate("/TesteFetch");
+              }
             },
             (error) => {
               console.log("Erro ao buscar dados da cia aérea logou");

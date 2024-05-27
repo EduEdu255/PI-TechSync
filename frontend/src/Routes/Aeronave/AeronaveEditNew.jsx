@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { Input } from "../../components/Input";
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import {
   editData,
-  fetchData,
   fetchItemData,
   postData,
 } from "../../Services/apiService";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import InputError from "../../components/InputError";
 import Loading from "../../components/Loading";
 
 function CadastroAeronave() {
@@ -30,7 +28,7 @@ function CadastroAeronave() {
     request.then(
       () => {
         setProcessando(false);
-        navigate("/aeronave");
+        navigate("/cia/aeronave");
       },
       (err) => {
         setProcessando(false);
@@ -38,7 +36,6 @@ function CadastroAeronave() {
       }
     );
   };
-  const [erros, setErros] = useState(null);
   const [processando, setProcessando] = useState(false);
 
   const getAeronave = useCallback(
@@ -133,11 +130,6 @@ function CadastroAeronave() {
                   {aeronave ? "Atualizar" : "Cadastrar"}
                 </button>
               </div>
-              <AnimatePresence mode="wait" initial={false}>
-                {erros && (
-                  <InputError message={erros.message} key={erros.message} />
-                )}
-              </AnimatePresence>
             </form>
           </div>
           <div className="w-[50%] flex justify-center items-center  bg-[url(/images/cia-registrar.jpg)] bg-cover bg-no-repeat rounded-bl-[150px] rounded-tl-[15px]">

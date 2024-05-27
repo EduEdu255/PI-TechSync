@@ -133,7 +133,7 @@ const router = createBrowserRouter([
       {
         path: "esqueci",
         element: <EsqueciSenhaCia/>
-      }
+      },
     ]
   },
   {
