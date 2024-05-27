@@ -28,6 +28,7 @@ import LoginCia from './Routes/Cia/LoginCia.jsx';
 import EsqueciSenhaCia from './Routes/Cia/EsqueciSenhaCia.jsx';
 import TrocaSenhaCia from './Routes/Cia/TrocaSenhaCia.jsx';
 
+
 //Aeronave
 import CadastroAeronave from "./Routes/Aeronave/AeronaveEditNew.jsx";
 import AeronaveList from "./Routes/Aeronave/AeronaveList.jsx";
@@ -35,9 +36,9 @@ import AeronaveList from "./Routes/Aeronave/AeronaveList.jsx";
 
 //Componentes sem uso?
 import TesteFetchComponent from "./Routes/TestePlano.jsx";
-// import PasswordRecovery from "./Routes/recoverypassword.jsx";
 import CadastroVoo from './Routes/Voo/VooEditNew.jsx';
 import VooList from './Routes/Voo/VooList.jsx';
+import Logout from './Routes/Logout.jsx';
 
 //Linkar Rotas
 const router = createBrowserRouter([
@@ -73,40 +74,39 @@ const router = createBrowserRouter([
         path: "busca",
         element: <Busca />,
       },
-      // {
-      //   path: "troca_senha",
-      //   element: <PasswordRecovery />,
-      // },
       {
         path: "perfil/troca-senha",
         element: <TrocaSenha />,
       },
       {
-        element: <CiaRoutes/>, children:[
+        element: <CiaRoutes />, children: [
           {
-            path: "aeronave/new",
-            element: <CadastroAeronave/>
-          },
-          {
-            path: "aeronave/:id",
-            element: <CadastroAeronave/>
-          },
-          {
-            path: "aeronave",
-            element: <AeronaveList/>
-          },
-          {
-            path: "voo/new",
-            element: <CadastroVoo/>
-          },
-          {
-            path: "voo/:id",
-            element: <CadastroVoo/>
-          },
-          {
-            path: "voo",
-            element: <VooList/>
-          },
+            path: "cia", element: <MenuCia />, children: [
+              {
+                path: "aeronave/new",
+                element: <CadastroAeronave/>
+              },
+              {
+                path: "aeronave/:id",
+                element: <CadastroAeronave/>
+              },
+              {
+                path: "aeronave",
+                element: <AeronaveList/>
+              },
+              {
+                path: "voo/new",
+                element: <CadastroVoo/>
+              },
+              {
+                path: "voo/:id",
+                element: <CadastroVoo/>
+              },
+              {
+                path: "voo",
+                element: <VooList/>
+              },
+          ]}
         ]
       },
     ],
@@ -134,7 +134,10 @@ const router = createBrowserRouter([
       }
     ]
   },
-
+  {
+    path: "/logout",
+    element: <Logout/>
+  },
 
 
   {
