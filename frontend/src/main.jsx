@@ -35,7 +35,7 @@ import AeronaveList from "./Routes/Aeronave/AeronaveList.jsx";
 
 //Componentes sem uso?
 import TesteFetchComponent from "./Routes/TestePlano.jsx";
-import PasswordRecovery from "./Routes/recoverypassword.jsx";
+// import PasswordRecovery from "./Routes/recoverypassword.jsx";
 import CadastroVoo from './Routes/Voo/VooEditNew.jsx';
 import VooList from './Routes/Voo/VooList.jsx';
 
@@ -73,10 +73,10 @@ const router = createBrowserRouter([
         path: "busca",
         element: <Busca />,
       },
-      {
-        path: "troca_senha",
-        element: <PasswordRecovery />,
-      },
+      // {
+      //   path: "troca_senha",
+      //   element: <PasswordRecovery />,
+      // },
       {
         path: "perfil/troca-senha",
         element: <TrocaSenha />,
