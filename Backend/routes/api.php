@@ -45,7 +45,7 @@ Route::get('/cia_aerea', [CiaAereaController::class, 'index'])->middleware('isAd
 Route::post('/cia_aerea', [CiaAereaController::class,'store']);
 Route::post('/cia_aerea/login', [CiaAereaController::class, 'login']);
 
-Route::controller(VooController::class)->middleware('auth.aerea')->group(function () {
+Route::controller(VooController::class)->middleware('auth.assinante')->group(function () {
     Route::post('/voo', 'store');
     Route::get('/voo', 'index');
     Route::get('/voo/{id}', 'show');
@@ -53,7 +53,7 @@ Route::controller(VooController::class)->middleware('auth.aerea')->group(functio
     Route::delete('/voo/{id}', 'destroy');
 });
 
-Route::controller(AeronaveController::class)->middleware('auth.aerea')->group(function () {
+Route::controller(AeronaveController::class)->middleware('auth.assinante')->group(function () {
     Route::post('/aeronave', 'store');
     Route::get('/aeronave', 'index');
     Route::get('/aeronave/{id}', 'show');
@@ -96,10 +96,15 @@ Route::controller(PagamentoController::class)->middleware('auth.aerea')->group(f
 });
 
 Route::controller(BuscaController::class)->group(function () {
-    Route::get('/busca', 'index');
     Route::post('/busca', 'store');
     Route::post('/busca_local', 'buscar');
     Route::patch('/busca/reservar/{id}', 'reservar');
+});
+Route::controller(BuscaController::class)->middleware('auth.assinante')->group(function (){
+    Route::get('/busca', 'index');
+    Route::get('/origens_busca', 'contagemOrigem');
+    Route::get('/destinos_busca', 'contagemDestino');
+    Route::get('/mes_busca', 'destinosPorMes');
 });
 
 Route::controller(PasswordController::class)->group(function(){

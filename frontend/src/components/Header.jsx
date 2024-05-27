@@ -9,6 +9,7 @@ import IconAjuda from "../assets/ajuda_icon.svg";
 import { api_image_base_url } from "../Services/apiService";
 import Airplane from "../../public/images/airplane.svg";
 import { HiOutlineLogout } from "react-icons/hi";
+import DropDownMenu from "./DropDownMenu";
 
 export function Header() {
   const { isLoggedIn, loggedUser, setIsLoggedIn, setLoggedUser } =
@@ -24,8 +25,8 @@ export function Header() {
       return api_image_base_url + loggedUser.logo;
     }
     return null;
-  }
-  
+  };
+
   const menu = () => {
     if (!isLoggedIn || !loggedUser) {
       return "";
@@ -33,17 +34,25 @@ export function Header() {
       return (
         <>
           <li>
-          <Link className="rounded-lg items-center flex gap-2 text-gray-600  px-4 py-2 text-[14px]">
+            <Link className="rounded-lg items-center flex gap-2 text-gray-600  px-4 py-2 text-[14px]">
               <img className="h-[24px]" src={Airplane} />
-              <p>
-                Cia Aérea
-              </p>
+              <p>Cia Aérea</p>
             </Link>
           </li>
         </>
       );
     }
   };
+  const links = [
+    {
+      link: "/login",
+      text: "Usuário",
+    },
+    {
+      link: "/cia/login",
+      text: "Companhia Aérea",
+    },
+  ];
 
   useEffect(() => {
     const user = sessionStorage.getItem("loggedUser");
@@ -74,16 +83,29 @@ export function Header() {
               </p>
             </Link>
             <div className="w-[2px] bg-white rounded-full"></div>
-            <Link
-              to={isLoggedIn && loggedUser["@type"] ? "/perfil" : "/login"}
-              className="rounded-lg  px-4 py-2 flex text-gray-600 items-center gap-3"
-            >
-              <img
-                src={profileImage() ?? PerfilIcon}
-                className="h-[20px] rounded-full"
-              />
-              <p>{isLoggedIn && loggedUser ? "Perfil" : "Inicie Sessão"}</p>
-            </Link>
+            {isLoggedIn && loggedUser["@type"] && (
+              <>
+                <Link
+                  to="/perfil"
+                  className="rounded-lg text-gray-600 px-4 py-2 flex items-center gap-2"
+                >
+                  <img
+                    src={profileImage() ?? PerfilIcon}
+                    className="h-[20px] rounded-full"
+                  />
+                  <p>Perfil</p>
+                </Link>
+              </>
+            )}
+
+            {!isLoggedIn && (
+              <div>
+                <DropDownMenu
+                  text="Iniciar Sessão"
+                  links={links}
+                ></DropDownMenu>
+              </div>
+            )}
             <Link className="rounded-lg text-gray-600 px-4 py-2 flex items-center gap-2">
               <img src={IconMalac} />
               <p>Viagens</p>
@@ -92,13 +114,15 @@ export function Header() {
               <img src={IconAjuda} />
               <p>Ajuda</p>
             </Link>
-            {isLoggedIn && loggedUser ? <Link
-              to="/logout"
-              className="rounded-lg text-gray-600 flex items-center px-4 py-2 gap-2"
-            >
-              <span className='text-[#525252]'>{<HiOutlineLogout />}</span>
-              <span>Sair</span>
-            </Link> : null}
+            {isLoggedIn && loggedUser ? (
+              <Link
+                to="/logout"
+                className="rounded-lg text-gray-600 flex items-center px-4 py-2 gap-2"
+              >
+                <span className="text-[#525252]">{<HiOutlineLogout />}</span>
+                <span>Sair</span>
+              </Link>
+            ) : null}
           </div>
         </nav>
       </div>
