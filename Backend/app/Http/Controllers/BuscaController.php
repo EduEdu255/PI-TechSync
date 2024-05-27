@@ -13,6 +13,7 @@ use App\Models\Assinatura;
 use App\Http\Resources\VooResource;
 use App\Http\Resources\BuscaResource;
 use App\Http\Requests\BuscaRequest;
+use Illuminate\Support\Facades\DB;
 
 class BuscaController extends Controller
 {
@@ -187,5 +188,23 @@ class BuscaController extends Controller
         }
         //Retorna os voos possíveis
         return $possibilidades;
+    }
+
+    public function contagemOrigem(){
+        $buscas = DB::table('busca')
+        ->select('origem', DB::raw('count(origem) as total'))
+        ->groupBy('origem')
+        ->get();
+
+        return response()->json($buscas);
+
+    }
+    public function contagemDestino(){
+        $buscas = DB::table('busca')
+        ->select('destino', DB::raw('count(destino) as total'))
+        ->groupBy('destino')
+        ->get();
+
+        return response()->json($buscas);
     }
 }
