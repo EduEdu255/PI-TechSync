@@ -104,6 +104,7 @@ Route::controller(BuscaController::class)->middleware('auth.assinante')->group(f
     Route::get('/busca', 'index');
     Route::get('/origens_busca', 'contagemOrigem');
     Route::get('/destinos_busca', 'contagemDestino');
+    Route::get('/mes_busca', 'destinosPorMes');
 });
 
 Route::controller(PasswordController::class)->group(function(){

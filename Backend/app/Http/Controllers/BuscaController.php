@@ -190,21 +190,58 @@ class BuscaController extends Controller
         return $possibilidades;
     }
 
+    /**
+     * Contagem Origem
+     * 
+     * Endpoint que traz a quantidade de buscas realizadas organizadas por origem
+     */
     public function contagemOrigem(){
         $buscas = DB::table('busca')
         ->select('origem', DB::raw('count(origem) as total'))
         ->groupBy('origem')
         ->get();
 
+        $total = $buscas->reduce(fn($carry, $item)=>$carry + $item->total,0);
+        foreach($buscas as $busca){
+            $busca->percentual = $busca->total / $total;
+        }
+
         return response()->json($buscas);
 
     }
+
+    /**
+     * Contagem Destino
+     * 
+     * Endpoint que traz a quantidade de buscas realizadas organizadas por Destino
+     */
     public function contagemDestino(){
         $buscas = DB::table('busca')
         ->select('destino', DB::raw('count(destino) as total'))
         ->groupBy('destino')
         ->get();
 
+        $total = $buscas->reduce(fn($carry, $item)=>$carry + $item->total,0);
+        foreach($buscas as $busca){
+            $busca->percentual = $busca->total / $total;
+        }
+        return response()->json($buscas);
+    }
+
+    /**
+     * Contagem Mensal
+     * 
+     * Endpoint que traz a quantidade de buscas realizadas organizadas por mês de saída
+     */
+    public function destinosPorMes(){
+        $buscas = DB::table('busca')
+        ->select(DB::raw('count(data_saida) as total'), DB::raw("strftime('%m',data_saida) as mes"))
+        ->groupBy('mes')
+        ->get();
+        $total = $buscas->reduce(fn($carry, $item)=>$carry + $item->total,0);
+        foreach($buscas as $busca){
+            $busca->percentual = $busca->total / $total;
+        }
         return response()->json($buscas);
     }
 }
