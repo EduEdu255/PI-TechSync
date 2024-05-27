@@ -35,6 +35,9 @@ class PassagemLocal implements JsonSerializable
     ) {
         $this->setLink();
     }
+    public function getPreco(){
+        return $this->preco ?? 0;
+    }
 
     private function setLink()
     {
@@ -231,6 +234,8 @@ class PassagemLocal implements JsonSerializable
                 //$passagem = new Passagem($preco, $cia, $codOrigem, $codDestino, $dataHoraSaidaIda, $dataHoraChegadaIda, $duracaoIda, $trechosIda)
             }
         }
+        usort($passagensIda, fn(PassagemLocal $passagem1, PassagemLocal $passagem2) => $passagem1->getPreco() > $passagem2->getPreco());
+        usort($passagensVolta, fn(PassagemLocal $passagem1, PassagemLocal $passagem2) => $passagem1->getPreco() > $passagem2->getPreco());
         return ["ida" => $passagensIda, "volta" => $passagensVolta];
     }
 
