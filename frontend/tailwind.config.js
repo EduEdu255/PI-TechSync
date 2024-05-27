@@ -1,11 +1,45 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{html,js,jsx,ts,tsx}"
-  ],
+  content: ["./src/**/*.{html,js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "colorsgreen-100": "var(--colorsgreen-100)",
+        "colorsgreen-50": "var(--colorsgreen-50)",
+        "colorslight-blue50": "var(--colorslight-blue50)",
+        "colorspurple-100": "var(--colorspurple-100)",
+        colorwhite: "var(--colorwhite)",
+        "greysblue-grey300": "var(--greysblue-grey300)",
+        "greysblue-grey700": "var(--greysblue-grey700)",
+        "greysblue-grey800": "var(--greysblue-grey800)",
+        "greysblue-grey900": "var(--greysblue-grey900)",
+        "primary-200": "var(--primary-200)",
+        "primary-800": "var(--primary-800)",
+        "primarydark-shade": "var(--primarydark-shade)",
+        "state-colorssuccess": "var(--state-colorssuccess)",
+        "supporting-colorgreen": "var(--supporting-colorgreen)",
+        "supporting-colorgreen-shade": "var(--supporting-colorgreen-shade)",
+        "supporting-colorviolet-shade": "var(--supporting-colorviolet-shade)",
+        "supporting-coloryellow": "var(--supporting-coloryellow)",
+        "supporting-coloryellow-shade": "var(--supporting-coloryellow-shade)",
+      },
+      fontFamily: {
+        "2xl-semibold": "var(--2xl-semibold-font-family)",
+        "4xl-semibold": "var(--4xl-semibold-font-family)",
+        "base-medium": "var(--base-medium-font-family)",
+        "base-regular": "var(--base-regular-font-family)",
+        "sm-medium": "var(--sm-medium-font-family)",
+        "sm-regular": "var(--sm-regular-font-family)",
+        "text-text-regular-1": "var(--text-text-regular-1-font-family)",
+        "xl-semibold": "var(--xl-semibold-font-family)",
+        "xs-medium": "var(--xs-medium-font-family)",
+        "xs-regular": "var(--xs-regular-font-family)",
+        "xs-semibold": "var(--xs-semibold-font-family)",
+      },
+      boxShadow: {
+        shadow: "var(--shadow)",
+      },
+    },
   },
   plugins: [],
-}
+};

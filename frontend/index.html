@@ -6,6 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pousares</title>
   </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Poppins:var(--xs-regular-font-weight),var(--4xl-semibold-font-weight),600,var(--base-medium-font-weight),var(--text-text-regular-1-font-weight),var(--xs-medium-font-weight),var(--xl-semibold-font-weight),var(--sm-regular-font-weight),var(--base-regular-font-weight),var(--sm-medium-font-weight),var(--2xl-semibold-font-weight),400,var(--xs-semibold-font-weight),500|Open+Sans:400|Rubik:400");
+  </style>
+  <style>
+    @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+    * {
+      -webkit-font-smoothing: antialiased;
+      box-sizing: border-box;
+    }
+    html,
+    body {
+      margin: 0px;
+      height: 100%;
+    }
+    /* a blue color as a generic focus style */
+    button:focus-visible {
+      outline: 2px solid #4a90e2 !important;
+      outline: -webkit-focus-ring-color auto 5px !important;
+    }
+    a {
+      text-decoration: none;
+    }
+  </style>
+  <link href="tailwind.css" rel="stylesheet" />
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
