@@ -68,6 +68,7 @@ function Busca() {
     }
     const dados = data.data;
     const quantidade = dados.quantidade;
+    console.log(dados);
     const passagens = dados.passagens;
     const origem = findAeroporto(dados.origem);
     const destino = findAeroporto(dados.destino);

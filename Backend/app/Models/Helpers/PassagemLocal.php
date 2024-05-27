@@ -185,10 +185,10 @@ class PassagemLocal implements JsonSerializable
     {
         $passagensIda = [];
         $passagensVolta = [];
-        $dataSaida = new DateTime($busca->data_saida);
-        $dataChegada = new DateTime($busca->data_saida);
-
+        
         foreach ($idas as $ida) {
+            $dataSaida = new DateTime($busca->data_saida);
+            $dataChegada = new DateTime($busca->data_saida);
             $trechosida = array_map('self::mapVooLocalToTrecho', $ida);
             $valor = array_reduce($ida, fn ($carry, $tr) => $carry + $tr->valor, 0);
             $duration = self::calculateDuracao($ida[0]->hora_saida, $ida[count($ida) - 1]->hora_chegada);
@@ -208,9 +208,9 @@ class PassagemLocal implements JsonSerializable
             //$passagem = new Passagem($preco, $cia, $codOrigem, $codDestino, $dataHoraSaidaIda, $dataHoraChegadaIda, $duracaoIda, $trechosIda)
         }
         if ($busca->data_chegada) {
-            $dataSaida = new DateTime($busca->data_chegada);
-            $dataChegada = new DateTime($busca->data_chegada);
             foreach ($voltas as $volta) {
+                $dataSaida = new DateTime($busca->data_chegada);
+                $dataChegada = new DateTime($busca->data_chegada);
                 $trechosVolta =
                 array_map('self::mapVooLocalToTrecho', $volta);
                 $valor = array_reduce($volta, fn ($carry, $tr) => $carry + $tr->valor, 0);
