@@ -24,7 +24,7 @@ function SelectAeroporto({ id, name, label, addedValidation }) {
   }
 
   let validation = {
-    required: { value: true, message: "Campo Obrigatório" },
+    required: { value: true, message: "Campo Obrigatório" },  
   };
   if (addedValidation) {
     validation = {...validation, ...addedValidation}
