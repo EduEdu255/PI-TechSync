@@ -1,30 +1,34 @@
 import React from 'react';
-import { Header } from '../components/Header';
 
 const Planos = () => {
-  return (
-    <div className="bg-dark-blue text-white">
-      <div className="container mx-auto py-10">
-        <h2 className="text-center text-3xl font-bold mb-6">Escolha sua assinatura para melhor empresa.</h2>
-        <div className="flex justify-center space-x-4">
-          {/* Plano Básico */}
-          <div className="bg-blue-800 p-6 rounded-lg shadow-md w-1/4">
-            <h3 className="font-semibold text-xl mb-4">Básico</h3>
-            {/*detalhar o plano aqui*/}
-          </div>
-          
-          {/* Plano Pro */}
-          <div className="bg-blue-700 p-6 rounded-lg shadow-md w-1/4">
-            <h3 className="font-semibold text-xl mb-4">Pro</h3>
-            {/* detalhar o plano aqui*/}
-          </div>
+    return (
+        <div className="bg-gradient-to-r from-purple-900 to-blue-700 text-white h-screen">
+          <div className="container mx-auto py-10">
+            <h2 className="text-center text-3xl font-bold mb-6">Escolha sua assinatura para melhor empresa.</h2>
+            <div className="flex justify-center space-x-4">
+              {/* Plano Básico */}
+              <div className="bg-white p-6 rounded-lg shadow-md w-1/4">
+                <h3 className="font-semibold text-xl text-blackmb-4">Básico</h3>
+                {/* Detalhes do plano... */}
+                <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Escolher esse plano</button>
+              </div>
+              
+               {/* Plano Enterprise */}
+               <div className="bg-black p-6 rounded-lg shadow-md w-1/4">
+                <h3 className="font-semibold text-xl mb-4 text-white">Enterprise</h3>
+                {/* Detalhes do plano... */}
+                <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Escolher esse plano</button>
+              </div>
 
-          {/* Plano Enterprise */}
-          <div className="bg-blue-600 p-6 rounded-lg shadow-md w-1/4">
-            <h3 className="font-semibold text-xl mb-4">Enterprise</h3>
-            {/* detalhar o plano aqui*/}
-          </div>
-        </div>
+              {/* Plano Pro */}
+              <div className="bg-white p-6 rounded-lg shadow-md w-1/4">
+                <h3 className="font-semibold text-xl text-black mb-4">Pro</h3>
+                {/* Detalhes do plano... */}
+                <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Escolher esse plano</button>
+              </div>
+    
+             
+            </div>
 
         {/* Formulário de Informações de Pagamento */}
         <form action="#" method="POST" className="mt-10 bg-white text-gray-700 p-8 rounded-lg shadow-md max-w-md mx-auto">
@@ -41,8 +45,12 @@ const Planos = () => {
           </fieldset>
         </form>
       </div>
+
+      
     </div>
+    
   );
 };
+
 
 export default Planos;
