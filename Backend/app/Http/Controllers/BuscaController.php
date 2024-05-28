@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Collection;
 use App\Services\AmadeusApiService;
 use App\Models\Voo;
-use App\Models\Helpers\PassagemLocal;
-use App\Models\Helpers\Passagem;
+use App\Models\Helpers\ViagemLocal;
+use App\Models\Helpers\PassagemApi;
 use App\Models\CiaAerea;
 use App\Models\Busca;
 use App\Models\Assinatura;
 use App\Http\Resources\VooResource;
 use App\Http\Resources\BuscaResource;
 use App\Http\Requests\BuscaRequest;
+use App\Models\Helpers\VooManager;
 use Illuminate\Support\Facades\DB;
 
 class BuscaController extends Controller
@@ -59,7 +60,7 @@ class BuscaController extends Controller
         $codDestino = $data['destino'];
         $voos = $api->procuraVooPost($codOrigem, $codDestino, $saida, $retorno, $cias);
         if (array_key_exists('data', $voos) && count($voos['data']) > 0) {
-            $passagens = Passagem::fromResult($voos);
+            $passagens = PassagemApi::fromResult($voos);
         } else {
             $passagens = [];
         }
@@ -84,6 +85,13 @@ class BuscaController extends Controller
         $data = $request->all();
         $retorno = $data['volta'] ?? null ? new \DateTime($data['volta']) : null;
         $saida = new \DateTime($data['ida']);
+        $hoje = now();
+        if ($saida < $hoje) {
+            return response()->json(['message' => 'Ida precisa ser superior à data de hoje']);
+        }
+        if ($retorno && $retorno < $hoje) {
+            return response()->json(['message' => 'Volta precisa ser superior à data de hoje']);
+        }
         $assinaturasAtivas = Assinatura::where('ativa', true)->get();
         $cias = [];
         foreach ($assinaturasAtivas as $assinatura) {
@@ -101,7 +109,7 @@ class BuscaController extends Controller
         foreach ($possibilidades as $possibilidade) {
             $idas[] = $possibilidade;
         }
-        $voltas=[];
+        $voltas = [];
         if (!!$retorno) {
             $possibilidades = $this->getPossiveisVoos($codDestino, $codOrigem, $cias);
             foreach ($possibilidades as $possibilidade) {
@@ -119,9 +127,9 @@ class BuscaController extends Controller
         if (!!$user) {
             $busca->users()->associate($user);
         }
-        $passagens = PassagemLocal::fromBusca($busca, $idas, $voltas);
+        $vooManager = new VooManager($busca, $cias, 2);
         $busca->save();
-        $busca->passagens = $passagens;
+        $busca->passagens = $vooManager->getViagens();
         return new BuscaResource($busca);
     }
 
@@ -192,37 +200,38 @@ class BuscaController extends Controller
 
     /**
      * Contagem Origem
-     * 
+     *
      * Endpoint que traz a quantidade de buscas realizadas organizadas por origem
      */
-    public function contagemOrigem(){
+    public function contagemOrigem()
+    {
         $buscas = DB::table('busca')
-        ->select('origem', DB::raw('count(origem) as total'))
-        ->groupBy('origem')
-        ->get();
+            ->select('origem', DB::raw('count(origem) as total'))
+            ->groupBy('origem')
+            ->get();
 
-        $total = $buscas->reduce(fn($carry, $item)=>$carry + $item->total,0);
-        foreach($buscas as $busca){
+        $total = $buscas->reduce(fn ($carry, $item) => $carry + $item->total, 0);
+        foreach ($buscas as $busca) {
             $busca->percentual = $busca->total / $total;
         }
 
         return response()->json($buscas);
-
     }
 
     /**
      * Contagem Destino
-     * 
+     *
      * Endpoint que traz a quantidade de buscas realizadas organizadas por Destino
      */
-    public function contagemDestino(){
+    public function contagemDestino()
+    {
         $buscas = DB::table('busca')
-        ->select('destino', DB::raw('count(destino) as total'))
-        ->groupBy('destino')
-        ->get();
+            ->select('destino', DB::raw('count(destino) as total'))
+            ->groupBy('destino')
+            ->get();
 
-        $total = $buscas->reduce(fn($carry, $item)=>$carry + $item->total,0);
-        foreach($buscas as $busca){
+        $total = $buscas->reduce(fn ($carry, $item) => $carry + $item->total, 0);
+        foreach ($buscas as $busca) {
             $busca->percentual = $busca->total / $total;
         }
         return response()->json($buscas);
@@ -230,16 +239,17 @@ class BuscaController extends Controller
 
     /**
      * Contagem Mensal
-     * 
+     *
      * Endpoint que traz a quantidade de buscas realizadas organizadas por mês de saída
      */
-    public function destinosPorMes(){
+    public function destinosPorMes()
+    {
         $buscas = DB::table('busca')
-        ->select(DB::raw('count(data_saida) as total'), DB::raw("strftime('%m',data_saida) as mes"))
-        ->groupBy('mes')
-        ->get();
-        $total = $buscas->reduce(fn($carry, $item)=>$carry + $item->total,0);
-        foreach($buscas as $busca){
+            ->select(DB::raw('count(data_saida) as total'), DB::raw("strftime('%m',data_saida) as mes"))
+            ->groupBy('mes')
+            ->get();
+        $total = $buscas->reduce(fn ($carry, $item) => $carry + $item->total, 0);
+        foreach ($buscas as $busca) {
             $busca->percentual = $busca->total / $total;
         }
         return response()->json($buscas);

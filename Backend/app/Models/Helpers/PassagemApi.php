@@ -9,7 +9,7 @@ use App\Models\Voo;
 use App\Models\CiaAerea;
 use App\Models\Busca;
 
-class Passagem implements JsonSerializable
+class PassagemApi implements JsonSerializable
 {
 
 
@@ -233,9 +233,9 @@ class Passagem implements JsonSerializable
                 $duracaoVolta = $volta['duration'];
                 $dataHoraSaidaVolta = $trechosVolta[0]->getDataHoraSaida();
                 $dataHoraChegadaVolta = end($trechosVolta)->getDataHoraChegada();
-                $passagem = new Passagem($preco, $cia, $codOrigem, $codDestino, $dataHoraSaidaIda, $dataHoraChegadaIda, $duracaoIda, $trechosIda, $dataHoraSaidaVolta, $dataHoraChegadaVolta, $duracaoVolta, $trechosVolta, self::verificaTrocaAeroporto($trechosIda), self::verificaTrocaAeroporto($trechosVolta));
+                $passagem = new PassagemApi($preco, $cia, $codOrigem, $codDestino, $dataHoraSaidaIda, $dataHoraChegadaIda, $duracaoIda, $trechosIda, $dataHoraSaidaVolta, $dataHoraChegadaVolta, $duracaoVolta, $trechosVolta, self::verificaTrocaAeroporto($trechosIda), self::verificaTrocaAeroporto($trechosVolta));
             } else {
-                $passagem = new Passagem($preco, $cia, $codOrigem, $codDestino, $dataHoraSaidaIda, $dataHoraChegadaIda, $duracaoIda, $trechosIda);
+                $passagem = new PassagemApi($preco, $cia, $codOrigem, $codDestino, $dataHoraSaidaIda, $dataHoraChegadaIda, $duracaoIda, $trechosIda);
             }
 
             $passagens[] = $passagem;
