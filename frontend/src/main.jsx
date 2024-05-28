@@ -30,6 +30,7 @@ import TrocaSenhaCia from './Routes/Cia/TrocaSenhaCia.jsx';
 import MenuCia from "./Routes/Cia/MenuCia.jsx"
 import Planos from "./Routes/Planos.jsx";
 import { Profile as ProfileCia} from "./Routes/Cia/Profile.jsx";
+import AdesaoPlanos from "./Routes/AdesaoPlanos.jsx";
 
 
 
@@ -144,6 +145,10 @@ const router = createBrowserRouter([
         path: "esqueci",
         element: <EsqueciSenhaCia/>
       },
+      {
+        path:"adesao-planos",
+        element: <AdesaoPlanos />
+      }
      
     ]
   },

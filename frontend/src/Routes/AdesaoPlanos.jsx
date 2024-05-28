@@ -1,5 +1,8 @@
 import React from 'react';
 import Plano from '../components/Plano';
+import { useState, useEffect } from 'react';
+import { fetchData } from '../Services/apiService';
+import Loading from '../components/Loading';
 
 const AdesaoPlanos = () => {
   const [dados, setDados] = useState(null);
