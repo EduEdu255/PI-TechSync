@@ -3,7 +3,7 @@ import { editData, api_image_base_url } from "../Services/apiService";
 
 function Passagem({ id, origem, destino, cia, preco, dataHoraSaida, dataHoraChegada, link, trechos, logo, duracao }) {
   return (
-    <div className=" bg-white shadow-xl flex  gap-5 w-3/4 rounded-lg mb-3 p-10 m-auto" key={id + origem + destino + cia + ida + volta}>
+    <div className=" bg-white shadow-xl flex justify-between gap-5 w-3/4 rounded-lg mb-3 p-5 m-auto" key={id + origem + destino + cia + ida + volta}>
       <div>
         <span>Cia Aérea: {cia} <img src={api_image_base_url + logo} className=" w-14" /></span>
       </div>
