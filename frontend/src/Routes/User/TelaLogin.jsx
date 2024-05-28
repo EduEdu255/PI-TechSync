@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../../Services/LoginContext.jsx";
 import { fetchData, loginUsuario } from "../../Services/apiService.jsx";
 import { Loading } from "../../components/Loading.jsx";
-import LoginImg from "/images/Background 5.4.svg";
 import { AnimatePresence, motion } from "framer-motion";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import SnackBar from '../../components/SnackBar.jsx';
 
 // import styles from '../assets/css/TelaLogin2.module.css';
 
@@ -17,7 +17,6 @@ function TelaLogin() {
   const [processando, setProcessando] = useState(false);
   const [erros, setErros] = useState(null);
   const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState([]);
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
@@ -38,7 +37,6 @@ function TelaLogin() {
           }
         )
         .then((res) => {
-          setProfile(res.data);
           const newUser = {
             "@type": "GoogleUser",
             nome: res.data.name,
@@ -57,7 +55,6 @@ function TelaLogin() {
   //Logout do Google
   const logOut = () => {
     googleLogout();
-    setProfile(null);
     setLoggedUser(null);
     sessionStorage.removeItem("loggedUser");
   };
@@ -99,10 +96,15 @@ function TelaLogin() {
           sessionStorage.removeItem("loggedUser");
         }
       },
-      (_) => {
-        console.log(_);
+      (err) => {
+        console.log(err);
         setProcessando(false);
-        setErros({ message: "Tentativa de Login falhou. Tente novamente mais tarde." });
+        if (err?.response?.status == 401) {
+           setErros({message: "Login falhou. Cheque suas credenciais."})
+        } else {
+          
+          setErros({ message: "Tentativa de Login falhou. Tente novamente mais tarde." });
+        }
       }
     );
   }
@@ -114,11 +116,7 @@ function TelaLogin() {
     if (!erros) {
       return null;
     }
-    return (
-      <div className="flex items-center justify-center h-12 bg-red-400 text-white text-sm rounded-md w-full">
-        {erros.message}
-      </div>
-    );
+    return (<SnackBar message={erros.message} type="danger"/>);
   }
 
   return (

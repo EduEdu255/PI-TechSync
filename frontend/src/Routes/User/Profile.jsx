@@ -1,48 +1,23 @@
 import { useContext, useEffect } from "react";
 import { LoginContext } from "../../Services/LoginContext";
 import { Link, useNavigate } from "react-router-dom";
-import { api_image_base_url } from "../../Services/apiService";
+import ProfileImage from '../../components/ProfileImage';
 
 export function Profile() {
-  const { isLoggedIn, loggedUser, setIsLoggedIn, setLoggedUser } =
+  const { isLoggedIn, loggedUser, setLoggedUser } =
     useContext(LoginContext);
   const navigate = useNavigate();
-
-  let image = () => {
-    const url = loggedUser.profile_pic.includes("http")
-      ? loggedUser.profile_pic
-      : api_image_base_url + loggedUser.profile_pic;
-    let urlHover = '';
-    if (loggedUser['@type'] == "User") {
-      urlHover = "/images/camera.svg";
-    }
-
-    return (
-      <>
-        <div
-          style={{
-            "--image-url": `url(${url})`,
-            "--image-url-hover": `url(${urlHover}), url(${url})`,
-          }}
-          className={`rounded-full h-[250px] aspect-square object-cover bg-[image:var(--image-url)] bg-cover bg-no-repeat hover:bg-[image:var(--image-url-hover)]`}
-        ></div>
-      </>
-    );
-  };
 
   useEffect(() => {
     const user = sessionStorage.getItem("loggedUser");
     if (user) {
-      setIsLoggedIn(true);
       setLoggedUser(JSON.parse(user));
     } else {
       navigate("/");
     }
-  }, [isLoggedIn, navigate]);
-  if (!isLoggedIn) {
-    return null;
-  } else {
-    return (
+  }, []);
+  
+    return (isLoggedIn &&
       <>
         <div className="bg-gray-400 w-4/5 m-auto rounded-3xl bg-[url(/images/profile-plane.jpg)] bg-cover bg-bottom shadow-lg font-[Rubik]">
           <div className="h-[25vh] flex justify-end items-center p-20">
@@ -57,7 +32,7 @@ export function Profile() {
           </div>
           <div className="bg-white w-full flex p-10 rounded-b-3xl">
             <div className="rounded-full relative -top-[125px]">
-              {loggedUser.profile_pic ? image() : null}
+            {loggedUser ? <ProfileImage loggedUser={loggedUser}/> : null}
             </div>
             <div className="w-2/3 flex justify-between items-start text-[24px] p-10">
               <div className="flex flex-col gap-10">
@@ -97,5 +72,4 @@ export function Profile() {
         </div>
       </>
     );
-  }
 }

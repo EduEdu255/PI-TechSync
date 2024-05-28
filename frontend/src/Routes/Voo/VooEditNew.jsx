@@ -9,16 +9,26 @@ import {
 } from "../../Services/apiService";
 import { useNavigate, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import InputError from "../../components/InputError";
 import Loading from "../../components/Loading";
 import SelectAeroporto from "../../components/SelectAeroporto";
+import SnackBar from '../../components/SnackBar';
 
 function CadastroVoo() {
   const navigate = useNavigate();
   const [voo, setVoo] = useState(null);
   const [aeronaves, setAeronaves] = useState([]);
+  const [erros, setErros] = useState(null);
+  const [processando, setProcessando] = useState(false);
+  const [openSnack, setOpenSnack] = useState(false)
   const { id } = useParams();
   const methods = useForm();
+
+  function openSnackBar(duration) {
+    setOpenSnack(true);
+    setTimeout(() => {
+      setOpenSnack(false)
+    }, duration);
+  }
 
   const handleFormSubmit = (data) => {
     setProcessando(true);
@@ -32,16 +42,16 @@ function CadastroVoo() {
     request.then(
       () => {
         setProcessando(false);
-        navigate("/voo");
+        navigate("/cia/voo");
       },
       (err) => {
         setProcessando(false);
         console.log(err);
+        setErros(err.response?.data?.message)
+        openSnackBar(5000);
       }
     );
   };
-  const [erros, setErros] = useState(null);
-  const [processando, setProcessando] = useState(false);
 
   const getVoo = useCallback(
     (id) => {
@@ -64,6 +74,7 @@ function CadastroVoo() {
           (err) => {
             console.log(err);
             setProcessando(false);
+            
           }
         );
       }
@@ -87,7 +98,7 @@ function CadastroVoo() {
     }
   }, [getVoo, id, methods]);
   function mapAeronave(aeronave) {
-    return <option value={aeronave.sigla}>{aeronave.marca}</option>;
+    return <option value={aeronave.sigla} key={aeronave.sigla}>{aeronave.marca}</option>;
   }
   return (
     <AnimatePresence>
@@ -100,8 +111,12 @@ function CadastroVoo() {
       >
         <FormProvider {...methods}>
           {processando ? <Loading /> : null}
-
           <div className="w-[50%]">
+            {openSnack && (<SnackBar
+              message={erros}
+              key={erros}
+              type="danger"
+            />)}
             <form
               onSubmit={(e) => e.preventDefault()}
               noValidate
@@ -201,11 +216,6 @@ function CadastroVoo() {
                   {voo ? "Atualizar" : "Cadastrar"}
                 </button>
               </div>
-              <AnimatePresence mode="wait" initial={false}>
-                {erros && (
-                  <InputError message={erros.message} key={erros.message} />
-                )}
-              </AnimatePresence>
             </form>
           </div>
           <div className="w-[50%] flex justify-center items-center  bg-[url(/images/cia-registrar.jpg)] bg-cover bg-no-repeat rounded-bl-[150px] rounded-tl-[15px]">

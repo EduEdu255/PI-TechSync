@@ -54,6 +54,9 @@ class CiaAereaController extends Controller
      */
     public function show()
     {
+        /**
+         * @var CiaAerea $cia
+         */
         $cia = auth('aereas')->user();
         return response()->json(new CiaAereaResource($cia));
     }

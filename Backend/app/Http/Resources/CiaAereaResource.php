@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Requests\AssinaturaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +21,8 @@ class CiaAereaResource extends JsonResource
             'razaoSocial' => $this->razao_social,
             'codigoIata' => $this->codigo_iata,
             'url' => $this->url,
-            'logo' => $this->logo ?? ''
+            'logo' => $this->logo ?? '',
+            'assinatura' => $this->assinatura,
         ];
     }
 }

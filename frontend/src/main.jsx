@@ -27,6 +27,9 @@ import CadastroCia from './Routes/Cia/CadastroCia.jsx';
 import LoginCia from './Routes/Cia/LoginCia.jsx';
 import EsqueciSenhaCia from './Routes/Cia/EsqueciSenhaCia.jsx';
 import TrocaSenhaCia from './Routes/Cia/TrocaSenhaCia.jsx';
+import MenuCia from "./Routes/Cia/MenuCia.jsx"
+
+
 
 //Aeronave
 import CadastroAeronave from "./Routes/Aeronave/AeronaveEditNew.jsx";
@@ -37,6 +40,7 @@ import AeronaveList from "./Routes/Aeronave/AeronaveList.jsx";
 import TesteFetchComponent from "./Routes/TestePlano.jsx";
 import CadastroVoo from './Routes/Voo/VooEditNew.jsx';
 import VooList from './Routes/Voo/VooList.jsx';
+import Logout from './Routes/Logout.jsx';
 
 //Linkar Rotas
 const router = createBrowserRouter([
@@ -77,31 +81,34 @@ const router = createBrowserRouter([
         element: <TrocaSenha />,
       },
       {
-        element: <CiaRoutes/>, children:[
+        element: <CiaRoutes />, children: [
           {
-            path: "aeronave/new",
-            element: <CadastroAeronave/>
-          },
-          {
-            path: "aeronave/:id",
-            element: <CadastroAeronave/>
-          },
-          {
-            path: "aeronave",
-            element: <AeronaveList/>
-          },
-          {
-            path: "voo/new",
-            element: <CadastroVoo/>
-          },
-          {
-            path: "voo/:id",
-            element: <CadastroVoo/>
-          },
-          {
-            path: "voo",
-            element: <VooList/>
-          },
+            path: "cia", element: <MenuCia />, children: [
+              {
+                path: "aeronave/new",
+                element: <CadastroAeronave/>
+              },
+              {
+                path: "aeronave/:id",
+                element: <CadastroAeronave/>
+              },
+              {
+                path: "aeronave",
+                element: <AeronaveList/>
+              },
+              {
+                path: "voo/new",
+                element: <CadastroVoo/>
+              },
+              {
+                path: "voo/:id",
+                element: <CadastroVoo/>
+              },
+              {
+                path: "voo",
+                element: <VooList/>
+              },
+          ]}
         ]
       },
     ],
@@ -126,10 +133,13 @@ const router = createBrowserRouter([
       {
         path: "esqueci",
         element: <EsqueciSenhaCia/>
-      }
+      },
     ]
   },
-
+  {
+    path: "/logout",
+    element: <Logout/>
+  },
 
 
   {
