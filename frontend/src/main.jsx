@@ -29,6 +29,7 @@ import EsqueciSenhaCia from './Routes/Cia/EsqueciSenhaCia.jsx';
 import TrocaSenhaCia from './Routes/Cia/TrocaSenhaCia.jsx';
 import MenuCia from "./Routes/Cia/MenuCia.jsx"
 import Planos from "./Routes/Planos.jsx";
+import { Profile as ProfileCia} from "./Routes/Cia/Profile.jsx";
 
 
 
@@ -94,10 +95,13 @@ const router = createBrowserRouter([
                 element: <CadastroAeronave/>
               },
               {
+                path: "",
+                element: <ProfileCia/>
+              },
+              {
                 path: "aeronave/:id",
                 element: <CadastroAeronave/>
               },
-            
               {
                 path: "aeronave",
                 element: <AeronaveList/>

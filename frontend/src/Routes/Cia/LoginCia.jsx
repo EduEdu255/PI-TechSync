@@ -32,7 +32,7 @@ function LoginCia() {
               setProcessando(false);
               setErros(null);
               if (user.assinatura && user.assinatura.ativa) {
-                navigate("/cia/aeronave");
+                navigate("/cia");
               } else {
                 navigate("/TesteFetch");
               }
