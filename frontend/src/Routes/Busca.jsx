@@ -67,6 +67,7 @@ function Busca() {
       return "Sem dados";
     }
     const dados = data.data;
+    console.log (dados)
     const quantidade = dados.quantidade;
     const passagens = dados.passagens;
     const origem = findAeroporto(dados.origem);
