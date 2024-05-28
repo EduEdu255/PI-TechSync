@@ -1,6 +1,7 @@
 import React from 'react';
+import { Header } from '../components/Header';
 
-const PricingPage = () => {
+const Planos = () => {
   return (
     <div className="bg-dark-blue text-white">
       <div className="container mx-auto py-10">
@@ -44,4 +45,4 @@ const PricingPage = () => {
   );
 };
 
-export default PricingPage;
+export default Planos;
