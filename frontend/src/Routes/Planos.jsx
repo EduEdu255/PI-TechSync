@@ -39,8 +39,19 @@ const Planos = () => {
               </div>
     
             </div>
+
+            {/*}
+                <div className="flex items-center justify-center h-screen">
+                    <Link to="/another-page">
+                        <button className="bg-blue-500 text-white px-4 py-2 rounded">
+                        Ir para Outra Página
+                        </button>
+                    </Link>
+                </div>
+            */}
+
             <div className='mt-10 p-8  max-w-md mx-auto flex items-center justify-center'>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 align-middle justify-center">Clique aqui para aderir seu plano...</button>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 align-middle justify-center"> Clique aqui para aderir seu plano...</button>
             </div>
         
       </div>

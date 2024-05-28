@@ -5,10 +5,10 @@ function Plano({ dado }) {
 
     return (
         <div className={getClassName()} key={dado.id} onClick={cliquei}>
-        <h3 className="font-bold text-center lg:text-3xl">{dado.nome}</h3>
+        <h3 className="font-semibold text-3xl mb-4 text-white text-center">{dado.nome}</h3>
         <ul className="text-center">
           <li>
-            R$ <span className="lg:text-3xl text-red-600">{dado.valor}</span>
+            R$ <span className='font-bold mb-4 text-2xl text-red'>{dado.valor}</span>
           </li>
           <li>
             válido por <span className="text-2xl">{dado.meses_validade}</span>{" "}
