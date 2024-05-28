@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { editData, api_image_base_url } from "../Services/apiService";
 
-function Passagem({ id, origem, destino, cia, preco, dataHoraSaida, dataHoraChegada, link, trechos, logo, duracao }) {
+function Passagem({ id, origem, destino, cia, preco, dataIda, dataVolta, link, ida, volta, logo, paradas }) {
   return (
     <div className=" bg-white shadow-xl flex justify-between gap-5 w-3/4 rounded-lg mb-3 p-5 m-auto" key={id + origem + destino + cia + ida + volta}>
       <div>
@@ -17,11 +17,9 @@ function Passagem({ id, origem, destino, cia, preco, dataHoraSaida, dataHoraCheg
           </span>
 
         </div>
-        <div>{trechos.length > 1 ? "Paradas: " + (trechos.length - 1) : "Direto"}</div>
-        <div>{getDuracao(duracao)} {trechos.length > 1 ? (trechos.length - 1) + (trechos.length == 3 ? " Paradas" : " Parada") : "Direto"}</div>
         <div className="flex  w[80%] gap-20 mt-5 font-semibold">
-          <span>Saída: {getDate(dataHoraSaida)}  </span>
-          <span>Chegada: {getDate(dataHoraChegada)}  </span>
+          <span>Ida: {getDate(dataIda)}  </span>
+          <span>Volta: {getDate(dataVolta)}  </span>
         </div>
 
       </div>
@@ -38,9 +36,6 @@ function Passagem({ id, origem, destino, cia, preco, dataHoraSaida, dataHoraCheg
           </button>
         </Link>
       </div>
-      <span className={ida.trocaAeroporto ? "text-red-800 text-xl2" : ""}>
-        {ida.trocaAeroporto ? "Troca" : ""}
-      </span>
     </div>
   );
   function getDuracao(duracao){

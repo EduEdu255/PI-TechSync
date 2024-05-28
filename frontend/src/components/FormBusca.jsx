@@ -15,6 +15,11 @@ const FormBusca = ({ onSubmit }) => {
     } else if (data.volta && Date.parse(data.ida) >= Date.parse(data.volta)) {
       setErros({ message: "Volta não pode ser antes da Ida" });
       return null;
+    }
+    else if (Date.parse(data.ida) < new Date()) {
+      setErros({ message: "Data de ida não pode ser no passado" })
+      return null;
+
     } else {
       setErros(null);
     }
@@ -25,7 +30,7 @@ const FormBusca = ({ onSubmit }) => {
 
   const methods = useForm();
   return (
-    <div className=" w-3/5 ml-auto mr-auto top-16 relative shadow-lg p-10 rounded-3xl bg-white">
+    <div className=" w-[90%] ml-auto mr-auto top-16 relative shadow-lg p-10 rounded-3xl bg-white">
       <h3 className="mb-7 font-bold">Busca de Passagens</h3>
       <FormProvider {...methods}>
         <form
@@ -71,11 +76,6 @@ const FormBusca = ({ onSubmit }) => {
               placeholder="09/06/2024"
               name="volta"
             />
-            <AnimatePresence mode="wait" initial={false}>
-              {erros && (
-                <InputError message={erros.message} key={erros.message} />
-              )}
-            </AnimatePresence>
 
             <button
               onClick={methods.handleSubmit(handleFormSubmit)}
@@ -85,6 +85,11 @@ const FormBusca = ({ onSubmit }) => {
             </button>
           </div>
         </form>
+        <AnimatePresence mode="wait" initial={false}>
+          {erros && (
+            <InputError message={erros.message} key={erros.message} />
+          )}
+        </AnimatePresence>
       </FormProvider>
     </div>
   );

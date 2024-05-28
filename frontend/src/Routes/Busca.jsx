@@ -55,7 +55,7 @@ function Busca() {
 
   return (
     <div className="bg-[#EEEEEE]">
-      <div className='mb-24 flex items-end mb-36 bg-[url(/images/plane-view.png)] bg-cover h-[70vh]'>
+      <div className='flex items-end mb-36 bg-[url(/images/plane-view.png)] bg-cover h-[70vh]'>
       <FormBusca onSubmit={submitBusca} />
       </div>
       <div>{!processando ? result ? parseResult(result) : null : <Loading/>}</div>
@@ -87,15 +87,10 @@ function Busca() {
           {dados.volta ? <p>Volta: {getDate(dados.volta + " 00:00:00")}</p> : null}
         </div>
                 
-          <p>Passagens de Ida: {passagens.ida.map((x) => {
+          <p>Passagens: {passagens.map((x) => {
             return mapPassagem(x, dados.id);
 
           })}</p>
-          {dados.volta &&
-            <p>Passagens de Volta: {passagens.volta.map((x) => {
-              return mapPassagem(x, dados.id);
-
-            })}</p>}
       </div>
     );
   }
@@ -119,12 +114,12 @@ function Busca() {
         destino={passagem.destino}
         cia={passagem.ciaAerea.razao_social}
         preco={passagem.preco}
-        dataHoraSaida={passagem.dataHoraSaida}
-        dataHoraChegada={passagem.dataHoraChegada}
+        dataIda={passagem.dataIda}
+        dataVolta={passagem.dataVolta}
         link={passagem.linkBusca}
-        trechos={passagem.trechos}
+        ida={passagem.ida}
+        volta={passagem.volta}
         logo = {passagem.ciaAerea.logo}
-        duracao = {passagem.duracao}
       />
     );
   }

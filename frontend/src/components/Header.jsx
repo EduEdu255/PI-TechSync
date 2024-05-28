@@ -88,7 +88,7 @@ export function Header() {
                       e.target.onerror = null;
                       e.target.src="/images/perfil.svg";
                     }}
-                    className="h-[20px] rounded-full"
+                    className="h-[20px] object-cover rounded-full"
                   />
                   <p>Perfil</p>
                 </Link>
@@ -103,7 +103,7 @@ export function Header() {
                 ></DropDownMenu>
               </div>
             )}
-            <Link className="rounded-lg text-gray-600 px-4 py-2 flex items-center gap-2">
+            <Link className="rounded-lg text-gray-600 px-4 py-2 flex items-center gap-2" to="/busca">
               <img src={IconMalac} />
               <p>Viagens</p>
             </Link>

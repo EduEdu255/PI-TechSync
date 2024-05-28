@@ -37,14 +37,6 @@ function SelectAeroporto({ id, name, label, addedValidation }) {
           <label htmlFor={id} className="text-[#2B3674] font-medium">
             {label}
           </label>
-          <AnimatePresence mode="wait" initial={false}>
-            {isInvalid && (
-              <InputError
-                message={inputError.error.message}
-                key={inputError.error.message}
-              />
-            )}
-          </AnimatePresence>
         </div>
         <select
           name={name}
@@ -56,6 +48,14 @@ function SelectAeroporto({ id, name, label, addedValidation }) {
           <option></option>
           {aeroportos.map(getAeroporto)}
         </select>
+          <AnimatePresence mode="wait" initial={false}>
+            {isInvalid && (
+              <InputError
+                message={inputError.error.message}
+                key={inputError.error.message}
+              />
+            )}
+          </AnimatePresence>
       </div>
     </div>
   );
