@@ -114,8 +114,8 @@ function Busca() {
     return (
       <Passagem
         id={id}
-        origem={findAeroporto(passagem.origem)}
-        destino={findAeroporto(passagem.destino)}
+        origem={passagem.origem}
+        destino={passagem.destino}
         cia={passagem.ciaAerea.razao_social}
         preco={passagem.preco}
         dataHoraSaida={passagem.dataHoraSaida}
@@ -123,6 +123,7 @@ function Busca() {
         link={passagem.linkBusca}
         trechos={passagem.trechos}
         logo = {passagem.ciaAerea.logo}
+        duracao = {passagem.duracao}
       />
     );
   }
