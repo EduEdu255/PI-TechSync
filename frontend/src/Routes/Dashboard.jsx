@@ -1,10 +1,10 @@
 import React from "react";
 import { DivNav } from "../components/DivNav";
 import { ElementUiElements } from "../components/ElementUiElements";
-import { InterfaceChartLine1 } from "../../icons/InterfaceChartLine1";
-import { LogoPousar1 } from "../../assets/icons/LogoPousar1";
+import { InterfaceChartLine1 } from "../assets/icons/InterfaceChartLine1";
+import { LogoPousar1 } from "../assets/icons/LogoPousar1";
 
-export const Dashboard = () => {
+function Dashboard() {
   return (
     <div className="bg-[#fafbfc] flex flex-row justify-center w-full">
       <div className="bg-[#fafbfc] overflow-hidden border border-solid border-greysblue-grey300 w-[1920px] h-[1405px] relative">
@@ -749,3 +749,5 @@ export const Dashboard = () => {
     </div>
   );
 };
+
+export default Dashboard;

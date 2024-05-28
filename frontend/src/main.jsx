@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { environment } from '../environment.js';
+import { environment } from '../src/environment.js';
 
 //Importar Rotas
 
@@ -28,7 +28,7 @@ import LoginCia from './Routes/Cia/LoginCia.jsx';
 import EsqueciSenhaCia from './Routes/Cia/EsqueciSenhaCia.jsx';
 import TrocaSenhaCia from './Routes/Cia/TrocaSenhaCia.jsx';
 import MenuCia from "./Routes/Cia/MenuCia.jsx"
-
+import Dashboard from "./Routes/Dashboard.jsx";
 
 
 //Aeronave
@@ -41,6 +41,7 @@ import TesteFetchComponent from "./Routes/TestePlano.jsx";
 import CadastroVoo from './Routes/Voo/VooEditNew.jsx';
 import VooList from './Routes/Voo/VooList.jsx';
 import Logout from './Routes/Logout.jsx';
+import { MdDashboard } from "react-icons/md";
 
 //Linkar Rotas
 const router = createBrowserRouter([
@@ -125,6 +126,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <LoginCia/>
+      },
+      {
+        path: "dash",
+        element: <Dashboard />,
       },
       {
         path: "troca-senha",
