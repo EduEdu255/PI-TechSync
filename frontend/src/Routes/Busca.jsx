@@ -67,6 +67,7 @@ function Busca() {
       return "Sem dados";
     }
     const dados = data.data;
+    console.log (dados)
     const quantidade = dados.quantidade;
     console.log(dados);
     const passagens = dados.passagens;
