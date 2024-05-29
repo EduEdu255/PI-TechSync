@@ -32,7 +32,7 @@ export function Header() {
     } else if (loggedUser["@type"].includes("User")) {
       return '/perfil';
     } else if (loggedUser["@type"] == "CiaAerea") {
-      return '/cia/perfil';
+      return '/cia';
     }
     return null;
   }

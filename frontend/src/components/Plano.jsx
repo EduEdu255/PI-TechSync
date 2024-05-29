@@ -15,6 +15,9 @@ function Plano({ dado }) {
             {dado.meses_validade > 1 ? "meses" : "mês"}
           </li>
           <li>
+            {dado.descricao}
+          </li>
+          <li>
             Valor Por mês <span className="text-2xl">{dado.por_mes}</span>
           </li>
             </ul>

@@ -166,8 +166,8 @@ class PassagemLocal implements JsonSerializable
     {
         $timeSaida = explode(":", $voo->hora_saida);
         $timeChegada = explode(":", $voo->hora_chegada);
-        $dataSaida = (new \DateTime())->setTime($timeSaida[0], $timeSaida[1]);
-        $dataChegada = (new \DateTime())->setTime($timeChegada[0], $timeChegada[1]);
+        $dataSaida = (new DateTime())->setTime($timeSaida[0], $timeSaida[1]);
+        $dataChegada = (new DateTime())->setTime($timeChegada[0], $timeChegada[1]);
         $origem = $voo->cod_origem;
         $destino = $voo->cod_destino;
         $numero = $voo->numero;
