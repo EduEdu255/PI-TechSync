@@ -12,31 +12,45 @@ const Planos = () => {
              <div className="bg-black p-6 rounded-lg shadow-md w-1/4">
                 <h3 className="font-semibold text-3xl mb-4 text-white">Anual</h3>
                 <p className='font-bold mb-4 text-4xl text-white' >R$ 749,99</p>
-                <p className='font-normal mb-4 text-xl text-white' >Nesse plano su empresa estará economizando, aderindo a essa assinatura sua mensalidade sairá no valor de...</p>
-                <p className='font-bold mb-4 text-4xl text-white' >R$ 62,50</p>
+                <p className='font-normal mb-4 text-xl text-white' >Válido por 12 meses.</p>
+                <p className='font-normal mb-4 text-xl text-white' >Nesse plano sua empresa estará economizando, aderindo a essa assinatura você terá um excelente desconto...</p>
+                <p className='font-bold mb-4 text-4xl text-whitetext-xl text-red-500 line-through' >De R$ 99,99</p>
+                <p className='font-normal mb-4 text-xl text-white' >Por</p>
+                <p className='font-bold mb-4 text-5xl text-whitetext-xl text-white' >R$ 62,50/mês</p>
                 
               </div>
 
-              {/* Plano Básico */}
+              {/* Plano Semestral */}
               <div className="bg-white p-6 rounded-lg shadow-md w-1/4">
-                <h3 className="font-semibold text-3xl mb-4 text-black text-blackmb-4">Mensal</h3>
-                {/* Detalhes do plano... */}
-                
+                <h3 className="font-semibold text-3xl mb-4 text-black text-blackmb-4">Semestral</h3>
+                <p className='font-bold mb-4 text-4xl text-black' >R$ 399,99</p>
+                <p className='font-normal mb-4 text-xl text-black' >Válido por 06 meses.</p>
+                <p className='font-normal mb-4 text-xl text-black' >Nesse plano sua empresa estará economizando, aderindo a essa assinatura você terá um excelente desconto...</p>
+                <p className='font-bold mb-4 text-4xl text-whitetext-xl text-red-500 line-through' >De R$ 99,99</p>
+                <p className='font-normal mb-4 text-xl text-black' >Por</p>
+                <p className='font-bold mb-4 text-5xl text-whitetext-xl text-black' >R$ 66,66/mês</p>                
               </div>
               
 
-              {/* Plano Pro */}
+              {/* Plano Trimestral */}
               <div className="bg-white p-6 rounded-lg shadow-md w-1/4">
-                <h3 className="font-semibold text-3xl mb-4 text-black mb-4">Pro</h3>
-                <p className="font-light text-black mb-4"></p>
-                {/* Detalhes do plano... */}
-
+                <h3 className="font-semibold text-3xl mb-4 text-black text-blackmb-4">Trimestral</h3>
+                <p className='font-bold mb-4 text-4xl text-black' >R$ 249,99</p>
+                <p className='font-normal mb-4 text-xl text-black' >Válido por 03 meses.</p>
+                <p className='font-normal mb-4 text-xl text-black' >Nesse plano sua empresa estará economizando, aderindo a essa assinatura você terá um excelente desconto...</p>
+                <p className='font-bold mb-4 text-4xl text-whitetext-xl text-red-500 line-through' >De R$ 99,99</p>
+                <p className='font-normal mb-4 text-xl text-black' >Por</p>
+                <p className='font-bold mb-4 text-5xl text-whitetext-xl text-black' >R$ 83,33/mês</p>
               </div>
 
-              {/* Plano Pro */}
+              {/* Plano Mensal */}
               <div className="bg-white p-6 rounded-lg shadow-md w-1/4">
-                <h3 className="font-semibold text-3xl mb-4 text-black mb-4">Pro</h3>
-                {/* Detalhes do plano... */}
+              <h3 className="font-semibold text-3xl mb-4 text-black text-blackmb-4">Mensal</h3>
+                <p className='font-bold mb-4 text-4xl text-black' >R$ 99,99</p>
+                <p className='font-normal mb-4 text-xl text-black' >Válido por 30 dias.</p>
+                <p className='font-normal mb-4 text-xl text-black' >Conheça nossos serviços através do nosso plano mensal, você teŕa amplo acesso a nossos srviços.</p>
+                <p className='font-normal mb-4 text-xl text-black' >Adiquira por</p>
+                <p className='font-bold mb-4 text-5xl text-whitetext-xl text-black' >R$ 99,99/mês</p>
               </div>
     
             </div>
