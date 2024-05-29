@@ -43,8 +43,8 @@ class Trecho implements JsonSerializable
             "origem" => $this->codOrigem,
             "destino" => $this->codDestino,
             "numero" => $this->numero,
-            "dataHoraSaida" => $this->dataHoraSaida->format(DateTime::ATOM),
-            "dataHoraChegada" => $this->dataHoraChegada->format(DateTime::ATOM),
+            "horaSaida" => $this->dataHoraSaida->format("H:i"),
+            "horaChegada" => $this->dataHoraChegada->format("H:i"),
             "ciaAerea" => $this->cia,
             "aeronave"=> $this->aeronave
         ];

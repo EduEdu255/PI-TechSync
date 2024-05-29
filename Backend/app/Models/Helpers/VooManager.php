@@ -56,6 +56,7 @@ class VooManager
             $viagem = new Viagem($busca, $preco, $cia, $ida, $volta);
             $viagens[] = $viagem;
         }
+        usort($viagens, fn (Viagem $viagem1, Viagem $viagem2) => $viagem2->getPreco() < $viagem1->getPreco());
         return $viagens;
     }
 
@@ -107,7 +108,7 @@ class VooManager
                         $possibilidades[] = array_merge([$voo], $conexao);
                     }
                 }
-                //Remove dos visitados para permitir pesquisa em outros voos
+                //Remove dos visitados para permitir pesquisa em backtrack
                 unset($visitados[array_search($voo->cod_destino, $visitados)]);
             }
         }

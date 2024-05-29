@@ -14,7 +14,8 @@ class Plano extends Model
     protected $fillable = [
         'nome',
         'valor',
-        'meses'
+        'meses',
+        'descricao'
     ];
 
     protected $table = 'plano';

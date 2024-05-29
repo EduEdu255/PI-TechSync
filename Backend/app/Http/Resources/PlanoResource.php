@@ -19,7 +19,8 @@ class PlanoResource extends JsonResource
             'nome' => $this->nome,
             'valor' => $this->valor,
             'meses_validade' => $this->meses,
-            'por_mes' => number_format($this->valor / $this->meses,2)
+            'por_mes' => number_format($this->valor / $this->meses,2),
+            'descricao' => $this->descricao
         ];
     }
 }
