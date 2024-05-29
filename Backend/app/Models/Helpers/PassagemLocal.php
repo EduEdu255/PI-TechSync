@@ -113,8 +113,8 @@ class PassagemLocal implements JsonSerializable
                 $valor = array_reduce($volta, fn ($carry, $tr) => $carry + $tr->valor, 0);
                 $duration = self::calculateDuracao($volta[0]->hora_saida, $volta[count($volta) - 1]->hora_chegada);
                 $duration = self::durationAsInterval($duration);
-                $origem = $busca->origem;
-                $destino = $busca->destino;
+                $origem = $busca->destino;
+                $destino = $busca->origem;
                 $cia = $volta[0]->ciaAerea;
                 [$horaSaida, $minutoSaida] = explode(":", $volta[0]->hora_saida);
                 [$horaChegada, $minutoChegada] = explode(":", $volta[count($volta) - 1]->hora_chegada);
