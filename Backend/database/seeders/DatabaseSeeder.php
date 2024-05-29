@@ -17,10 +17,12 @@ class DatabaseSeeder extends Seeder
         User::create(['email' => 'thormes@gmail.com', 'password' => bcrypt('a$$word'), 'is_admin'=> true, 'nome' => 'Thormes Filgueira Leite Pereira']);
         $this->call([
             CiaAereaSeeder::class,
+            AeronaveSeeder::class,
+            VooSeeder::class,
             FormaPagamentoSeeder::class,
             PlanoSeeder::class
         ]);
-        
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
