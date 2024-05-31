@@ -70,7 +70,7 @@ export function Profile() {
               </div>
               <div className="flex flex-col">
                 <span className="font-normal">Validade Assinatura:</span>
-                <span className="font-light">{loggedUser.assinatura && getDate(loggedUser.assinatura.validade)}</span>
+                <span className="font-light">{loggedUser.assinatura ? getDate(loggedUser.assinatura.validade) : "Não Assinante"}</span>
               </div>
             </div>
           </div>

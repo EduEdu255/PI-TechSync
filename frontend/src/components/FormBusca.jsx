@@ -16,7 +16,7 @@ const FormBusca = ({ onSubmit }) => {
       setErros({ message: "Volta não pode ser antes da Ida" });
       return null;
     }
-    else if (Date.parse(data.ida) < new Date()) {
+    else if (Date.parse(data.ida + " 00:00:00") < new Date().setHours(0, 0, 0, 0)) {
       setErros({ message: "Data de ida não pode ser no passado" })
       return null;
 
@@ -30,8 +30,8 @@ const FormBusca = ({ onSubmit }) => {
 
   const methods = useForm();
   return (
-    <div className=" w-[90%] ml-auto mr-auto top-16 relative shadow-lg p-10 rounded-3xl bg-white">
-      <h3 className="mb-7 font-bold">Busca de Passagens</h3>
+    <div className=" w-[90%] ml-auto mr-auto top-16 relative shadow-lg p-10 rounded-3xl bg-white font-[Rubik]">
+      <h3 className="mb-7 font-medium text-2xl">Busca de Passagens</h3>
       <FormProvider {...methods}>
         <form
           onSubmit={(e) => e.preventDefault()}
@@ -79,16 +79,14 @@ const FormBusca = ({ onSubmit }) => {
 
             <button
               onClick={methods.handleSubmit(handleFormSubmit)}
-              className="flex w-[100%] bg-[#3758D0] h-14 gap-2 rounded-full my-6 items-center text-gray-200 font-semibold justify-center"
+              className="flex px-8 py-2 bg-[#3758D0] h-14 gap-2 rounded-full my-6 items-center text-[#CAD7FF] font-semibold text-xl justify-center"
             >
               Procurar
             </button>
           </div>
         </form>
         <AnimatePresence mode="wait" initial={false}>
-          {erros && (
-            <InputError message={erros.message} key={erros.message} />
-          )}
+          {erros && <InputError message={erros.message} key={erros.message} />}
         </AnimatePresence>
       </FormProvider>
     </div>
