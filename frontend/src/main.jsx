@@ -109,6 +109,10 @@ const router = createBrowserRouter([
                 element: <AeronaveList/>
               },
               {
+                path: "dashboard",
+                element: <Dashboard />,
+              },
+              {
                 path: "voo/new",
                 element: <CadastroVoo/>
               },
@@ -137,10 +141,6 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <LoginCia/>
-      },
-      {
-        path: "dash",
-        element: <Dashboard />,
       },
       {
         path: "troca-senha",
