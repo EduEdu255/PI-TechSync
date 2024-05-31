@@ -63,7 +63,7 @@ function AeronaveList() {
       {processando && <Loading />}
       <div className="flex flex-col justify-center align-middle">
         <div className="flex m-auto gap-12 items-center">
-          <div className="text-3xl text-center m-10 font-semibold text-[#3758D0]">
+          <div className="text-[40px] text-center m-10 font-bold text-[#3758D0]">
             Aeronaves disponíveis
           </div>
           <div>
@@ -121,7 +121,7 @@ function AeronaveList() {
               onClick={() => handleDeleteClick(aeronave.id)}
               disabled={processando}
             >
-                        <img src="/images/delete.svg"></img>
+                        <img src="/images/delete.svg" className="text-red-600"></img>
             </button>
           </Tooltip>
         </div>

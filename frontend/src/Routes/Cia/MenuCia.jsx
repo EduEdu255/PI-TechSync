@@ -27,7 +27,7 @@ function MenuCia() {
 
   return (
     <div className="flex gap-1">
-      <div className=" bg-whiteflex flex-col gap-3 w-[15%] px-7 items-center">
+      <div className=" bg-white mt-5 flex flex-col gap-3 w-[15%] px-7 items-center">
         <img src="/images/logo pousar.svg" className="h-[80px]"></img>
         <div>
           {menuItems.map((item) => (
