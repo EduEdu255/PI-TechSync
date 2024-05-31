@@ -89,10 +89,10 @@ class BuscaController extends Controller
 
         //Valida data de ida e volta, se estão no passado
         if ($saida < $hoje) {
-            return response()->json(['message' => 'Ida precisa ser superior à data de hoje']);
+            return response()->json(['message' => 'Ida precisa ser superior à data de hoje'], 422);
         }
         if ($retorno && $retorno < $hoje) {
-            return response()->json(['message' => 'Volta precisa ser superior à data de hoje']);
+            return response()->json(['message' => 'Volta precisa ser superior à data de hoje'], 422);
         }
 
         // Inverte as datas se a ida for posterior à volta
