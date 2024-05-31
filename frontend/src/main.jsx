@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { environment } from '../src/environment.js';
+import { environment } from '../environment.js';
 
 //Importar Rotas
 
