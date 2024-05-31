@@ -85,7 +85,7 @@ class BuscaController extends Controller
         $data = $request->all();
         $retorno = $data['volta'] ?? null ? new \DateTime($data['volta']) : null;
         $saida = new \DateTime($data['ida']);
-        $hoje = now();
+        $hoje = (new \DateTime())->setTime(0,0,0,0);
 
         //Valida data de ida e volta, se estão no passado
         if ($saida < $hoje) {
