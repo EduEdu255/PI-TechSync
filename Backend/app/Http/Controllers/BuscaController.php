@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Collection;
 use App\Services\AmadeusApiService;
 use App\Models\Voo;
-use App\Models\Helpers\PassagemLocal;
-use App\Models\Helpers\Passagem;
+use App\Models\Helpers\ViagemLocal;
+use App\Models\Helpers\PassagemApi;
 use App\Models\CiaAerea;
 use App\Models\Busca;
 use App\Models\Assinatura;
 use App\Http\Resources\VooResource;
 use App\Http\Resources\BuscaResource;
 use App\Http\Requests\BuscaRequest;
+use App\Models\Helpers\VooManager;
 use Illuminate\Support\Facades\DB;
 
 class BuscaController extends Controller
@@ -59,7 +60,7 @@ class BuscaController extends Controller
         $codDestino = $data['destino'];
         $voos = $api->procuraVooPost($codOrigem, $codDestino, $saida, $retorno, $cias);
         if (array_key_exists('data', $voos) && count($voos['data']) > 0) {
-            $passagens = Passagem::fromResult($voos);
+            $passagens = PassagemApi::fromResult($voos);
         } else {
             $passagens = [];
         }
@@ -84,6 +85,22 @@ class BuscaController extends Controller
         $data = $request->all();
         $retorno = $data['volta'] ?? null ? new \DateTime($data['volta']) : null;
         $saida = new \DateTime($data['ida']);
+        $hoje = (new \DateTime())->setTime(0,0,0,0);
+
+        //Valida data de ida e volta, se estão no passado
+        if ($saida < $hoje) {
+            return response()->json(['message' => 'Ida precisa ser superior à data de hoje'], 422);
+        }
+        if ($retorno && $retorno < $hoje) {
+            return response()->json(['message' => 'Volta precisa ser superior à data de hoje'], 422);
+        }
+
+        // Inverte as datas se a ida for posterior à volta
+        if (!!$retorno && $retorno < $saida) {
+            [$saida, $retorno] = [$retorno, $saida];
+        }
+
+        //Verifica quais companhias aéreas estão com assinatura ativa, para buscar passagem só delas
         $assinaturasAtivas = Assinatura::where('ativa', true)->get();
         $cias = [];
         foreach ($assinaturasAtivas as $assinatura) {
@@ -91,37 +108,27 @@ class BuscaController extends Controller
             $cias[] = $cia->codigo_iata;
         }
 
-        if (!!$retorno && $retorno < $saida) {
-            [$saida, $retorno] = [$retorno, $saida];
-        }
-        $codOrigem = $data['origem'];
-        $codDestino = $data['destino'];
-        $possibilidades = $this->getPossiveisVoos($codOrigem, $codDestino, $cias);
-        $idas = [];
-        foreach ($possibilidades as $possibilidade) {
-            $idas[] = $possibilidade;
-        }
-        $voltas=[];
-        if (!!$retorno) {
-            $possibilidades = $this->getPossiveisVoos($codDestino, $codOrigem, $cias);
-            foreach ($possibilidades as $possibilidade) {
-                $voltas[] = $possibilidade;
-            }
-        }
+        //Cria a busca, com os dados enviados
         $busca = new Busca();
         $busca->fill($data);
+        $busca->pesquisado_em = (new \DateTime)->format('Y-m-d H:i:s');
         $busca->data_saida = $saida->format('Y-m-d');
         if (isset($retorno)) {
             $busca->data_chegada = $retorno->format('Y-m-d');
         }
+
+        //Verifica se tem usuário logado para vincular à busca
         $user = auth('api')->user();
-        $busca->pesquisado_em = (new \DateTime)->format(\DateTime::ATOM);
         if (!!$user) {
             $busca->users()->associate($user);
         }
-        $passagens = PassagemLocal::fromBusca($busca, $idas, $voltas);
+
+        //Instancia o VooManager com os dados da busca, estabelecendo como limite máximo de conexões 2
+        $vooManager = new VooManager($busca, $cias, 2);
         $busca->save();
-        $busca->passagens = $passagens;
+
+        //Adiciona à busca as possibilidades de viagens encontradas
+        $busca->passagens = $vooManager->getViagens();
         return new BuscaResource($busca);
     }
 
@@ -138,91 +145,41 @@ class BuscaController extends Controller
         return new BuscaResource($busca);
     }
 
-    private function getPossiveisVoos(string $codOrigem, string $codDestino, array $cias = ['AD', 'LA', 'G3'], array $visitados = [], $maxConexoes = 2, ?string $horaMinima = null): array
-    {
-        $assinantes = CiaAerea::query()->whereIn('codigo_iata', $cias)->get();
-        if (!$horaMinima) {
-            //Pesquisa voos independemente de hora de chegada de um anterior
-            $voos = Voo::query()
-                ->where('cod_origem', $codOrigem)
-                ->whereNotIn('cod_destino', $visitados)
-                ->whereIn('cia_aerea_id', $assinantes->map(function ($ass) {
-                    return  $ass->id;
-                }))
-                ->get();
-        } else {
-            //Pesquisa voos que saem após a chegada do voo anterior (está em conexão)
-            $voos = Voo::query()
-                ->where('cod_origem', $codOrigem)
-                ->where('hora_saida', '>', $horaMinima)
-                ->whereIn('cia_aerea_id', $assinantes->map(function ($ass) {
-                    return  $ass->id;
-                }))
-                ->whereNotIn('cod_destino', $visitados)
-                ->get();
-        }
-
-
-        $possibilidades = [];
-
-        //Itera sobre os voos encontrados
-        foreach ($voos as $voo) {
-            //Se o destino do voo é o buscado, então adiciona à array de conexões, uma array com o voo encontrado como item (chegou ao destino)
-            if ($voo->cod_destino == $codDestino) {
-                $possibilidades[] = [$voo];
-                //Se não chegou ao destino, verifica se já chegou ao número máximo de conexões (2 por padrão)
-            } else if (count($visitados) < $maxConexoes) {
-                //Adiciona o destino aos aeroportos já visitados
-                $visitados[] = $voo->cod_destino;
-                //Busca recursiva de voos, a partir do destino do presente voo, para o destino pretendido, ou seja, pesquisa agora os voos a partir desta conexão
-                $conexoesDaqui = $this->getPossiveisVoos($voo->cod_destino, $codDestino, $cias, $visitados, $maxConexoes - 1, $voo->hora_chegada);
-                //Se encontrou conexões a partir daqui, para cada conexão encontrada, adiciona à array de conexões onde já tinha o voo anterior (para chegar nesse destino) as conexões possíveis
-                if (count($conexoesDaqui) > 0) {
-                    foreach ($conexoesDaqui as $conexao) {
-                        $possibilidades[] = array_merge([$voo], $conexao);
-                    }
-                }
-                //Remove dos visitados para permitir pesquisa em outros voos
-                unset($visitados[array_search($voo->cod_destino, $visitados)]);
-            }
-        }
-        //Retorna os voos possíveis
-        return $possibilidades;
-    }
 
     /**
      * Contagem Origem
-     * 
+     *
      * Endpoint que traz a quantidade de buscas realizadas organizadas por origem
      */
-    public function contagemOrigem(){
+    public function contagemOrigem()
+    {
         $buscas = DB::table('busca')
-        ->select('origem', DB::raw('count(origem) as total'))
-        ->groupBy('origem')
-        ->get();
+            ->select('origem', DB::raw('count(origem) as total'))
+            ->groupBy('origem')
+            ->get();
 
-        $total = $buscas->reduce(fn($carry, $item)=>$carry + $item->total,0);
-        foreach($buscas as $busca){
+        $total = $buscas->reduce(fn ($carry, $item) => $carry + $item->total, 0);
+        foreach ($buscas as $busca) {
             $busca->percentual = $busca->total / $total;
         }
 
         return response()->json($buscas);
-
     }
 
     /**
      * Contagem Destino
-     * 
+     *
      * Endpoint que traz a quantidade de buscas realizadas organizadas por Destino
      */
-    public function contagemDestino(){
+    public function contagemDestino()
+    {
         $buscas = DB::table('busca')
-        ->select('destino', DB::raw('count(destino) as total'))
-        ->groupBy('destino')
-        ->get();
+            ->select('destino', DB::raw('count(destino) as total'))
+            ->groupBy('destino')
+            ->get();
 
-        $total = $buscas->reduce(fn($carry, $item)=>$carry + $item->total,0);
-        foreach($buscas as $busca){
+        $total = $buscas->reduce(fn ($carry, $item) => $carry + $item->total, 0);
+        foreach ($buscas as $busca) {
             $busca->percentual = $busca->total / $total;
         }
         return response()->json($buscas);
@@ -230,16 +187,17 @@ class BuscaController extends Controller
 
     /**
      * Contagem Mensal
-     * 
+     *
      * Endpoint que traz a quantidade de buscas realizadas organizadas por mês de saída
      */
-    public function destinosPorMes(){
+    public function destinosPorMes()
+    {
         $buscas = DB::table('busca')
-        ->select(DB::raw('count(data_saida) as total'), DB::raw("strftime('%m',data_saida) as mes"))
-        ->groupBy('mes')
-        ->get();
-        $total = $buscas->reduce(fn($carry, $item)=>$carry + $item->total,0);
-        foreach($buscas as $busca){
+            ->select(DB::raw('count(data_saida) as total'), DB::raw("strftime('%m',data_saida) as mes"))
+            ->groupBy('mes')
+            ->get();
+        $total = $buscas->reduce(fn ($carry, $item) => $carry + $item->total, 0);
+        foreach ($buscas as $busca) {
             $busca->percentual = $busca->total / $total;
         }
         return response()->json($buscas);

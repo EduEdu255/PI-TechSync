@@ -19,6 +19,8 @@ class CiaAereaResource extends JsonResource
             '@type' => 'CiaAerea',
             'id' => $this->id,
             'razaoSocial' => $this->razao_social,
+            'nomeFantasia' => $this->nome_fantasia,
+            'login' => $this->login,
             'codigoIata' => $this->codigo_iata,
             'url' => $this->url,
             'logo' => $this->logo ?? '',

@@ -26,23 +26,17 @@ export function Header() {
     }
     return null;
   };
-
-  const menu = () => {
+  const profileLink = () => {
     if (!isLoggedIn || !loggedUser) {
-      return "";
+      return null;
+    } else if (loggedUser["@type"].includes("User")) {
+      return '/perfil';
     } else if (loggedUser["@type"] == "CiaAerea") {
-      return (
-        <>
-          <li>
-            <Link className="rounded-lg items-center flex gap-2 text-gray-600  px-4 py-2 text-[14px]">
-              <img className="h-[24px]" src={Airplane} />
-              <p>Cia Aérea</p>
-            </Link>
-          </li>
-        </>
-      );
+      return '/cia';
     }
-  };
+    return null;
+  }
+
   const links = [
     {
       link: "/login",
@@ -75,10 +69,9 @@ export function Header() {
             </Link>
           </div>
           <div className="flex gap-5 bg-slate-300 p-3 rounded-b-xl">
-            <ul>{menu()}</ul>
-            <Link className="rounded-lg items-center flex gap-2 text-gray-600  px-4 py-2 text-[14px]">
+            <Link className=" cursor-default rounded-lg items-center flex gap-2 text-gray-600  px-4 py-2 text-[14px]">
               <img className="h-[18px]" src={IconHeadset} />
-              <p>
+              <p >
                 Televendas <strong>0800 616 6161</strong>
               </p>
             </Link>
@@ -86,12 +79,16 @@ export function Header() {
             {isLoggedIn && loggedUser["@type"] && (
               <>
                 <Link
-                  to="/perfil"
+                  to={profileLink()}
                   className="rounded-lg text-gray-600 px-4 py-2 flex items-center gap-2"
                 >
                   <img
                     src={profileImage() ?? PerfilIcon}
-                    className="h-[20px] rounded-full"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src="/images/perfil.svg";
+                    }}
+                    className="h-[20px] object-cover rounded-full"
                   />
                   <p>Perfil</p>
                 </Link>
@@ -106,7 +103,7 @@ export function Header() {
                 ></DropDownMenu>
               </div>
             )}
-            <Link className="rounded-lg text-gray-600 px-4 py-2 flex items-center gap-2">
+            <Link className="rounded-lg text-gray-600 px-4 py-2 flex items-center gap-2" to="/busca">
               <img src={IconMalac} />
               <p>Viagens</p>
             </Link>

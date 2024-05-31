@@ -24,6 +24,7 @@ class CiaAereaRequest extends FormRequest
         return [
             'cnpj' => 'required|size:14',
             'razao_social' => 'required',
+            'nome_fantasia' => 'required',
             'codigo_iata' => 'required|size:2',
             'email' => 'email',
             'url' => 'required',

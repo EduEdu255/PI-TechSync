@@ -2,11 +2,13 @@ import { useState, useEffect, useContext } from "react";
 import { api_image_base_url, postData } from "../Services/apiService";
 import { LoginContext } from "../Services/LoginContext";
 import Loading from "./Loading";
+import SnackBar from "./SnackBar.jsx";
 
 function ProfileImage({ loggedUser }) {
   const { setLoggedUser } = useContext(LoginContext);
   const [changed, setChanged] = useState(0);
   const [processando, setProcessando] = useState(false);
+  const [erro, setErro] = useState(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -14,16 +16,23 @@ function ProfileImage({ loggedUser }) {
       const formData = new FormData();
       formData.append("image", file);
       setProcessando(true);
-      postData("auth/profile_pic", formData).then(
-        () => {
+      let endpoint = "auth/profile_pic";
+      if (loggedUser["@type"] == "CiaAerea") {
+        endpoint = "cia_aerea/logo";
+      }
+      postData(endpoint, formData).then(
+        (_) => {
+          setLoggedUser(_);
           setChanged(changed + 1);
           setProcessando(false);
           event.target.files.value = null;
+          setErro(null);
         },
         (err) => {
           setProcessando(false);
           console.log(err);
           event.target.files.value = null;
+          setErro(err.response?.data?.message ?? "Erro não informado");
         }
       );
     }
@@ -33,13 +42,16 @@ function ProfileImage({ loggedUser }) {
     const user = sessionStorage.getItem("loggedUser");
     setLoggedUser(JSON.parse(user));
   }, [changed]);
-
-  const url = loggedUser.profile_pic.includes("http")
-    ? loggedUser.profile_pic
-    : api_image_base_url + loggedUser.profile_pic + "?ts=" + Date.now();
+  let property = loggedUser.profile_pic;
+  if (loggedUser["@type"] == "CiaAerea") {
+    property = loggedUser.logo;
+  }
+  const url = property.includes("http")
+    ? property
+    : api_image_base_url + property + "?ts=" + Date.now();
   let urlHover = "";
-  if (loggedUser["@type"] == "User") {
-    urlHover = "/images/camera.svg";
+  if (loggedUser["@type"] != "GoogleUser") {
+    urlHover = "images/camera.svg";
   }
 
   function clickImage() {
@@ -53,20 +65,23 @@ function ProfileImage({ loggedUser }) {
     loggedUser && (
       <>
         {processando ? <Loading /> : null}
-        {loggedUser && loggedUser["@type"] == "User" && <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          className="hidden"
-          name="image"
-          id="imageSelect"
-        />}
+        {erro && <SnackBar message={erro} type="danger" />}
+        {loggedUser && loggedUser["@type"] != "GoogleUser" && (
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="hidden"
+            name="image"
+            id="imageSelect"
+          />
+        )}
         <div
           style={{
             "--image-url": `url(${url})`,
             "--image-url-hover": `url(${urlHover}), url(${url})`,
           }}
-          className={`rounded-full h-[250px] aspect-square object-cover bg-[image:var(--image-url)] bg-cover bg-no-repeat hover:bg-[image:var(--image-url-hover)] cursor-pointer`}
+          className={`rounded-full h-[250px] aspect-square bg-[image:var(--image-url)] bg-center bg-cover bg-no-repeat hover:bg-[image:var(--image-url-hover)] cursor-pointer`}
           onClick={clickImage}
         ></div>
       </>

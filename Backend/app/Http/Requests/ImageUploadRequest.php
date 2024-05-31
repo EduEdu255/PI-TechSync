@@ -27,7 +27,7 @@ class ImageUploadRequest extends FormRequest
             'image' => ['required','required', File::image()
                 ->min(4)
                 ->max(2 * 1024)
-                ->dimensions(Rule::dimensions()->maxWidth(1080)->maxHeight(1024))],
+                ->dimensions(Rule::dimensions()->maxWidth(4096)->maxHeight(4096))],
         ];
     }
 }

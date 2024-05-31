@@ -28,6 +28,9 @@ import LoginCia from './Routes/Cia/LoginCia.jsx';
 import EsqueciSenhaCia from './Routes/Cia/EsqueciSenhaCia.jsx';
 import TrocaSenhaCia from './Routes/Cia/TrocaSenhaCia.jsx';
 import MenuCia from "./Routes/Cia/MenuCia.jsx"
+import Planos from "./Routes/Planos.jsx";
+import { Profile as ProfileCia} from "./Routes/Cia/Profile.jsx";
+import AdesaoPlanos from "./Routes/AdesaoPlanos.jsx";
 import Dashboard from "./Routes/Dashboard.jsx";
 
 
@@ -65,6 +68,10 @@ const router = createBrowserRouter([
         ]
       },
       {
+        path: "planos",
+        element: <Planos />
+      },
+      {
         path: "contact",
         element: <Contact />,
       },
@@ -88,6 +95,10 @@ const router = createBrowserRouter([
               {
                 path: "aeronave/new",
                 element: <CadastroAeronave/>
+              },
+              {
+                path: "",
+                element: <ProfileCia/>
               },
               {
                 path: "aeronave/:id",
@@ -139,6 +150,11 @@ const router = createBrowserRouter([
         path: "esqueci",
         element: <EsqueciSenhaCia/>
       },
+      {
+        path:"adesao-planos",
+        element: <AdesaoPlanos />
+      }
+     
     ]
   },
   {
