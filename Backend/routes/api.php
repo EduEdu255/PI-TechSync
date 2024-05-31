@@ -12,6 +12,7 @@ use App\Http\Controllers\BuscaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AssinaturaController;
 use App\Http\Controllers\AeronaveController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,4 +113,10 @@ Route::controller(PasswordController::class)->group(function(){
     Route::post('/user/reset_password', 'reset');
     Route::post('/cia_aerea/forgot_password', 'sendLinkCia');
     Route::post('/cia_aerea/reset_password', 'resetCia');
+});
+
+Route::controller(UserController::class)->middleware('isAdmin')->group(function(){
+    Route::get('/user', 'index');
+    Route::patch('/user/{id}/make_admin', 'makeAdmin');
+    Route::delete('/user/{id}', 'destroy');
 });
