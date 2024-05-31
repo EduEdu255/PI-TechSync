@@ -59,19 +59,22 @@ function AeronaveList() {
   }
 
   return (
-    <>
+    <div className="bg-[#EEEEEE]">
       {processando && <Loading />}
       <div className="flex flex-col justify-center align-middle">
         <div className="flex m-auto gap-12 items-center">
-          <div className="text-3xl text-center text-[#3758D0]">
+          <div className="text-3xl text-center m-10 font-semibold text-[#3758D0]">
             Aeronaves disponíveis
           </div>
           <div>
             <Tooltip message="Cadastrar Nova Aeronave">
-              <Link to="/cia/aeronave/new">
+              <Link to="/cia/aeronave/new" className="flex bg-[#3758D0] border-2 text-white px-3 py-2 rounded-md items-center gap-2 hover:bg-[#EEEE] hover:text-[#3758D0] hover:border-2 hover:border-[#3758D0] transition">
+                <p className=" font-medium">
+                  Adicionar
+                </p>
                 <MdAddCircleOutline
                   size={"2em"}
-                  style={{ verticalAlign: "middle", color: "#3758D0" }}
+                  style={{ verticalAlign: "middle", }}
                 />
               </Link>
             </Tooltip>
@@ -88,7 +91,7 @@ function AeronaveList() {
           />
         )}
       </div>
-    </>
+    </div>
   );
 
   function mapAeronave(aeronave) {

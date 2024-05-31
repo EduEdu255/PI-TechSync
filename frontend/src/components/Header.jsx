@@ -69,9 +69,9 @@ export function Header() {
             </Link>
           </div>
           <div className="flex gap-5 bg-slate-300 p-3 rounded-b-xl">
-            <Link className="rounded-lg items-center flex gap-2 text-gray-600  px-4 py-2 text-[14px]">
+            <Link className=" cursor-default rounded-lg items-center flex gap-2 text-gray-600  px-4 py-2 text-[14px]">
               <img className="h-[18px]" src={IconHeadset} />
-              <p>
+              <p >
                 Televendas <strong>0800 616 6161</strong>
               </p>
             </Link>
