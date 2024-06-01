@@ -43,9 +43,9 @@ class PassagemLocal implements JsonSerializable
             throw new ValueError("Não é possível criar passagem com data de saída no passado");
         }
         $this->altaEstacao = [
-            ["inicio" => "0101", "fim" => "0301"],
-            ["inicio" => "0624", "fim" => "0815"],
-            ["inicio" => "1125", "fim" => "1231"]
+            ["inicio" => "0101", "fim" => "0131"],
+            ["inicio" => "0701", "fim" => "0731"],
+            ["inicio" => "1201", "fim" => "1231"]
         ];
         $this->preco = $this->preco * $this->calculaIndice();
     }
