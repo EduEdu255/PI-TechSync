@@ -75,6 +75,16 @@ function CadastroCia() {
                 }}
               />
               <Input
+                label="Nome Fantasia*"
+                type="text"
+                id="nome_fantasia"
+                placeholder="Nome Fantasia"
+                name="nome_fantasia"
+                validation={{
+                  required: { value: true, message: "Campo Obrigatório" },
+                }}
+              />
+              <Input
                 label="CNPJ*"
                 type="text"
                 id="cnpj"

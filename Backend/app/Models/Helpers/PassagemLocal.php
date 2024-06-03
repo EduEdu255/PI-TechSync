@@ -20,6 +20,13 @@ class PassagemLocal implements JsonSerializable
      *
      */
 
+    private array $altaEstacao;
+    private const variacaoAltaEstacao = 0.6;
+    private const reducaoDataDistante = 0.3;
+    private const aumentoDataProxima = 0.3;
+    private const aumentoDataMuitoProxima = 1;
+
+
     public function __construct(
         private float $preco,
         private CiaAerea $ciaAerea,
@@ -31,6 +38,16 @@ class PassagemLocal implements JsonSerializable
         private array $trechos,
         private Busca $busca,
     ) {
+        if($dataHoraSaida < now()->setTime(0,0,0,0))
+        {
+            throw new ValueError("Não é possível criar passagem com data de saída no passado");
+        }
+        $this->altaEstacao = [
+            ["inicio" => "0101", "fim" => "0131"],
+            ["inicio" => "0701", "fim" => "0731"],
+            ["inicio" => "1201", "fim" => "1231"]
+        ];
+        $this->preco = $this->preco * $this->calculaIndice();
     }
     public function getPreco()
     {
@@ -41,8 +58,36 @@ class PassagemLocal implements JsonSerializable
     {
         return $this->ciaAerea;
     }
-    public function getBusca(){
+    public function getBusca()
+    {
         return $this->busca;
+    }
+
+    //Função para calcular se haverá alteração do preço do voo com base na data
+    private function calculaIndice()
+    {
+        $indice = 1;
+        foreach ($this->altaEstacao as $periodo) {
+            if ($this->dataHoraSaida->format("md") > $periodo['inicio'] && $this->dataHoraSaida->format("md") < $periodo['fim']) {
+                $indice += self::variacaoAltaEstacao;
+            }
+        }
+
+        $hoje = now();
+        $difference = $hoje->diff($this->dataHoraSaida);
+        //Se passagem é para depois de 180 dias, dar desconto
+        if($difference->days >180){
+            $indice -= self::reducaoDataDistante;
+        }
+        //Se a data for muito próxima (menos de 1 semana), aumenta consideravelmente
+        else if($difference->days < 7){
+            $indice += self::aumentoDataMuitoProxima;
+
+        //Se a passagem é para data próxima (próximos 60 dias) aumentar preço
+        } else if ($difference->days < 60){
+            $indice += self::aumentoDataProxima;
+        }
+        return $indice;
     }
 
     private static function calculateDuracao(string $saida, string $chegada)
@@ -77,6 +122,7 @@ class PassagemLocal implements JsonSerializable
         }
         return $interval;
     }
+
 
     public static function fromBusca(Busca $busca, array $idas, array $voltas = []): array
     {

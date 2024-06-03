@@ -90,7 +90,7 @@ function CadastroAeronave() {
                   {aeronave ? "Atualizar" : "Cadastrar"} Aeronave
                 </h1>
               </div>
-              <div className="flex  flex-col gap-3 ">
+              <div className="flex w-[65%]  flex-col gap-3 ">
                 <Input
                   label="Sigla*"
                   type="text"

@@ -4,7 +4,8 @@ import { postData } from "../Services/apiService";
 import aeroportos from "../Services/aeroportos";
 import Passagem from "../components/Passagem";
 import FormBusca from "../components/FormBusca";
-import Loading from '../components/Loading';
+import Loading from "../components/Loading";
+import SnackBar from "../components/SnackBar";
 
 function Busca() {
   const [data, setData] = useState(null);
@@ -34,16 +35,16 @@ function Busca() {
       delete data.volta;
     }
     setResult(null);
-    setProcessando(true)
+    setProcessando(true);
     postData("busca_local", data).then(
       (_) => {
-        setProcessando(false)
+        setProcessando(false);
         setResult(_);
       },
       (_) => {
         console.log(_);
-        setProcessando(false)
-        setResult([]);
+        setProcessando(false);
+        setResult({error: _.response.data.message});
       }
     );
   }
@@ -55,56 +56,30 @@ function Busca() {
 
   return (
     <div className="bg-[#EEEEEE]">
-      <div className='flex items-end mb-36 bg-[url(/images/plane-view.png)] bg-cover h-[70vh]'>
-      <FormBusca onSubmit={submitBusca} />
+      <div className="flex items-end mb-36 bg-[url(/images/plane-view.png)] bg-cover h-[70vh]">
+        <FormBusca onSubmit={submitBusca} />
       </div>
-      <div>{!processando ? result ? parseResult(result) : null : <Loading/>}</div>
+      <div>
+        {!processando ? result ? parseResult(result) : null : <Loading />}
+      </div>
     </div>
   );
 
   function parseResult(data) {
-    if (data.length == 0) {
-      return "Sem dados";
+    if (data.error) {
+      return <SnackBar message={data.error} type="danger" />
+    }
+    if (data.data.passagens.length == 0) {
+      
+      return <div className='m-auto text-center text-3xl'>Não foram encontradas passagens com os parâmetros buscados</div>;
+      
     }
     const dados = data.data;
-    console.log (dados)
-    const quantidade = dados.quantidade;
-    console.log(dados);
     const passagens = dados.passagens;
-    const origem = findAeroporto(dados.origem);
-    const destino = findAeroporto(dados.destino);
-    return (
-      <div className="bg-[#EEEEEE]">
-        <div className=' bg-white shadow-xl flex mt-5 gap-5 w-3/4 rounded-lg mb-3 p-10 m-auto'>
-          <p>Quantidade: {quantidade}</p>
-          <p>
-            Origem: {origem.name} - {origem.iata}
-          </p>
-          <p>
-            Destino: {destino.name} - {destino.iata}
-          </p>
-          <p>Ida: {getDate(dados.ida + " 00:00:00")}</p>
-          {dados.volta ? <p>Volta: {getDate(dados.volta + " 00:00:00")}</p> : null}
-        </div>
-                
-          <p>Passagens: {passagens.map((x) => {
-            return mapPassagem(x, dados.id);
-
-          })}</p>
-      </div>
-    );
+    return passagens.map((x) => {
+      return mapPassagem(x, dados.id);
+    });
   }
-   function getDate(date) {
-     const data = new Date(Date.parse(date));
-     if (!(data instanceof Date)) {
-       return "";
-     }
-     return data.toLocaleDateString("pt-BR", {
-       year: "numeric",
-       month: "2-digit",
-       day: "2-digit",
-     });
-   }
 
   function mapPassagem(passagem, id) {
     return (
@@ -112,14 +87,14 @@ function Busca() {
         id={id}
         origem={passagem.origem}
         destino={passagem.destino}
-        cia={passagem.ciaAerea.razao_social}
+        cia={passagem.ciaAerea.nome_fantasia}
         preco={passagem.preco}
         dataIda={passagem.dataIda}
         dataVolta={passagem.dataVolta}
         link={passagem.linkBusca}
         ida={passagem.ida}
         volta={passagem.volta}
-        logo = {passagem.ciaAerea.logo}
+        logo={passagem.ciaAerea.logo}
       />
     );
   }

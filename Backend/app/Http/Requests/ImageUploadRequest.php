@@ -24,7 +24,7 @@ class ImageUploadRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['required','required', File::image()
+            'image' => ['required', File::image()
                 ->min(4)
                 ->max(2 * 1024)
                 ->dimensions(Rule::dimensions()->maxWidth(4096)->maxHeight(4096))],

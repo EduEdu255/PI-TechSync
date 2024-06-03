@@ -20,6 +20,7 @@ class CiaAerea extends Authenticatable implements JWTSubject
 
     protected $fillable = [
         'razao_social',
+        'nome_fantasia',
         'cnpj',
         'codigo_iata',
         'email',

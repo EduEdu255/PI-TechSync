@@ -85,14 +85,14 @@ class BuscaController extends Controller
         $data = $request->all();
         $retorno = $data['volta'] ?? null ? new \DateTime($data['volta']) : null;
         $saida = new \DateTime($data['ida']);
-        $hoje = now();
-        
+        $hoje = (new \DateTime())->setTime(0,0,0,0);
+
         //Valida data de ida e volta, se estão no passado
         if ($saida < $hoje) {
-            return response()->json(['message' => 'Ida precisa ser superior à data de hoje']);
+            return response()->json(['message' => 'Ida precisa ser superior à data de hoje'], 422);
         }
         if ($retorno && $retorno < $hoje) {
-            return response()->json(['message' => 'Volta precisa ser superior à data de hoje']);
+            return response()->json(['message' => 'Volta precisa ser superior à data de hoje'], 422);
         }
 
         // Inverte as datas se a ida for posterior à volta
@@ -111,7 +111,7 @@ class BuscaController extends Controller
         //Cria a busca, com os dados enviados
         $busca = new Busca();
         $busca->fill($data);
-        $busca->pesquisado_em = (new \DateTime)->format(\DateTime::ATOM);
+        $busca->pesquisado_em = (new \DateTime)->format('Y-m-d H:i:s');
         $busca->data_saida = $saida->format('Y-m-d');
         if (isset($retorno)) {
             $busca->data_chegada = $retorno->format('Y-m-d');
