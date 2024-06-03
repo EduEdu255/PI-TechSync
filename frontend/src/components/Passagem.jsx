@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { editData, api_image_base_url } from "../Services/apiService";
+import { PiAirplaneTakeoff } from "react-icons/pi";
+import { PiAirplaneLanding } from "react-icons/pi";
 
 function Passagem({ id, origem, destino, cia, preco, dataIda, dataVolta, link, ida, volta, logo, paradas }) {
   return (
@@ -9,10 +11,12 @@ function Passagem({ id, origem, destino, cia, preco, dataIda, dataVolta, link, i
       </div>
       <div>
         <div className="flex justify-between font-medium text-[#343A3D]">
-          <span>
+          <span className="flex gap-2 items-center">
+            <PiAirplaneTakeoff /> 
             Origem: {origem}
           </span>
-          <span>
+          <span className="flex gap-2 items-center">
+            <PiAirplaneLanding />
             Destino: {destino}
           </span>
 

@@ -1,5 +1,7 @@
 import React from 'react';
 import Icon_Email from "../assets/icon_Email.svg";
+import { Link } from 'react-router-dom';
+import AdesaoPlanos from './AdesaoPlanos';
 
 const Planos = () => {
     return (
@@ -56,7 +58,9 @@ const Planos = () => {
             </div>
 
             <div className='mt-10 p-8  max-w-md mx-auto flex items-center justify-center'>
+          <Link to={"/cia/Adesao-planos"}>
                 <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 align-middle justify-center"> Clique aqui para aderir seu plano...</button>
+            </Link>
             </div>
         
       </div>
