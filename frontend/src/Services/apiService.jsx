@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8000/api/";
+const API_BASE_URL = "https://psfjdn.net/pousar/backend/public/api/";
+//"http://localhost:8000/api/";
 
-export const api_image_base_url = "http://localhost:8000/storage/"
+export const api_image_base_url = "https://psfjdn.net/pousar/backend/public/storage/";
+//"http://localhost:8000/storage/"
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL, // Replace with your API URL

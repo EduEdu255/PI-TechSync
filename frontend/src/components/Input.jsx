@@ -4,7 +4,7 @@ import { findInputError } from '../utils/findInputError';
 import { isFormInvalid } from '../utils/isFormValid';
 import InputError from './InputError';
 
-export const Input = ({ label, type, id, placeholder, validation, name, step }) => {
+export const Input = ({ label, labelColor, type, id, placeholder, validation, name, step }) => {
   const {
     register,
     formState: { errors },
@@ -17,7 +17,7 @@ export const Input = ({ label, type, id, placeholder, validation, name, step }) 
   return (
     <div>
       <div>
-        <label htmlFor={id} className="text-[#2B3674] font-medium">
+        <label htmlFor={id} className={`text-[#${labelColor ? labelColor : '2B3674'}] font-medium`}>
           {label}
         </label>
         <AnimatePresence mode="wait" initial={false}>
@@ -36,7 +36,7 @@ export const Input = ({ label, type, id, placeholder, validation, name, step }) 
           placeholder={placeholder}
           step={step}
           {...register(name, validation)}
-          className="w-full h-full rounded-2xl px-5"
+          className="w-full h-full rounded-2xl px-5 text-black"
         />
       </div>
     </div>

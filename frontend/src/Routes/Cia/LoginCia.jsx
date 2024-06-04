@@ -34,7 +34,7 @@ function LoginCia() {
               if (user.assinatura && user.assinatura.ativa) {
                 navigate("/cia");
               } else {
-                navigate("/TesteFetch");
+                navigate("/cia/adesao-planos");
               }
             },
             (error) => {

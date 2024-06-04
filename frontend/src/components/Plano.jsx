@@ -1,38 +1,73 @@
-import { useState } from 'react';
+function Plano({ plano, limite, onSelect, selecionado }) {
+  return (
+    <div
+      className={getClassName() + " " + getEscolhido()}
+      key={plano.id}
+      onClick={onSelect}
+    >
+      <h3 className={"font-semibold text-3xl mb-4 " + getTextColor()}>
+        {plano.nome}
+      </h3>
+      <p className={"font-normal mb-4 text-xl " + getTextColor()}>
+        Válido por {plano.meses_validade}{" "}
+        {plano.meses_validade > 1 ? "meses" : "mês"}.
+      </p>
+      <p className={"font-normal mb-4 text-xl " + getTextColor()}>
+        {plano.descricao}
+      </p>
 
-function Plano({ dado }) {
-    const [clicado, setClicado] = useState(false);
+      {plano.meses_validade > 1 && (
+        <>
+          <p className={"font-normal mb-4 text-xl " + getTextColor()}>
+            Desconto de{" "}
+            {(
+              ((99.99 * plano.meses_validade - plano.valor) /
+                (plano.meses_validade * 99.99)) *
+              100
+            ).toFixed(0)}
+            %
+          </p>
+          <p className="font-bold mb-4 text-2xl text-whitetext-xl text-red-500 line-through">
+            De {emReais(99.99 * plano.meses_validade)}
+          </p>
+          <p className={"font-normal mb-4 text-xl " + getTextColor()}>Por</p>
+        </>
+      )}
 
-    return (
-        <div className={getClassName()} key={dado.id} onClick={cliquei}>
-        <h3 className="font-semibold text-3xl mb-4 text-white text-center">{dado.nome}</h3>
-        <ul className="text-center">
-          <li>
-            R$ <span className='font-bold mb-4 text-2xl text-red'>{dado.valor}</span>
-          </li>
-          <li>
-            válido por <span className="text-2xl">{dado.meses_validade}</span>{" "}
-            {dado.meses_validade > 1 ? "meses" : "mês"}
-          </li>
-          <li>
-            {dado.descricao}
-          </li>
-          <li>
-            Valor Por mês <span className="text-2xl">{dado.por_mes}</span>
-          </li>
-            </ul>
-            
-      </div>
-    );
+      <p
+        className={
+          "font-bold mb-4 text-3xl text-whitetext-xl " + getTextColor()
+        }
+      >
+        {emReais(plano.valor)}
+      </p>
+    </div>
+  );
 
-    function getClassName() {
-        return dado.valor >= 500
-          ? "w-full sm:w-1/5 p-12 rounded-lg bg-black shadow hover:bg-sky-700 transition-colors duration-1000 ease-in-out text-white"
-          : "w-full sm:w-1/5 p-12 rounded-lg bg-indigo-300 shadow hover:bg-sky-700 transition-colors duration-1000 ease-in-out";
+  function emReais(valor) {
+   let real = Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+   }); 
+    return real.format(valor);
+  }
+
+  function getClassName() {
+    let name = "w-[20%] h-[65vh] p-6 rounded-lg shadow-md w-1/4";
+    if (plano.valor >= limite) {
+      name += " bg-black";
+    } else {
+      name += " bg-white";
     }
-    function cliquei() {
-        setClicado(!clicado);
-    }
+    return name;
+  }
+
+  function getTextColor() {
+    return plano.valor >= limite ? "text-white" : "text-black";
+  }
+  function getEscolhido() {
+    return selecionado ? "border-4 border-blue-500" : "";
+  }
 }
 
 export default Plano;

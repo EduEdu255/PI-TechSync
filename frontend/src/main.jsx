@@ -119,6 +119,10 @@ const router = createBrowserRouter([
                 path: "voo",
                 element: <VooList/>
               },
+              {
+                path:"adesao-planos",
+                element: <AdesaoPlanos />
+              }
           ]}
         ]
       },
@@ -145,10 +149,6 @@ const router = createBrowserRouter([
         path: "esqueci",
         element: <EsqueciSenhaCia/>
       },
-      {
-        path:"adesao-planos",
-        element: <AdesaoPlanos />
-      }
      
     ]
   },

@@ -1,4 +1,4 @@
-import { BsGraphUp, BsFillAirplaneFill, BsBagFill } from "react-icons/bs";
+import { BsFillAirplaneFill, BsBagFill } from "react-icons/bs";
 import { HiOutlineLogout } from "react-icons/hi";
 import { FaBagShopping } from "react-icons/fa6";
 
@@ -18,7 +18,6 @@ function SidebarMenuItem({ icon, text, to }) {
 
 function MenuCia() {
   const menuItems = [
-    { icon: <BsGraphUp />, text: "Relatórios", to: "/cia/dashboard" },
     { icon: <BsFillAirplaneFill />, text: "Aeronaves", to: "/cia/aeronave" },
     { icon: <BsBagFill />, text: "Vôos", to: "/cia/voo" },
     { icon: <FaBagShopping />, text: "Planos", to: "/planos" },
