@@ -213,7 +213,7 @@ function TelaLogin() {
         initial={{ x: -1000, opacity: 0.8 }}
         animate={{ x: [-1000, -900, 0,], opacity: 1 }}
         exit={{ x: 300, opacity: 1 }}
-        transition={{ duration: 2,
+        transition={{ duration: 2.5,
           ease:"easeInOut",
           
          }}
