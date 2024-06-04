@@ -2,20 +2,17 @@ import { Link } from "react-router-dom";
 import { editData, api_image_base_url } from "../Services/apiService";
 import { PiAirplaneTakeoff } from "react-icons/pi";
 import { PiAirplaneLanding } from "react-icons/pi";
+import { useEffect, useRef, useState } from "react";
+import Modal from "./Modal";
+import Trechos from "./Trechos";
 
-function Passagem({
-  id,
-  origem,
-  destino,
-  cia,
-  preco,
-  dataIda,
-  dataVolta,
-  link,
-  ida,
-  volta,
-  logo,
-}) {
+
+function Passagem({id, origem, destino, cia, preco, dataIda, dataVolta, link, ida, volta, logo}) {
+  const [show, setShow] = useState(false);
+  const modalRef = useRef(null);
+  
+
+
   return (
     <div
       className=" bg-white shadow-xl flex justify-between items-center gap-5 w-3/4 rounded-lg mb-3 p-5 m-auto font-[Rubik]"
@@ -37,11 +34,12 @@ function Passagem({
           </div>
           <div className="text-[#343A3D]">{getDate(dataIda)}</div>
           <div className="text-[#767E89] text-[12px] font-[400] flex gap-2">
-            <span>
+            <span className="cursor-pointer" onClick={() => setShow(true)}>
               {getHora(ida.dataHoraSaida)} - {getTextParadas(ida.paradas)}
             </span>
             <span>{getDuracao(ida.duracao)}</span>
           </div>
+              {show && <Modal ida={<Trechos props={ida.trechos}/>} volta={<Trechos props={volta.trechos}/>} onClose={() => setShow(false)} opened={show} ref={modalRef}/>}
         </div>
 
         {/* DIV Dados Volta */}
@@ -83,9 +81,9 @@ function Passagem({
   );
   function getDuracao(duracao) {
     const hours = duracao.match(/PT(\d+)H/);
-    const minutes = duracao.match(/PT\d+H(\d+)M/);
+    const minutes = duracao.match(/PT(\d+H)?(\d+)M/);
     const formattedTime = `${hours ? hours[1] : "0"}h ${
-      minutes ? minutes[1] : "00"
+      minutes ? minutes[2] : "00"
     }min`;
     return formattedTime;
   }

@@ -12,6 +12,7 @@ import { FiMapPin } from "react-icons/fi";
 import { MdAttachMoney } from "react-icons/md";
 import { BsAirplaneEngines } from "react-icons/bs";
 import { MdOutlineWorkOutline } from "react-icons/md";
+import SnackBar from "../../components/SnackBar";
 
 
 
@@ -27,6 +28,7 @@ function VooList() {
   const [processando, setProcessando] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [flightToDeleteId, setFlightToDeleteId] = useState(null);
+  const [erro, setErro] = useState(null);
 
   function getVoos() {
     setProcessando(true);
@@ -37,6 +39,7 @@ function VooList() {
       },
       (err) => {
         setProcessando(false);
+        setErro({message: "Erro ao buscar voos: " + (err.response?.data?.message ?? "Erro indefinido")})
         console.log(err);
       }
     );
@@ -68,6 +71,7 @@ function VooList() {
       (err) => {
         setProcessando(false);
         console.log(err);
+        setErro({message: "Erro ao apagar voo: " + err.response?.data?.message ?? "Erro indefinido"})
       }
     );
     setFlightToDeleteId(null);
@@ -75,14 +79,16 @@ function VooList() {
   }
 
   return (
+    
     <div className="bg-[#EEE]">
+      {erro && <SnackBar message={erro.message} type="danger"/>}
       <div className="flex flex-col justify-center align-middle">
         <div className="flex m-auto gap-12 items-center">
           <div className="text-[40px] text-center m-10 font-bold text-[#3758D0]">
-            Vôos disponíveis
+            Voos disponíveis
           </div>
           <div>
-            <Tooltip message="Cadastrar Novo Vôo">
+            <Tooltip message="Cadastrar Novo Voo">
               <Link to="/cia/voo/new" className="flex bg-[#3758D0] border-2 text-white px-3 py-2 rounded-md items-center gap-2 hover:bg-[#EEEE] hover:text-[#3758D0] hover:border-2 hover:border-[#3758D0] transition">
                 <p>
                   Cadastrar

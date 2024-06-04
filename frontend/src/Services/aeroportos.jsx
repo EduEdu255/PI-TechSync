@@ -150,4 +150,9 @@ const aeroportos = [
   { name: "VITÓRIA DA CONQUISTA", iata: "VDC" },
 ];
 
+export function findAeroporto(iata){
+  const aeroporto = aeroportos.find((a) => a.iata == iata)
+  return aeroporto;
+}
+
 export default aeroportos;

@@ -5,12 +5,15 @@ import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { MdAddCircleOutline } from "react-icons/md";
 import ConfirmationDialog from '../../components/ConfirmationDialog';
+import SnackBar from "../../components/SnackBar";
+
 
 function AeronaveList() {
   const [aeronaves, setAeronaves] = useState([]);
   const [processando, setProcessando] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [aeronaveToDeleteId, setAeronaveToDeleteId] = useState(null);
+  const [erro, setErro] = useState(null);
 
   function getAeronaves() {
     setProcessando(true);
@@ -22,6 +25,7 @@ function AeronaveList() {
       (err) => {
         console.log(err);
         setProcessando(false);
+        setErro({message: "Erro ao buscar aeronaves: " + err.response?.data?.message ?? "Erro indefinido"})
       }
     );
   }
@@ -52,6 +56,7 @@ function AeronaveList() {
       (err) => {
         console.log(err);
         setProcessando(false);
+        setErro({message: "Erro ao apagar aeronave: " + err.response?.data?.message ?? "Erro indefinido"})
       }
     );
         setAeronaveToDeleteId(null);
@@ -61,6 +66,7 @@ function AeronaveList() {
   return (
     <div className="bg-[#EEEEEE]">
       {processando && <Loading />}
+      {erro && <SnackBar message={erro.message} type="danger"/>}
       <div className="flex flex-col justify-center align-middle">
         <div className="flex m-auto gap-12 items-center">
           <div className="text-[40px] text-center m-10 font-bold text-[#3758D0]">
