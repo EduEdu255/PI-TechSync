@@ -120,18 +120,12 @@ function TelaLogin() {
   }
 
   return (
-    <AnimatePresence>
-      <motion.div
-        key="login"
-        className="flex justify-between overflow-hidden h-screen"
-        initial={{ x: -300, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: 300, opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
+    <div className="flex justify-between overflow-hidden h-screen">
+    
+    
         <form
           onSubmit={onSubmit}
-          className="flex justify-center items-center w-[50%]"
+          className="flex justify-center items-center w-full"
         >
           <div className=" min-w-[27vw]">
             {msgErro()}
@@ -211,14 +205,25 @@ function TelaLogin() {
             </p>
           </div>
         </form>
-
         {processando ? <Loading /> : null}
-        <div className="w-[50%] h-[100%] flex justify-center items-center rounded-bl-[150px]  bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat">
+        <AnimatePresence>
+      <motion.div
+        className="w-full"
+        key="login"
+        initial={{ x: -1000, opacity: 0.8 }}
+        animate={{ x: [-1000, -900, 0,], opacity: 1 }}
+        exit={{ x: 300, opacity: 1 }}
+        transition={{ duration: 2,
+          ease:"easeInOut",
+          
+         }}
+      >
+        <div className="h-[100%] flex justify-center items-center rounded-bl-[150px]  bg-[url(/images/LoginIMG.jpg)] bg-cover bg-no-repeat">
           <img src="/images/logo-Pousar.png"></img>
         </div>
       </motion.div>
     </AnimatePresence>
-  );
+        </div>  );
 }
 
 export default TelaLogin;
