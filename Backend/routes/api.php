@@ -70,10 +70,10 @@ Route::controller(AssinaturaController::class)->middleware('auth.aerea')->group(
 });
 
 Route::controller(AssinaturaController::class)->middleware('isAdmin')->group(function(){
-    Route::get('/assinatura', 'index');
     Route::get('/assinatura/{id}/ativar', 'ativarAssinatura');
     Route::get('/assinatura/{id}/desativar', 'desativarAssinatura');
 });
+Route::get('/assinatura', [AssinaturaController::class, 'index']);
 
 Route::controller(PlanoController::class)->group(function () {
     Route::get('/plano', 'index');

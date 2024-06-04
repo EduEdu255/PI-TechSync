@@ -19,8 +19,16 @@ class AssinaturaController extends Controller
     public function index()
     {
         $cia = auth('aereas')->user();
-        $assinaturas = Assinatura::where('cia_aerea_id', $cia->id)->with("ciaAerea", "formaPagamento", "Plano")->get();
-        return AssinaturaResource::collection($assinaturas);
+        $user = auth('api')->user();
+        if(!!$cia){
+            $assinaturas = Assinatura::where('cia_aerea_id', $cia->id)->with("ciaAerea", "formaPagamento", "Plano")->get();
+            return AssinaturaResource::collection($assinaturas);
+        }
+        if(!!$user && $user->is_admin){
+            $assinaturas = Assinatura::all();
+            return AssinaturaResource::collection($assinaturas);
+        }
+        return response()->json(['message' => "Sem permissão para acessar"], 403);
     }
 
     /**
