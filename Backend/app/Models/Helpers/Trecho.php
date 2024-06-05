@@ -2,12 +2,14 @@
 
 namespace App\Models\Helpers;
 
+use App\Models\CiaAerea;
 use JsonSerializable;
 use DateTime;
 
 class Trecho implements JsonSerializable
 {
-
+    private bool $proximoDia = false;
+    private ?string $espera = null;
     public function __construct(
         private DateTime $dataHoraSaida,
         private DateTime $dataHoraChegada,
@@ -17,23 +19,42 @@ class Trecho implements JsonSerializable
         private string $numero,
         private string $cia,
         private string $aeronave
-    ) {
-    }
+    ) {}
 
-    public function getCodOrigem(){
+    public function getCodOrigem(): string{
         return $this->codOrigem;
     }
-    public function getCodDestino(){
+    public function getCodDestino(): string{
         return $this->codDestino;
     }
-    public function getCiaAerea(){
+    public function getCiaAerea(): string{
         return $this->cia;
     }
-    public function getDataHoraSaida(){
+    public function getDataHoraSaida(): DateTime{
         return $this->dataHoraSaida;
     }
-    public function getDataHoraChegada(){
+    public function getDataHoraChegada(): DateTime{
         return $this->dataHoraChegada;
+    }
+    public function setDataHoraSaida(DateTime $dataHoraSaida): static{
+        $this->dataHoraSaida = $dataHoraSaida;
+        return $this;
+    }
+    public function setDataHoraChegada(DateTime $dataHoraChegada): static{
+        $this->dataHoraChegada = $dataHoraChegada;
+        return $this;
+    }
+    public function getProximoDia():bool
+    {
+        return $this->proximoDia;
+    }
+    public function setProximoDia(bool $proximoDia): static{
+        $this->proximoDia = $proximoDia;
+        return $this;
+    }
+    public function setEspera(string $espera): static{
+        $this->espera = $espera;
+        return $this;
     }
 
     public function jsonSerialize(): mixed
@@ -43,10 +64,12 @@ class Trecho implements JsonSerializable
             "origem" => $this->codOrigem,
             "destino" => $this->codDestino,
             "numero" => $this->numero,
-            "horaSaida" => $this->dataHoraSaida->format("H:i"),
-            "horaChegada" => $this->dataHoraChegada->format("H:i"),
+            "horaSaida" => $this->dataHoraSaida->format("Y-m-d H:i:s"),
+            "horaChegada" => $this->dataHoraChegada->format("Y-m-d H:i:s"),
             "ciaAerea" => $this->cia,
-            "aeronave"=> $this->aeronave
+            "aeronave"=> $this->aeronave,
+            "proximoDia" => $this->proximoDia,
+            "espera" => $this->espera
         ];
     }
 }

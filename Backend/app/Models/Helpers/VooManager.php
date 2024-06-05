@@ -75,7 +75,7 @@ class VooManager
 
         if ($horaMinima) {
             //Pesquisa voos independemente de hora de chegada de um anterior
-            $query = $query->where('hora_saida', '>', $horaMinima);
+            $query = $query->whereTime('hora_saida', '>', $horaMinima);
         }
 
         //Buscar voos apenas da companhia aérea que chegou

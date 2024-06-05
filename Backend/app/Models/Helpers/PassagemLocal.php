@@ -26,19 +26,20 @@ class PassagemLocal implements JsonSerializable
     private const aumentoDataProxima = 0.3;
     private const aumentoDataMuitoProxima = 1;
 
+    private DateTime $dataHoraSaida;
+    private DateTime $dataHoraChegada;
+    private string $duracao;
 
     public function __construct(
         private float $preco,
         private CiaAerea $ciaAerea,
         private string $codOrigem,
         private string $codDestino,
-        private DateTime $dataHoraSaida,
-        private DateTime $dataHoraChegada,
-        private string $duracao,
         private array $trechos,
         private Busca $busca,
     ) {
-        if($dataHoraSaida < now()->setTime(0,0,0,0))
+        $this->setDates();
+        if($this->dataHoraSaida < now()->setTime(0,0,0,0))
         {
             throw new ValueError("Não é possível criar passagem com data de saída no passado");
         }
@@ -49,6 +50,13 @@ class PassagemLocal implements JsonSerializable
         ];
         $this->preco = $this->preco * $this->calculaIndice();
     }
+
+    private function setDates(){
+        $this->dataHoraSaida = $this->trechos[0]->getDataHoraSaida();
+        $this->dataHoraChegada = $this->trechos[count($this->trechos) - 1]->getDataHoraChegada();
+        $this->duracao = self::durationAsInterval(self::calculateDuracaoDatas($this->dataHoraSaida, $this->dataHoraChegada));
+    }
+
     public function getPreco()
     {
         return $this->preco ?? 0;
@@ -90,6 +98,15 @@ class PassagemLocal implements JsonSerializable
         return $indice;
     }
 
+    private static function calculateDuracaoDatas(DateTime $saida, DateTime $chegada): int{
+        $intervalo = $saida->diff($chegada);
+        if($intervalo)
+        {
+            return (new \DateTime())->setTimestamp(0)->add($intervalo)->getTimestamp() / 60;
+        }
+        throw new ValueError("Não foi possível obter um intervalo entre saída e chegada");
+    }
+
     private static function calculateDuracao(string $saida, string $chegada)
     {
         $timeSaida = explode(":", $saida);
@@ -113,7 +130,14 @@ class PassagemLocal implements JsonSerializable
     {
         $minutos = $duration % 60;
         $horas =  (int) ($duration / 60);
-        $interval = "PT";
+        $dias = (int) ($horas / 24);
+        $interval = "P";
+        if($dias){
+            $horas = $horas - 24;
+            $interval .="{$dias}DT";
+        } else{
+            $interval .= "T";
+        }
         if ($horas) {
             $interval .= "{$horas}H";
         }
@@ -131,45 +155,51 @@ class PassagemLocal implements JsonSerializable
 
         foreach ($idas as $ida) {
             $dataSaida = new DateTime($busca->data_saida);
-            $dataChegada = new DateTime($busca->data_saida);
-            $trechosida = array_map('self::mapVooLocalToTrecho', $ida);
+            $trechosida = array_map(function($v) use($dataSaida){
+                static $saida = null;
+                $trecho =  self::mapVooLocalToTrecho($v, $dataSaida, $saida);
+                if($saida && $saida->format("d") < $trecho->getDataHoraSaida()->format("d")){
+                    $trecho->setProximoDia(true);
+                }
+                if($saida){
+                    $espera = self::calculateDuracao($saida->format("H:i"), $trecho->getDataHoraSaida()->format("H:i"));
+                    $duracaoEspera = self::durationAsInterval($espera);
+                    $trecho->setEspera($duracaoEspera);
+                }
+                $saida = $trecho->getDataHoraChegada();
+                return $trecho;
+            }, $ida);
+
             $valor = array_reduce($ida, fn ($carry, $tr) => $carry + $tr->valor, 0);
-            $duration = self::calculateDuracao($ida[0]->hora_saida, $ida[count($ida) - 1]->hora_chegada);
-            $duration = self::durationAsInterval($duration);
             $origem = $busca->origem;
             $destino = $busca->destino;
             $cia = $ida[0]->ciaAerea;
-            [$horaSaida, $minutoSaida] = explode(":", $ida[0]->hora_saida);
-            [$horaChegada, $minutoChegada] = explode(":", $ida[count($ida) - 1]->hora_chegada);
-            $dataSaida->setTime($horaSaida, $minutoSaida);
-            $dataChegada->setTime($horaChegada, $minutoChegada);
-            if ($dataChegada < $dataSaida) {
-                $dataChegada->add(DateInterval::createFromDateString('1 day'));
-            }
-            $passagem = new PassagemLocal($valor, $cia, $origem, $destino, $dataSaida, $dataChegada, $duration, $trechosida, $busca);
+            $passagem = new PassagemLocal($valor, $cia, $origem, $destino, $trechosida, $busca);
             $passagensIda[] = $passagem;
             //$passagem = new Passagem($preco, $cia, $codOrigem, $codDestino, $dataHoraSaidaIda, $dataHoraChegadaIda, $duracaoIda, $trechosIda)
         }
         if ($busca->data_chegada) {
             foreach ($voltas as $volta) {
                 $dataSaida = new DateTime($busca->data_chegada);
-                $dataChegada = new DateTime($busca->data_chegada);
-                $trechosVolta =
-                    array_map('self::mapVooLocalToTrecho', $volta);
+                $trechosVolta = array_map(function ($v) use($dataSaida) {
+                    static $saida = null;
+                    $trecho =  self::mapVooLocalToTrecho($v, $dataSaida,$saida);
+                    if ($saida && $saida->format("d") < $trecho->getDataHoraSaida()->format("d")) {
+                        $trecho->setProximoDia(true);
+                    }
+                    if ($saida) {
+                        $espera = self::calculateDuracao($saida->format("H:i"), $trecho->getDataHoraSaida()->format("H:i"));
+                        $duracaoEspera = self::durationAsInterval($espera);
+                        $trecho->setEspera($duracaoEspera);
+                    }
+                    $saida = $trecho->getDataHoraChegada();
+                    return $trecho;
+                }, $volta);
                 $valor = array_reduce($volta, fn ($carry, $tr) => $carry + $tr->valor, 0);
-                $duration = self::calculateDuracao($volta[0]->hora_saida, $volta[count($volta) - 1]->hora_chegada);
-                $duration = self::durationAsInterval($duration);
                 $origem = $busca->destino;
                 $destino = $busca->origem;
                 $cia = $volta[0]->ciaAerea;
-                [$horaSaida, $minutoSaida] = explode(":", $volta[0]->hora_saida);
-                [$horaChegada, $minutoChegada] = explode(":", $volta[count($volta) - 1]->hora_chegada);
-                $dataSaida->setTime($horaSaida, $minutoSaida);
-                $dataChegada->setTime($horaChegada, $minutoChegada);
-                if ($dataChegada < $dataSaida) {
-                    $dataChegada->add(DateInterval::createFromDateString('1 day'));
-                }
-                $passagem = new PassagemLocal($valor, $cia, $origem, $destino, $dataSaida, $dataChegada, $duration, $trechosVolta, $busca);
+                $passagem = new PassagemLocal($valor, $cia, $origem, $destino, $trechosVolta, $busca);
                 $passagensVolta[] = $passagem;
                 //$passagem = new Passagem($preco, $cia, $codOrigem, $codDestino, $dataHoraSaidaIda, $dataHoraChegadaIda, $duracaoIda, $trechosIda)
             }
@@ -208,12 +238,27 @@ class PassagemLocal implements JsonSerializable
         return $retorno;
     }
 
-    private static function mapVooLocalToTrecho(Voo $voo)
+    private static function mapVooLocalToTrecho(Voo $voo, DateTime $original, ?DateTime $saida = null)
     {
-        $timeSaida = explode(":", $voo->hora_saida);
-        $timeChegada = explode(":", $voo->hora_chegada);
-        $dataSaida = (new DateTime())->setTime($timeSaida[0], $timeSaida[1]);
-        $dataChegada = (new DateTime())->setTime($timeChegada[0], $timeChegada[1]);
+        $dataSaida = DateTime::createFromFormat("H:i", $voo->hora_saida);
+        $dataChegada = DateTime::createFromFormat("H:i", $voo->hora_chegada);
+        //Verifica se o voo atual sai depois do voo anterior, se se for o primeiro, seta a data na data do original
+        if ($saida){
+            $date = $saida;
+            $dataSaida->setDate($date->format("Y"), $date->format("m"), $date->format("d"));
+            $dataChegada->setDate($date->format("Y"), $date->format("m"), $date->format("d"));
+            if ($dataSaida < $date) {
+                $dataSaida->add(DateInterval::createFromDateString('1 day'));
+                $dataChegada->add(DateInterval::createFromDateString('1 day'));
+            }
+        } else{
+            $dataSaida->setDate($original->format("Y"), $original->format("m"), $original->format("d"));
+            $dataChegada->setDate($original->format("Y"), $original->format("m"), $original->format("d"));
+
+        }
+        if ($dataChegada < $dataSaida) {
+            $dataChegada->add(DateInterval::createFromDateString('1 day'));
+        }
         $origem = $voo->cod_origem;
         $destino = $voo->cod_destino;
         $numero = $voo->numero;
