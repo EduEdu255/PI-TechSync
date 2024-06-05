@@ -159,7 +159,7 @@ class PassagemLocal implements JsonSerializable
                 static $saida = null;
                 $trecho =  self::mapVooLocalToTrecho($v, $dataSaida, $saida);
                 if($saida && $saida->format("d") < $trecho->getDataHoraSaida()->format("d")){
-                    $trecho->setProximoDia(true);
+                    $trecho->setProximoDiaSaida(true);
                 }
                 if($saida){
                     $espera = self::calculateDuracao($saida->format("H:i"), $trecho->getDataHoraSaida()->format("H:i"));
@@ -185,7 +185,7 @@ class PassagemLocal implements JsonSerializable
                     static $saida = null;
                     $trecho =  self::mapVooLocalToTrecho($v, $dataSaida,$saida);
                     if ($saida && $saida->format("d") < $trecho->getDataHoraSaida()->format("d")) {
-                        $trecho->setProximoDia(true);
+                        $trecho->setProximoDiaSaida(true);
                     }
                     if ($saida) {
                         $espera = self::calculateDuracao($saida->format("H:i"), $trecho->getDataHoraSaida()->format("H:i"));

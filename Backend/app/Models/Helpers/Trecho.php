@@ -8,7 +8,8 @@ use DateTime;
 
 class Trecho implements JsonSerializable
 {
-    private bool $proximoDia = false;
+    private bool $proximoDiaSaida = false;
+    private bool $proximoDiaChegada = false;
     private ?string $espera = null;
     public function __construct(
         private DateTime $dataHoraSaida,
@@ -19,7 +20,9 @@ class Trecho implements JsonSerializable
         private string $numero,
         private string $cia,
         private string $aeronave
-    ) {}
+    ) {
+        $this->proximoDiaChegada = ($dataHoraSaida->format("d") < $dataHoraChegada->format("d"));
+    }
 
     public function getCodOrigem(): string{
         return $this->codOrigem;
@@ -44,12 +47,21 @@ class Trecho implements JsonSerializable
         $this->dataHoraChegada = $dataHoraChegada;
         return $this;
     }
-    public function getProximoDia():bool
+    public function getProximoDiaSaida():bool
     {
-        return $this->proximoDia;
+        return $this->proximoDiaSaida;
     }
-    public function setProximoDia(bool $proximoDia): static{
-        $this->proximoDia = $proximoDia;
+    public function setProximoDiaSaida(bool $proximoDiaSaida): static{
+        $this->proximoDiaSaida = $proximoDiaSaida;
+        return $this;
+    }
+
+    public function getProximoDiaChegada():bool
+    {
+        return $this->proximoDiaChegada;
+    }
+    public function setProximoDiaChegada(bool $proximoDiaChegada): static{
+        $this->proximoDiaChegada = $proximoDiaChegada;
         return $this;
     }
     public function setEspera(string $espera): static{
@@ -68,7 +80,8 @@ class Trecho implements JsonSerializable
             "horaChegada" => $this->dataHoraChegada->format("Y-m-d H:i:s"),
             "ciaAerea" => $this->cia,
             "aeronave"=> $this->aeronave,
-            "proximoDia" => $this->proximoDia,
+            "proximoDiaSaida" => $this->proximoDiaSaida,
+            "proximoDiaChegada" => $this->proximoDiaChegada,
             "espera" => $this->espera
         ];
     }

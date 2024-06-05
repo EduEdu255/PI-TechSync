@@ -1,4 +1,6 @@
 import { FaRegClock } from "react-icons/fa";
+import { PiAirplaneTakeoff } from "react-icons/pi";
+import { PiAirplaneLanding } from "react-icons/pi";
 
 import { findAeroporto } from "../Services/aeroportos";
 
@@ -44,8 +46,11 @@ function Trechos({ ciaNome, ciaImg, trechos }) {
           <div className="grid grid-cols-3 place-items-center py-10 px-5">
             {/* Div Saída */}
             <div className="flex flex-col gap-1 uppercase items-center">
+              <PiAirplaneTakeoff size={24} />
               <span>
-                {trecho.proximoDia && <span className="text-red-500">+1 </span>}
+                {trecho.proximoDiaSaida && (
+                  <span className="text-red-500">+1 </span>
+                )}
                 {getDate(trecho.horaSaida)}
               </span>
               <span className="text-2xl font-medium">
@@ -61,7 +66,13 @@ function Trechos({ ciaNome, ciaImg, trechos }) {
             </div>
             {/* Div Chegada */}
             <div className="flex flex-col gap-1 uppercase items-center">
-              <span>{getDate(trecho.horaChegada)}</span>
+              <PiAirplaneLanding size={24} />
+              <span>
+                {trecho.proximoDiaChegada && (
+                  <span className="text-red-500">+1 </span>
+                )}
+                {getDate(trecho.horaChegada)}
+              </span>
               <span className="text-2xl font-medium">
                 {getHora(trecho.horaChegada)}
               </span>
