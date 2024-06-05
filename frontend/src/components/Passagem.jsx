@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import { editData, api_image_base_url } from "../Services/apiService";
 import { PiAirplaneTakeoff } from "react-icons/pi";
 import { PiAirplaneLanding } from "react-icons/pi";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Modal from "./Modal";
 import Trechos from "./Trechos";
 
 
 function Passagem({id, origem, destino, cia, preco, dataIda, dataVolta, link, ida, volta, logo}) {
-  const [show, setShow] = useState(false);
-  const modalRef = useRef(null);
+  const [showIda, setShowIda] = useState(false);
+  const [showVolta, setShowVolta] = useState(false);
   
 
 
@@ -32,14 +32,34 @@ function Passagem({id, origem, destino, cia, preco, dataIda, dataVolta, link, id
             <PiAirplaneTakeoff />
             Ida: {origem}-{destino}
           </div>
-          <div className="text-[#343A3D]">{getDate(dataIda)}</div>
-          <div className="text-[#767E89] text-[12px] font-[400] flex gap-2">
-            <span className="cursor-pointer" onClick={() => setShow(true)}>
+          <div className="text-[#343A3D]">{getDate(dataIda + " 00:00:00")}</div>
+          <div
+            className="text-[#767E89] text-[12px] font-[400] flex gap-2 cursor-pointer hover:underline"
+            onClick={() => setShowIda(true)}
+          >
+            <span>
               {getHora(ida.dataHoraSaida)} - {getTextParadas(ida.paradas)}
             </span>
             <span>{getDuracao(ida.duracao)}</span>
           </div>
-              {show && <Modal ida={<Trechos props={ida.trechos}/>} volta={<Trechos props={volta.trechos}/>} onClose={() => setShow(false)} opened={show} ref={modalRef}/>}
+          {showIda && (
+            <Modal
+              onClose={() => setShowIda(false)}
+              opened={showIda}
+              titulo={
+                "Ida - " +
+                getTextParadas(volta.paradas) +
+                " - " +
+                getDuracao(ida.duracao)
+              }
+            >
+              <Trechos
+                trechos={ida.trechos}
+                ciaNome={cia}
+                ciaImg={api_image_base_url + logo}
+              />
+            </Modal>
+          )}
         </div>
 
         {/* DIV Dados Volta */}
@@ -49,13 +69,36 @@ function Passagem({id, origem, destino, cia, preco, dataIda, dataVolta, link, id
               <PiAirplaneLanding />
               Volta: {destino}-{origem}
             </div>
-            <div className="text-[#343A3D]">{getDate(dataVolta)}</div>
-            <div className="text-[#767E89] text-[12px] font-[400] flex gap-2">
+            <div className="text-[#343A3D]">
+              {getDate(dataVolta + " 00:00:00")}
+            </div>
+            <div
+              className="text-[#767E89] text-[12px] font-[400] flex gap-2 cursor-pointer hover:underline"
+              onClick={() => setShowVolta(true)}
+            >
               <span>
                 {getHora(volta.dataHoraSaida)} - {getTextParadas(volta.paradas)}
               </span>
               <span>{getDuracao(volta.duracao)}</span>
             </div>
+            {showVolta && (
+              <Modal
+                onClose={() => setShowVolta(false)}
+                opened={showVolta}
+                titulo={
+                  "Volta - " +
+                  getTextParadas(volta.paradas) +
+                  " - " +
+                  getDuracao(volta.duracao)
+                }
+              >
+                <Trechos
+                  trechos={volta.trechos}
+                  ciaNome={cia}
+                  ciaImg={api_image_base_url + logo}
+                />
+              </Modal>
+            )}
           </div>
         )}
       </div>
@@ -80,10 +123,11 @@ function Passagem({id, origem, destino, cia, preco, dataIda, dataVolta, link, id
     </div>
   );
   function getDuracao(duracao) {
-    const hours = duracao.match(/PT(\d+)H/);
-    const minutes = duracao.match(/PT(\d+H)?(\d+)M/);
-    const formattedTime = `${hours ? hours[1] : "0"}h ${
-      minutes ? minutes[2] : "00"
+    const days = duracao.match(/P(\d+)D/);
+    const hours = duracao.match(/P(\d+D)?T(\d+)H/);
+    const minutes = duracao.match(/P(\d+D)?T(\d+H)?(\d+)M/);
+    const formattedTime = `${days ? days[1] + "d " : ''}${hours ? hours[2] : "0"}h ${
+      minutes ? minutes[3] : "00"
     }min`;
     return formattedTime;
   }
@@ -93,7 +137,6 @@ function Passagem({id, origem, destino, cia, preco, dataIda, dataVolta, link, id
       return "";
     }
     return data.toLocaleDateString("pt-BR", {
-      year: "numeric",
       month: "short",
       day: "2-digit",
       weekday: "short",

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { postData } from "../Services/apiService";
-import aeroportos from "../Services/aeroportos";
 import Passagem from "../components/Passagem";
 import FormBusca from "../components/FormBusca";
 import Loading from "../components/Loading";
@@ -24,11 +23,6 @@ function Busca() {
       submitBusca(data);
     }
   }, [data]);
-
-  function findAeroporto(iata) {
-    const found = aeroportos.find((i) => i.iata == iata);
-    return found;
-  }
 
   function submitBusca(data) {
     if (data.volta == "") {
@@ -59,9 +53,7 @@ function Busca() {
       <div className="flex items-end mb-36 bg-[url(/images/plane-view.png)] bg-cover h-[70vh]">
         <FormBusca onSubmit={submitBusca} />
       </div>
-      <div>
         {!processando ? result ? parseResult(result) : null : <Loading />}
-      </div>
     </div>
   );
 
